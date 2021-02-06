@@ -1,0 +1,20 @@
+meeting 01
+
+date: 20210205
+participants(5/5): qinhui, Sijie, Derek, zexin,Amy
+topics:
+
+1. team member introduction
+Derek: working fulltime, has front-end & JS, Java, css experience.
+Qinhui:working fulltime, has c#, web,db, full stack experience.
+Sijie:
+Amy:
+Zexin:
+
+2. define the roles in the team, and choose the role
+3. talk about the convention of the teamwork, e.g. meeting schedule,  repo in github(branch,review, doc, etc), 
+4. plan for the assignment 
+5. define the tasks for the first phase in the week 1.
+
+Todo:
+meet at Sunday 8:30pm est to talk about the phase 1.
