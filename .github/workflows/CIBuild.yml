@@ -31,14 +31,7 @@ jobs:
       run: |
         rm -rf doc/javadoc
         cp -rf target/site/apidocs/. doc/javadoc
-    - name: Tidy up the javadocs
-      id: tidy
-      uses: cicirello/javadoc-cleanup@v1.2.0
-      with:
-        path-to-root: doc/javadoc
-    - name: Log javadoc-cleanup output
-      run: |
-        echo "modified-count = ${{ steps.tidy.outputs.modified-count }}"
+
     - name: Commit documentation changes
       run: |
         if [ $(git status | grep -c "**/*.html") == "0" ]; then
