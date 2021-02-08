@@ -51,4 +51,5 @@ jobs:
         fi
     - name: pull test
       run: |
+        git config pull.rebase true 
         git pull origin feature/002-CI-Configuration-2
