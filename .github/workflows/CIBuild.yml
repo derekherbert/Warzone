@@ -31,7 +31,7 @@ jobs:
       id: tidy
       uses: cicirello/javadoc-cleanup@v1.2.0
       with:
-        path-to-root: docs
+        path-to-root: doc/javadoc
     - name: Log javadoc-cleanup output
       run: |
         echo "modified-count = ${{ steps.tidy.outputs.modified-count }}"
