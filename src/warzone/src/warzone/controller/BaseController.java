@@ -1,6 +1,6 @@
 package warzone.controller;
 /**
- * this is a test new for maven lalala
+ * this is a test new for maven biubiu
  * @author amy
  *
  */
