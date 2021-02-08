@@ -4,12 +4,11 @@
 name: Java CI with Maven
 
 on:
+  workflow_dispatch:
   push:
-    branches: 
-    - feature/002-CI-Configuration
+    branches: [feature/002-CI-Configuration-2]
   pull_request:
-    branches: 
-    - feature/002-CI-Configuration
+    branches: [feature/002-CI-Configuration-2]
 
 jobs:
   build:
