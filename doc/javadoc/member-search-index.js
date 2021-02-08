@@ -1,1 +1,0 @@
-memberSearchIndex = [{"p":"warzone.controller","c":"BaseController","l":"BaseController()","u":"%3Cinit%3E()"}];updateSearchResults();
