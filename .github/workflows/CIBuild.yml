@@ -53,4 +53,6 @@ jobs:
       uses: peter-evans/create-pull-request@v3.8.1
       with:
         title: "Javadoc updated by workflow"
-
+    - name: pull test
+      run: |
+        git pull origin feature/002-CI-Configuration-2
