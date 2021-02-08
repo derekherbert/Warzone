@@ -27,3 +27,21 @@ jobs:
       run: mvn test
     - name: JavaDoc
       run: mvn javadoc:javadoc
+    - name: Tidy up the javadocs
+      id: tidy
+      uses: cicirello/javadoc-cleanup@v1.2.0
+      with:
+        path-to-root: docs
+    - name: Log javadoc-cleanup output
+      run: |
+        echo "modified-count = ${{ steps.tidy.outputs.modified-count }}"
+    - name: Commit documentation changes
+      run: |
+        if [ $(git status | grep -c "**/*.html") == "0" ]; then
+          git checkout .
+        else
+          git config --global user.name 'amyhcy'
+          git config --global user.email 'amy.chuanyanhu@gmail.com'
+          git add -A
+          git commit -m "Automated API website updates."
+        fi
