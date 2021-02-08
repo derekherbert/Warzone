@@ -42,3 +42,9 @@ jobs:
           git add -A
           git commit -m "Automated API website updates."
         fi
+        
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v3.4.0
+      with:
+        title: "Automated API website updates."
+        commit-message: "Automated API documentation website updates."
