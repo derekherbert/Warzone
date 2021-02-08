@@ -1,10 +1,14 @@
 package warzone.model;
 
-//Not sure if it makes sense to have a continent class or not. We will need to discuss
+import java.util.ArrayList;
+import java.util.List;
+
 public class Continent {
 	
 	private int continentID;
 	private String continentName;
+	private String color;
+	private List<Country> countries;
 	
 	public int getContinentID() {
 		return continentID;

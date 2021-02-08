@@ -8,14 +8,14 @@ package warzone.model;
  */
 public class GameEngine {
 
+	private List<Player> players;
 	
+	private GampMap gampMap;
 	
-	
-	public static void main(String[] commands) {
-		// TODO Auto-generated method stub
-
+	public GameEngine()	{
+		
 	}
-	
+
 	/**
 	 * Assign each player the correct number of reinforcement armies according to the Warzone rules.
 	 */

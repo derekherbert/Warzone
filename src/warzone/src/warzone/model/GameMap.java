@@ -9,5 +9,10 @@ import java.util.List;
 public class GameMap {
 
 	//https://www.geeksforgeeks.org/graph-and-its-representations/
-	public List<Continent> Continents;
+	private List<Continent> continents;
+	
+	private List<country> countries;
+	
+	private int[][] neighborMetrix;
+	
 }

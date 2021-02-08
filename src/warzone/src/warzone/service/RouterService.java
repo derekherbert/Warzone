@@ -12,7 +12,7 @@ public class RouterService {
 				switch(p_router.getActionName()) {
 					case "welcome":
 						CommonController l_commonController = ControllerFactory.getCommonController();
-						l_commonController.welcome();
+						l_commonController.welcome(p_router.getActionParameters());
 						
 				}
 			
