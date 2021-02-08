@@ -5,9 +5,11 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ feature/002-CI-Configuration ]
+    branches: 
+    - feature/002-CI-Configuration
   pull_request:
-    branches: [ feature/002-CI-Configuration ]
+    branches: 
+    - feature/002-CI-Configuration
 
 jobs:
   build:
