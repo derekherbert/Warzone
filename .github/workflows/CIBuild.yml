@@ -27,6 +27,10 @@ jobs:
       run: mvn test
     - name: JavaDoc
       run: mvn javadoc:javadoc
+    - name: Copy to Documentation Website Location
+      run: |
+        rm -rf docs
+        cp -rf target/site/apidocs/. docs
     - name: Tidy up the javadocs
       id: tidy
       uses: cicirello/javadoc-cleanup@v1.2.0
