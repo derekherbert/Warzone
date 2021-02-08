@@ -25,13 +25,13 @@ jobs:
       run: mvn install
     - name: Test
       run: mvn test
-    - name: JavaDoc
+    - name: Generate JavaDoc
       run: mvn javadoc:javadoc
-    - name: Copy to Documentation Website Location
+    - name: Copy Document to Location
       run: |
         rm -rf doc/javadoc
         cp -rf target/site/apidocs/. doc/javadoc
-    - name: Tidy up the javadocs
+    - name: Tidy up the Javadocs
       id: tidy
       uses: cicirello/javadoc-cleanup@v1.2.0
       with:
@@ -39,7 +39,7 @@ jobs:
     - name: Log javadoc-cleanup output
       run: |
         echo "modified-count = ${{ steps.tidy.outputs.modified-count }}"
-    - name: Commit documentation changes
+    - name: Commit Documentation Changes
       run: |
         if [ $(git status | grep -c "**/*.html") == "0" ]; then
           git checkout .
@@ -47,10 +47,10 @@ jobs:
           git config --global user.name 'amyhcy'
           git config --global user.email 'amy.chuanyanhu@gmail.com'
           git add -A
-          git commit -m "Automated API website updates."
+          git commit -m "Javadoc updates."
         fi
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v3.8.1
       with:
-        title: "Automated API website updates."
-        body: "Automated API documentation website updates."
+        title: "Javadoc updated by workflow"
+        branch: feature/002-CI-Configuration-2
