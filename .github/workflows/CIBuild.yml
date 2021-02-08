@@ -49,7 +49,6 @@ jobs:
           git add -A
           git commit -m "Javadoc updates."
         fi
-    - name: pull test
+    - name: push test
       run: |
-        git config pull.rebase true 
-        git pull origin feature/002-CI-Configuration-2
+        git push origin feature/002-CI-Configuration-2
