@@ -1,24 +1,30 @@
 package warzone.model;
 
-//Not sure if it makes sense to have a continent class or not. We will need to discuss
+import java.util.Set;
+
 public class Continent {
 	
-	private int continentID;
-	private String continentName;
+	private int d_continentID;
+	private String d_continentName;
+	private Set<Integer> d_countries;
 	
 	public int getContinentID() {
-		return continentID;
+		return d_continentID;
 	}
 	
-	public void setContinentID(int continentID) {
-		this.continentID = continentID;
+	public void setContinentID(int p_continentID) {
+		this.d_continentID = p_continentID;
 	}
 	
 	public String getContinentName() {
-		return continentName;
+		return d_continentName;
 	}
 	
-	public void setContinentName(String continentName) {
-		this.continentName = continentName;
+	public void setContinentName(String p_continentName) {
+		this.d_continentName = p_continentName;
 	}	
+	
+	public Set<Integer> getCountries() {
+		return d_countries;
+	}
 }

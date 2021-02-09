@@ -1,25 +1,35 @@
 package warzone.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import warzone.model.GameMap;
+import java.util.HashMap;
+import java.util.Map;
+import warzone.model.Continent;
+import warzone.model.Country;
 import warzone.model.Player;
 
 public class GameFactory {
-	private static GameMap GLOBAL_MAP;
-	private static List<Player> ALL_PLAYERS;
 	
-	public static GameMap getMap() {
-		if(GLOBAL_MAP == null)
-			GLOBAL_MAP = new GameMap();
-		return GLOBAL_MAP;
-	};
+	private static Map<Integer, Player> d_PLAYERS;
+	private static Map<Integer, Country> d_COUNTRIES;
+	private static Map<Integer, Continent> d_CONTINENTS;
 	
-	public static List<Player> getAllPlays()
-	{
-		if(ALL_PLAYERS == null)
-			ALL_PLAYERS = new ArrayList<Player>();
-		return ALL_PLAYERS;
-	};	
+	public static Map<Integer, Player> getPlayers() {
+		if(d_PLAYERS == null) {
+			d_PLAYERS = new HashMap<Integer, Player>();
+		}
+		return d_PLAYERS;
+	}
+	
+	public static Map<Integer, Country> getCountries() {
+		if(d_COUNTRIES == null) {
+			d_COUNTRIES = new HashMap<Integer, Country>();
+		}
+		return d_COUNTRIES;
+	}
+	
+	public static Map<Integer, Continent> getContinents() {
+		if(d_CONTINENTS == null) {
+			d_CONTINENTS = new HashMap<Integer, Continent>();
+		}
+		return d_CONTINENTS;
+	}
 }

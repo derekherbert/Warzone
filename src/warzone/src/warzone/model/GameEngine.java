@@ -8,12 +8,9 @@ package warzone.model;
  */
 public class GameEngine {
 
-	
-	
-	
 	public static void main(String[] commands) {
 		// TODO Auto-generated method stub
-
+		
 	}
 	
 	/**

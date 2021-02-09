@@ -1,24 +1,48 @@
 package warzone.model;
 
+import java.util.Set;
+
 public class Country {
 	
-	private int countryID;
-	private String countryName;
-	//private int continentID; //Not sure if this makes sense or not. We will need to discuss.
+	private int d_countryID;
+	private String d_countryName;
+	private int d_ownerID;
+	private int d_deployedForces;
+	private Set<Integer> d_neighbors;
 	
 	public int getCountryID() {
-		return countryID;
+		return d_countryID;
 	}
 	
-	public void setCountryID(int countryID) {
-		this.countryID = countryID;
+	public void setCountryID(int p_countryID) {
+		this.d_countryID = p_countryID;
 	}
 	
 	public String getCountryName() {
-		return countryName;
+		return d_countryName;
 	}
 	
-	public void setCountryName(String countryName) {
-		this.countryName = countryName;
+	public void setCountryName(String p_countryName) {
+		this.d_countryName = p_countryName;
 	}	
+	
+	public int getOwnerID() {
+		return d_ownerID;
+	}
+
+	public void setOwnerID(int p_ownerID) {
+		this.d_ownerID = p_ownerID;
+	}
+
+	public int getDeployedForces() {
+		return d_deployedForces;
+	}
+
+	public void setDeployedForces(int p_deployedForces) {
+		this.d_deployedForces = p_deployedForces;
+	}
+
+	public Set<Integer> getNeighbors() {
+		return d_neighbors;
+	}
 }
