@@ -1,6 +1,5 @@
 package warzone.controller;
 
-package warzone.controller;
 import warzone.view.*;
 import warzone.model.*;
 
@@ -21,7 +20,7 @@ public class MapController {
 		
 		// TODO Auto-generated method stub
 		
-		return false;
+		return null;
 	}
 	
 	/**

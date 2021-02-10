@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.Queue;
 
 
-public class Player implements Order {{
+public class Player implements IOrder {
 
 	private String name;
 	private Map<Integer, Country> conqueredCountries;
@@ -31,7 +31,7 @@ public class Player implements Order {{
 	 * 
 	 * @return
 	 */
-	public Order next_order() {
+	public IOrder next_order() {
 		
 		// TODO Auto-generated method stub
 		

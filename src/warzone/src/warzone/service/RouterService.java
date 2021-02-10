@@ -1,6 +1,8 @@
 package warzone.service;
 
-import warzone.controller.CommonController;
+import java.util.ArrayList;
+
+import warzone.controller.*;
 import warzone.model.*;
 
 public class RouterService {
@@ -13,25 +15,31 @@ public class RouterService {
 	 * 
 	 * */
 	public void route(Router p_router){
-		
+		 
+		ControllerFactory l_controllerFactory = ControllerFactory.getControllerFactory(GameContext.getGameContext());
 		switch(p_router.getControllerName()) {
 			case COMMON:
 				switch(p_router.getActionName()) {
 					case "welcome":
-						CommonController l_commonController = ControllerFactory.getCommonController();
-						l_commonController.welcome(p_router.getActionParameters());
+						CommonController l_controller = l_controllerFactory.getCommonController();
+						l_controller.welcome(p_router.getActionParameters());
+						break;
+				}
+				break;
 			case CONTINENT:
+				ContinentController l_continentController = l_controllerFactory.getContinentController();
+
 				switch(p_router.getActionName()) {
 					case "add":
-						ContinentController l_ContinentController = ControllerFactory.getContinentController();
-						l_ContinentController.add(p_router.getActionParameters());
+						l_continentController.addContinent(p_router.getActionParameters());
+						break;
 					case "remove":
-						ContinentController l_ContinentController = ControllerFactory.getContinentController();
-						l_ContinentController.remove(p_router.getActionParameters());
+						l_continentController.removeContinent(p_router.getActionParameters());
+						break;
 				}
+				break;
 			
-		}
-		
+		}	
 		
 	}
 	
@@ -40,10 +48,10 @@ public class RouterService {
 	 * passing any command line arguments as parameters
 	 * 
 	 */
-	public Router parseCommand(String p_command) {
-		//todo
-		return null;
-	}
+//	public Router parseCommand(String p_command) {
+//		//todo
+//		return null;
+//	}
 	
 	/**
 
@@ -53,7 +61,7 @@ public class RouterService {
 	 *   new Router(ControllerName.COUNTRY, "add", "countryID continentID");
 	 *   new Router(ControllerName.COUNTRY, "remove", "countryID");
 	 */
-	public List<Router> parseCommand(String p_command) {
+	public ArrayList<Router> parseCommand(String p_command) {
 		//todo
 		return null;
 	}

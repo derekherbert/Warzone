@@ -2,6 +2,7 @@ package warzone.controller;
 
 import warzone.view.*;
 import warzone.model.*;
+import warzone.service.*;
 
 public class ContinentController {
 	
@@ -13,26 +14,27 @@ public class ContinentController {
 		d_continentService = new ContinentService(p_gameContext);
 	}
 	
-	//Probably needs a reference to the warzone map object(s)
-	
-	/**
-	 * Performs the action for the user command: editcontinent -add continentID continentName
-	 */
-	public boolean addContinent(int p_continentID, String p_continentName) {
+	public boolean addContinent(String p_parameters) {
+		//0. parse [p_parameters] to  [ l_continentID, String l_continentName]
+		int l_continentID = 0;
+		String l_continentName = ""; 
+
 		//1. create a new contient instance
-		Continent l_Continent = new Continent(p_continentID, p_continentName);
+		Continent l_Continent = new Continent(l_continentID, l_continentName);
 		//2. TODO Auto-generated method stub
-		ContinentService.add(continent);
+		//ContinentService.add(continent);
 		
 		//3. render to view
-		GenericView.println(continent);
+		GenericView.println(l_Continent);
 		return true;
 	}
 	
 	/**
 	 * Performs the action for the user command: editcontinent -remove continentID
 	 */
-	public boolean removeContinent (int continentID) {
+	public boolean removeContinent(String p_parameters) {
+		//0. parse [p_parameters] to  [ l_continentID ]
+		int l_continentID = 0;
 		
 		// TODO Auto-generated method stub
 		

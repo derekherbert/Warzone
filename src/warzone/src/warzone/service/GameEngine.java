@@ -1,9 +1,6 @@
 package warzone.service;
 
-import warzone.model.GameContext;
-import warzone.model.Order;
-import warzone.model.Player;
-import warzone.model.Queue;
+import warzone.model.*;
 
 /**
  * Main game loop.

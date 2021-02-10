@@ -7,7 +7,7 @@ public class GameContext {
 	private GameMap d_GameMap;
 	private List<Player> d_GamePlayers;
 	
-	private static GameContext GAMECONTEXT;
+	private static GameContext GAME_CONTEXT;
 	
 	
 	private GameContext()
@@ -17,9 +17,9 @@ public class GameContext {
 	}
 	
 	public static GameContext getGameContext() {
-		if( GAMECONTEXT == null)
-			GAMECONTEXT = new GameContext();
-		return GAMECONTEXT;
+		if( GAME_CONTEXT == null)
+			GAME_CONTEXT = new GameContext();
+		return GAME_CONTEXT;
 	}
 	
 	public GameMap getGameMap() {

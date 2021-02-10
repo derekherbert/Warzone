@@ -1,5 +1,7 @@
 package warzone.view;
 
+import warzone.model.IRender;
+
 /*
  * for specific ui, should create dedicated view class.
  * */
@@ -10,6 +12,6 @@ public class GenericView {
 	}
 	
 	public static void println(IRender p_content) {
-		p_content.Render();
+		p_content.render();
 	}
 }

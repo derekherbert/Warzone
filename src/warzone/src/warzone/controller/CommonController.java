@@ -5,13 +5,15 @@ import warzone.model.*;
 
 public class CommonController {
 	
-	public CommonController() {
-		
+	private GameContext d_gameContext;
+
+	public CommonController(GameContext p_gameContext) {
+		d_gameContext = p_gameContext;
 	}
 	
 	public String welcome(String p_actionParameters) {
 		String body = "Hello world";
-		Console.println(body);
+		GenericView.println(body);
 		return body;
 	}
 	
