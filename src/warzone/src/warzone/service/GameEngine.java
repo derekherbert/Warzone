@@ -1,4 +1,9 @@
-package warzone.model;
+package warzone.service;
+
+import warzone.model.GameContext;
+import warzone.model.Order;
+import warzone.model.Player;
+import warzone.model.Queue;
 
 /**
  * Main game loop.
@@ -8,12 +13,10 @@ package warzone.model;
  */
 public class GameEngine {
 
-	private List<Player> players;
+	private GameContext d_GameContext;
 	
-	private GampMap gampMap;
-	
-	public GameEngine()	{
-		
+	public GameEngine(GameContext p_GameContext)	{
+		d_GameContext = p_GameContext;
 	}
 
 	/**
@@ -41,7 +44,7 @@ public class GameEngine {
 	 * which will enact the order. 
 	 */
 	private void executeOrders() {
-		
+		// run excute() for each order,  5 rounds
 		//This may not need to be its own method
 	}
 

@@ -4,11 +4,11 @@ import java.util.Map;
 import java.util.Queue;
 
 
-public class Player {
+public class Player implements Order {{
 
 	private String name;
 	private Map<Integer, Country> conqueredCountries;
-	private Queue<Order> orders;
+	private Queue<IOrder> orders;
 	
 	
 	/**
@@ -36,5 +36,11 @@ public class Player {
 		// TODO Auto-generated method stub
 		
 		return null;
+	}
+	
+	@Override
+	public boolean execute() {
+		// pick up the next order and excute
+		return false;
 	}
 }

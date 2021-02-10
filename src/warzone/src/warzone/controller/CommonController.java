@@ -1,6 +1,7 @@
 package warzone.controller;
 
-import warzone.view.Console;
+import warzone.view.*;
+import warzone.model.*;
 
 public class CommonController {
 	

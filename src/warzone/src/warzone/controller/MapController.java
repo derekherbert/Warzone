@@ -1,15 +1,23 @@
 package warzone.controller;
 
-public class MapController extends BaseController {
-	
+package warzone.controller;
+import warzone.view.*;
+import warzone.model.*;
 
+public class MapController {
+
+	private GameMap d_GameContext;
+
+	public MapController(GameContext p_GameContext) {
+		d_GameContext = p_GameContext;
+	}
 	
 	/**
 	 * Performs the action for the user command: showmap
 	 * 
 	 * Displays the map as text, showing all continents and countries and their respective neighbors.
 	 */
-	public boolean showMap () {
+	public GameMap showMap () {
 		
 		// TODO Auto-generated method stub
 		

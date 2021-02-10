@@ -1,6 +1,9 @@
 package warzone.view;
 
-public class Console {
+/*
+ * for specific ui, should create dedicated view class.
+ * */
+public class GenericView {
 	
 	public static void println(String p_text) {
 		System.out.println(p_text);
