@@ -1,33 +1,32 @@
 package warzone.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GameContext {
-	private GameMap d_GameMap;
-	private List<Player> d_GamePlayers;
+
+	private static Map<Integer, Player> d_PLAYERS;
+	private static Map<Integer, Country> d_COUNTRIES;
+	private static Map<Integer, Continent> d_CONTINENTS;
 	
-	private static GameContext GAME_CONTEXT;
-	
-	
-	private GameContext()
-	{	
-		d_GameMap = new GameMap();
-		d_GamePlayers = new ArrayList<Player>();
+	public static Map<Integer, Player> getPlayers() {
+		if(d_PLAYERS == null) {
+			d_PLAYERS = new HashMap<Integer, Player>();
+		}
+		return d_PLAYERS;
 	}
 	
-	public static GameContext getGameContext() {
-		if( GAME_CONTEXT == null)
-			GAME_CONTEXT = new GameContext();
-		return GAME_CONTEXT;
+	public static Map<Integer, Country> getCountries() {
+		if(d_COUNTRIES == null) {
+			d_COUNTRIES = new HashMap<Integer, Country>();
+		}
+		return d_COUNTRIES;
 	}
 	
-	public GameMap getGameMap() {
-		return d_GameMap;
-	};
-	
-	public List<Player> getGamePlayers()
-	{
-		return d_GamePlayers;
-	};	
+	public static Map<Integer, Continent> getContinents() {
+		if(d_CONTINENTS == null) {
+			d_CONTINENTS = new HashMap<Integer, Continent>();
+		}
+		return d_CONTINENTS;
+	}
 }

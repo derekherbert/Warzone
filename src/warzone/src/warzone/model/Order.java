@@ -1,6 +1,6 @@
 package warzone.model;
 
-public interface IOrder {
+public interface Order {
 
 	public boolean execute();
 }
