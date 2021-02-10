@@ -49,6 +49,7 @@ jobs:
           git add -A
           git commit -m "Javadoc updates."
         fi
-    - name: push test
+    - name: push on develop branch
+      if: github.ref == 'refs/heads/develop'
       run: |
-        git push origin develop
+          git push origin develop
