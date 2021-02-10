@@ -5,6 +5,10 @@ import warzone.model.*;
 
 public class CommonController {
 	
+	public CommonController() {
+		
+	}
+	
 	public String welcome(String p_actionParameters) {
 		String body = "Hello world";
 		Console.println(body);

@@ -17,11 +17,11 @@ public class Startup {
 		//2 init the game
 		//3 standby
 		//System.in.read();
-		while(System.IO.Readline()) {
-			//parse the command to a router
-			//route the router
-//			Router welcome = new Router(ControllerName.COMMON, "welcome");
-//			d_RouterService.route(welcome);
-		}
+//		while(System.IO.Readline()) {
+//			//parse the command to a router
+//			//route the router
+////			Router welcome = new Router(ControllerName.COMMON, "welcome");
+////			d_RouterService.route(welcome);
+//		}
 	}
 }

@@ -6,7 +6,7 @@ import warzone.model.*;
 
 public class MapController {
 
-	private GameMap d_GameContext;
+	private GameContext d_GameContext;
 
 	public MapController(GameContext p_GameContext) {
 		d_GameContext = p_GameContext;

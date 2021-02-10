@@ -20,7 +20,14 @@ public class RouterService {
 					case "welcome":
 						CommonController l_commonController = ControllerFactory.getCommonController();
 						l_commonController.welcome(p_router.getActionParameters());
-						
+			case CONTINENT:
+				switch(p_router.getActionName()) {
+					case "add":
+						ContinentController l_ContinentController = ControllerFactory.getContinentController();
+						l_ContinentController.add(p_router.getActionParameters());
+					case "remove":
+						ContinentController l_ContinentController = ControllerFactory.getContinentController();
+						l_ContinentController.remove(p_router.getActionParameters());
 				}
 			
 		}
