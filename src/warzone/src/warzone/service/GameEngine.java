@@ -1,4 +1,6 @@
-package warzone.model;
+package warzone.service;
+
+import warzone.model.*;
 
 /**
  * Main game loop.
@@ -8,14 +10,12 @@ package warzone.model;
  */
 public class GameEngine {
 
+	private GameContext d_GameContext;
 	
-	
-	
-	public static void main(String[] commands) {
-		// TODO Auto-generated method stub
-
+	public GameEngine(GameContext p_GameContext)	{
+		d_GameContext = p_GameContext;
 	}
-	
+
 	/**
 	 * Assign each player the correct number of reinforcement armies according to the Warzone rules.
 	 */
@@ -41,7 +41,7 @@ public class GameEngine {
 	 * which will enact the order. 
 	 */
 	private void executeOrders() {
-		
+		// run excute() for each order,  5 rounds
 		//This may not need to be its own method
 	}
 
