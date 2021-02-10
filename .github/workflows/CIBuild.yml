@@ -50,6 +50,6 @@ jobs:
           git commit -m "Javadoc updates."
         fi
     - name: push on develop branch
-      if: github.ref == 'refs/heads/develop'
+      if: github.ref == 'refs/heads/test-for-pipeline'
       run: |
           git push origin test-for-pipeline
