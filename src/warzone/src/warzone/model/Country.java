@@ -1,6 +1,6 @@
 package warzone.model;
 
-import java.util.Set;
+import java.util.Map;
 
 public class Country {
 	
@@ -10,7 +10,7 @@ public class Country {
 	private int d_deployedForces;
 	private int d_xPosition;
 	private int d_yPosition;
-	private Set<Integer> d_neighbors;
+	private Map<Integer, Country> d_neighbors;
 	
 	public int getCountryID() {
 		return d_countryID;
@@ -60,7 +60,7 @@ public class Country {
 		this.d_yPosition = p_yPosition;
 	}
 
-	public Set<Integer> getNeighbors() {
+	public Map<Integer, Country> getNeighbors() {
 		return d_neighbors;
 	}
 }

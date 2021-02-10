@@ -6,14 +6,7 @@ import warzone.controller.*;
 import warzone.model.*;
 
 public class RouterService {
-	/*
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * */
+	
 	public void route(Router p_router){
 		 
 		ControllerFactory l_controllerFactory = ControllerFactory.getControllerFactory();

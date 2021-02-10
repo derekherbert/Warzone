@@ -5,28 +5,43 @@ import java.util.Map;
 
 public class GameContext {
 
-	private static Map<Integer, Player> d_PLAYERS;
-	private static Map<Integer, Country> d_COUNTRIES;
-	private static Map<Integer, Continent> d_CONTINENTS;
+	private Map<Integer, Player> d_players;
+	private Map<Integer, Country> d_countries;
+	private Map<Integer, Continent> d_continents;
+	private static GameContext GAME_CONTEXT;
 	
-	public static Map<Integer, Player> getPlayers() {
-		if(d_PLAYERS == null) {
-			d_PLAYERS = new HashMap<Integer, Player>();
+	private GameContext() {
+		
+		d_players = new HashMap<Integer, Player>() ;
+		d_countries = new HashMap<Integer, Country>();
+		d_continents = new HashMap<Integer, Continent>();
+	}		
+	
+	public static GameContext getGameContext() {
+		if(GAME_CONTEXT == null) {
+			GAME_CONTEXT = new GameContext();
 		}
-		return d_PLAYERS;
+		return GAME_CONTEXT;
 	}
 	
-	public static Map<Integer, Country> getCountries() {
-		if(d_COUNTRIES == null) {
-			d_COUNTRIES = new HashMap<Integer, Country>();
+	public Map<Integer, Player> getPlayers() {
+		if(d_players == null) {
+			d_players = new HashMap<Integer, Player>();
 		}
-		return d_COUNTRIES;
+		return d_players;
 	}
 	
-	public static Map<Integer, Continent> getContinents() {
-		if(d_CONTINENTS == null) {
-			d_CONTINENTS = new HashMap<Integer, Continent>();
+	public Map<Integer, Country> getCountries() {
+		if(d_countries == null) {
+			d_countries = new HashMap<Integer, Country>();
 		}
-		return d_CONTINENTS;
+		return d_countries;
+	}
+	
+	public Map<Integer, Continent> getContinents() {
+		if(d_continents == null) {
+			d_continents = new HashMap<Integer, Continent>();
+		}
+		return d_continents;
 	}
 }

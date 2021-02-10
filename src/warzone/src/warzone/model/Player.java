@@ -1,13 +1,13 @@
 package warzone.model;
 
+import java.util.Map;
 import java.util.Queue;
-import java.util.Set;
 
 
 public class Player {
 
 	private String d_name;
-	private Set<Integer> d_conqueredCountries;
+	private Map<Integer, Country> d_conqueredCountries;
 	private Queue<Order> d_orders;
 	
 	public String getName() {
@@ -18,7 +18,7 @@ public class Player {
 		this.d_name = p_name;
 	}
 
-	public Set<Integer> getConqueredCountries() {
+	public Map<Integer, Country> getConqueredCountries() {
 		return d_conqueredCountries;
 	}
 

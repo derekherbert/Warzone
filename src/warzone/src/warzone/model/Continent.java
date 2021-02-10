@@ -1,12 +1,12 @@
 package warzone.model;
 
-import java.util.Set;
+import java.util.Map;
 
 public class Continent {
 	
 	private int d_continentID;
 	private String d_continentName;
-	private Set<Integer> d_countries;
+	private Map<Integer, Country> d_countries;
 	
 	public Continent(int p_continentID, String p_continentName) {
 		
@@ -30,7 +30,7 @@ public class Continent {
 		this.d_continentName = p_continentName;
 	}	
 	
-	public Set<Integer> getCountries() {
+	public Map<Integer, Country> getCountries() {
 		return d_countries;
 	}
 }
