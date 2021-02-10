@@ -6,7 +6,7 @@ name: Java CI with Maven
 on:
   workflow_dispatch:
   push:
-    branches: [test-for-pipeline]
+    branches: [develop]
   pull_request:
     branches: [develop]
 
@@ -50,6 +50,6 @@ jobs:
           git commit -m "Javadoc updates."
         fi
     - name: push on develop branch
-      if: github.ref == 'refs/heads/test-for-pipeline'
+      if: github.ref == 'refs/heads/develop'
       run: |
-          git push origin test-for-pipeline
+          git push origin develop
