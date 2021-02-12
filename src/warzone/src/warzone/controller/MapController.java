@@ -1,14 +1,15 @@
 package warzone.controller;
 
+import warzone.service.MapService;
 import warzone.view.*;
 import warzone.model.*;
 
 public class MapController {
 
-	private GameContext d_GameContext;
+	private GameContext d_gameContext;
 
-	public MapController(GameContext p_GameContext) {
-		d_GameContext = p_GameContext;
+	public MapController(GameContext p_gameContext) {
+		d_gameContext = p_gameContext;
 	}
 	
 	/**
@@ -17,9 +18,29 @@ public class MapController {
 	 * Displays the map as text, showing all continents and countries and their respective neighbors.
 	 */
 	public GameContext showMap () {
-		
-		// TODO Auto-generated method stub
-		
+
+		String l_continentTable;
+		l_continentTable = MapService.displayContinentTable(d_gameContext);
+
+		String l_countryTable;
+		l_countryTable = MapService.displayContinentTable(d_gameContext);
+
+		String l_countryNeighbourTable;
+		l_countryNeighbourTable = MapService.displayCountryNeighbourTable(d_gameContext);
+
+		GenericView.println("*****************************");
+		GenericView.println("**    Continent   Table    **");
+		GenericView.println("*****************************");
+		GenericView.println(l_continentTable);
+		GenericView.println("***************************************");
+		GenericView.println("**          Country  Table           **");
+		GenericView.println("***************************************");
+		GenericView.println(l_countryTable);
+		GenericView.println("**************************************************");
+		GenericView.println("**           Country Neighbour Table            **");
+		GenericView.println("**************************************************");
+		GenericView.println(l_countryNeighbourTable);
+
 		return null;
 	}
 	
