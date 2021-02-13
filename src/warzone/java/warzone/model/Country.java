@@ -11,7 +11,8 @@ public class Country {
 	private int d_xPosition;
 	private int d_yPosition;
 	private Map<Integer, Country> d_neighbors;
-	
+	private Continent d_continent;
+
 	public int getCountryID() {
 		return d_countryID;
 	}
@@ -63,4 +64,6 @@ public class Country {
 	public Map<Integer, Country> getNeighbors() {
 		return d_neighbors;
 	}
+
+	public Continent getContinent() { return d_continent; }
 }
