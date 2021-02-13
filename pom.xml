@@ -4,7 +4,7 @@
   <artifactId>Warzone</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <build>
-  	<sourceDirectory>src/warzone/src</sourceDirectory>
+  	<sourceDirectory>src/warzone/java</sourceDirectory>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
