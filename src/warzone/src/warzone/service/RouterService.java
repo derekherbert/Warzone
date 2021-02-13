@@ -28,14 +28,19 @@ public class RouterService {
 	/**
 	 * This class will parse console commands entered by the user and call the corresponding Java method(s)
 	 * passing any command line arguments as parameters
+	 * @param p_command the command entered by the player
+	 * @return the list of Router
 	 */
-	public Router parseCommand(String p_command) {
+	public List<Router> parseCommand(String p_command) {
+		List<Router> l_routerList;
 		// remove prefix whitespace
 		p_command = p_command.trim();
 		
 		// null command only with whitespace
 		if (p_command.length() == 0) {
-			return new Router(ControllerName.ERROR, "nullCommand");
+			l_routerList = new LinkedList<Router>();
+			l_routerList.add(new Router(ControllerName.ERROR, "nullCommand"));
+			return l_routerList;
 		}
 		
 		// split command with any whitespace
@@ -43,107 +48,44 @@ public class RouterService {
 		
 		// judge command
 		if (l_commands[0].equalsIgnoreCase("showmap")) {
-			return parseCommandWithNoneOption(l_commands[0]);
+			l_routerList = CommandService.parseCommandWithNoneOption(l_commands[0]);
 		}
 		else if (l_commands[0].equalsIgnoreCase("validatemap")) {
-			return parseCommandWithNoneOption(l_commands[0]);
+			l_routerList = CommandService.parseCommandWithNoneOption(l_commands[0]);
 		}
 		else if (l_commands[0].equalsIgnoreCase("assigncountries")) {
-			return parseCommandWithNoneOption(l_commands[0]);
+			l_routerList = CommandService.parseCommandWithNoneOption(l_commands[0]);
 		}
 		else if (l_commands[0].equalsIgnoreCase("editcontinent")) {
-		
+			l_routerList = CommandService.parseEditcontinentAndEditcountry(l_commands, "continent");
 		}
 		else if (l_commands[0].equalsIgnoreCase("editcountry")) {
-			
+			l_routerList = CommandService.parseEditcontinentAndEditcountry(l_commands, "country");
 		}
 		else if (l_commands[0].equalsIgnoreCase("editneighbor")) {
-			
-		}
-		else if (l_commands[0].equalsIgnoreCase("savemap")) {
-			
-		}
-		else if (l_commands[0].equalsIgnoreCase("editmap")) {
-			
-		}
-		else if (l_commands[0].equalsIgnoreCase("loadmap")) {
-			
+			l_routerList = CommandService.parseEditneighbor(l_commands);
 		}
 		else if (l_commands[0].equalsIgnoreCase("gameplayer")) {
-			
+			l_routerList = CommandService.parseGamePlayer(l_commands);
+		}
+		else if (l_commands[0].equalsIgnoreCase("savemap")) {
+			l_routerList = CommandService.parseCommandWithAnyParameters(l_commands, "filename");
+		}
+		else if (l_commands[0].equalsIgnoreCase("editmap")) {
+			l_routerList = CommandService.parseCommandWithAnyParameters(l_commands, "filename");
+		}
+		else if (l_commands[0].equalsIgnoreCase("loadmap")) {
+			l_routerList = CommandService.parseCommandWithAnyParameters(l_commands, "filename");
 		}
 		else if (l_commands[0].equalsIgnoreCase("deploy")) {
-			
+			l_routerList = CommandService.parseCommandWithAnyParameters(l_commands, "countryID", "num");
 		}
 		else {
-			return new Router(ControllerName.ERROR, "noSuchCommand");
+			l_routerList = new LinkedList<Router>();
+			l_routerList.add(new Router(ControllerName.ERROR, "noSuchCommand"));
 		}
 		return null;
 	}
-	
-	private Router parseCommandWithNoneOption(String p_command) {
-		return new Router(ControllerName.GAME, p_command);
-	}
-	
-	/**
-	 * parse the command 'edit continent', return the list of Router. If there has any incorrectness, 
-	 * the list only has one object whose controller type is ERROR, 
-	 * and this Router also show the location of the error.
-	 * @param p_commands the command 'edit continent' entered by the player
-	 * @return the list of Router
-	 */
-	private List<Router> parseEditContinent(String[] p_commands) {
-		List<Router> l_routerList = new LinkedList();
-		List<Router> l_errorList = new LinkedList();
-		for (int i = 1; i < p_commands.length; ) {
-			// judge the correctness of option to be either "-add" or "-remove"
-			if (p_commands[i].equalsIgnoreCase("-add")) {
-				try {
-					// the number of parameter must be greater than 3
-					if (p_commands.length >= i + 3) {
-						JSONObject l_jb = new JSONObject();
-						l_jb.put("continentID", Integer.valueOf(p_commands[i + 2]));
-						l_jb.put("continentvalue", Integer.valueOf(p_commands[i + 3]));
-						l_routerList.add(new Router(ControllerName.GAME, "addContinent", l_jb.toJSONString()));
-						i = i + 3;
-					}
-					else {
-						l_errorList.add(new Router(ControllerName.ERROR, "missParameter: " + p_commands[i]));
-						return l_errorList;
-					}
-				}
-				catch(NumberFormatException p_exception) {
-					l_errorList.add(new Router(ControllerName.ERROR, "badParameter: " + p_commands[i + 1]));
-					return l_errorList;
-				}
-			}
-			else if (p_commands[i].equalsIgnoreCase("-remove")) {
-				try {
-					// the number of parameter must be greater than 2
-					if (p_commands.length >= i + 2) {
-						JSONObject l_jb = new JSONObject();
-						l_jb.put("continentID", Integer.valueOf(p_commands[i + 2]));
-						l_routerList.add(new Router(ControllerName.GAME, "removeContinent", l_jb.toJSONString()));
-						i = i + 2;
-					}
-					else {
-						l_errorList.add(new Router(ControllerName.ERROR, "missParameter: " + p_commands[i]));
-						return l_errorList;
-					}
-				}
-				catch(NumberFormatException p_exception) {
-					l_errorList.add(new Router(ControllerName.ERROR, "badParameter: " + p_commands[i + 1]));
-					return l_errorList;
-				}
-			}
-			else {
-				l_errorList.add(new Router(ControllerName.ERROR, "badOption: " + p_commands[i]));
-				return l_errorList;
-			}
-		}
-		return l_routerList;
-	}
-	
-//	private Router parseCommandWithOneParameter
+
 }
 
