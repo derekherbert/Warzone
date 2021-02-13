@@ -23,29 +23,6 @@ public class CommandService {
 	}
 	
 	/**
-	 * parse command with only one parameter,
-	 * for example, 'editmap', 'savemap' ...
-	 * @param p_commands the command entered by the player
-	 * @param p_parameterName the parameter name of the command
-	 * @return a list only has one Router
-	 */
-//	public static List<Router> parseCommandWithOneParameter(String[] p_commands, String p_parameterName) {
-//		List<Router> l_routerList = new LinkedList<Router>();
-//		if (p_commands.length >= 2) {
-//			l_routerList.add(new Router(ControllerName.ERROR, "fileNameWithWhiteSpace"));
-//			return l_routerList;
-//		}
-//		if (p_commands.length == 1) {
-//			l_routerList.add(new Router(ControllerName.ERROR, "missingFileName"));
-//			return l_routerList;
-//		}
-//		JSONObject l_jb = new JSONObject();
-//		l_jb.put(p_parameterName, p_commands[1]);
-//		l_routerList.add(new Router(ControllerName.GAME,  p_commands[0], l_jb.toJSONString()));
-//		return l_routerList;
-//	}
-	
-	/**
 	 * parse command with any number of parameters and no option,
 	 * for example, 'editmap filename' is a command with only one parameter.
 	 * @param p_commands the command entered by the player
@@ -56,8 +33,7 @@ public class CommandService {
 		List<Router> l_routerList = new LinkedList<Router>();
 		// the number of parameter name must equals the length of commands String array plus one
 		if (p_commands.length != p_parameterNames.length + 1) {
-			l_routerList.add(new Router(ControllerName.ERROR, "WrongParameters"));
-			return l_routerList;
+			return addErrorRouter(l_routerList, "wrong parameters", null);
 		}
 		JSONObject l_jb = new JSONObject();
 		for (int i = 0; i < p_parameterNames.length; i++) {
@@ -79,8 +55,7 @@ public class CommandService {
 		for (int i = 1; i < p_commands.length; ) {
 			// the number of parameter must be greater than 2
 			if (p_commands.length < i + 2) {
-				l_errorList.add(new Router(ControllerName.ERROR, "missingParameter", p_commands[i]));
-				return l_errorList;
+				return addErrorRouter(l_errorList, "missing parameter", p_commands[i]);
 			}
 			// '-add' option
 			if (p_commands[i].equals("-add")) {
@@ -96,8 +71,7 @@ public class CommandService {
 			}
 			// wrong option
 			else {
-				l_errorList.add(new Router(ControllerName.ERROR, "badOption: " + p_commands[i]));
-				return l_errorList;
+				return addErrorRouter(l_errorList, "bad option", p_commands[i]);
 			}
 			i = i + 2;
 		}
@@ -136,14 +110,12 @@ public class CommandService {
 						i = i + 3;
 					}
 					else {
-						l_errorList.add(new Router(ControllerName.ERROR, "missingParameter", p_commands[i]));
-						return l_errorList;
+						return addErrorRouter(l_errorList, "missing parameter", p_commands[i]);
 					}
 				}
 				// the parameter must be able to be parsed as integer
 				catch(NumberFormatException p_exception) {
-					l_errorList.add(new Router(ControllerName.ERROR, "badParameter", p_commands[i]));
-					return l_errorList;
+					return addErrorRouter(l_errorList, "bad parameter", p_commands[i]);
 				}
 			}
 			else if (p_commands[i].equalsIgnoreCase("-remove")) {
@@ -156,19 +128,16 @@ public class CommandService {
 						i = i + 2;
 					}
 					else {
-						l_errorList.add(new Router(ControllerName.ERROR, "missingParameter", p_commands[i]));
-						return l_errorList;
+						return addErrorRouter(l_errorList, "missing parameter", p_commands[i]);
 					}
 				}
 				catch(NumberFormatException p_exception) {
-					l_errorList.add(new Router(ControllerName.ERROR, "badParameter", p_commands[i + 1]));
-					return l_errorList;
+					return addErrorRouter(l_errorList, "bad parameter", p_commands[i + 1]);
 				}
 			}
 			// wrong option
 			else {
-				l_errorList.add(new Router(ControllerName.ERROR, "badOption: " + p_commands[i]));
-				return l_errorList;
+				return addErrorRouter(l_errorList, "bad option", p_commands[i]);
 			}
 		}
 		return l_routerList;
@@ -198,14 +167,12 @@ public class CommandService {
 						i = i + 3;
 					}
 					else {
-						l_errorList.add(new Router(ControllerName.ERROR, "missingParameter", p_commands[i]));
-						return l_errorList;
+						return addErrorRouter(l_errorList, "missing parameter", p_commands[i]);
 					}
 				}
 				// the parameter must be able to be parsed as integer
 				catch(NumberFormatException p_exception) {
-					l_errorList.add(new Router(ControllerName.ERROR, "badParameter", p_commands[i]));
-					return l_errorList;
+					return addErrorRouter(l_errorList, "bad parameter", p_commands[i]);
 				}
 			}
 			else if (p_commands[i].equalsIgnoreCase("-remove")) {
@@ -221,17 +188,32 @@ public class CommandService {
 						i = i + 3;
 					}
 					else {
-						l_errorList.add(new Router(ControllerName.ERROR, "missingParameter", p_commands[i]));
-						return l_errorList;
+						return addErrorRouter(l_errorList, "missing parameter", p_commands[i]);
 					}
 				}
 				// the parameter must be able to be parsed as integer
 				catch(NumberFormatException p_exception) {
-					l_errorList.add(new Router(ControllerName.ERROR, "badParameter", p_commands[i]));
-					return l_errorList;
+					return addErrorRouter(l_errorList, "bad parameter", p_commands[i]);
 				}
 			}
 		}
 		return l_routerList;
+	}
+	
+	/**
+	 * add the error Router to the router list
+	 * @param p_routerList the Router list
+	 * @param p_errorType error type of the command
+	 * @param p_location the location where the error occurs
+	 * @return
+	 */
+	protected static List<Router> addErrorRouter(List<Router> p_routerList, String p_errorType, String p_location) {
+		JSONObject l_jb = new JSONObject();
+		l_jb.put("errorType", p_errorType);
+		if (p_location != null) {
+			l_jb.put("location", p_location);
+		}
+		p_routerList.add(new Router(ControllerName.ERROR, "commandError", l_jb.toJSONString()));
+		return p_routerList;
 	}
 }

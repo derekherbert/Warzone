@@ -9,6 +9,9 @@ public class CommonController {
 		
 	}
 	
+	public void error(String p_message) {
+		System.out.print(p_message);
+	}
 
 	
 	public void standby() {}
