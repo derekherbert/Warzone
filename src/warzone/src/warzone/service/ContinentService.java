@@ -1,5 +1,7 @@
 package warzone.service;
 
+import java.util.Map;
+
 import warzone.model.*;
 
 public class ContinentService {
@@ -11,8 +13,21 @@ public class ContinentService {
 	}
 	
 	public boolean add(Continent p_continent) {
-		//todo: add the item to 
-		//e.g. d_GameContext.getGameMap().getContinent().add(p_Continent);
+		//0. add the item to
+		Map<Integer,Continent> map=d_gameContext.getContinents();
+		int key=p_continent.getContinentID();
+		if(map.containsKey(key)) {
+			return false;
+		}
+		map.put(key, p_continent);
 		return true;
+	}
+	
+	public Continent remove(int continentID) {
+		Map<Integer,Continent> map=d_gameContext.getContinents();
+		if(!map.containsKey(continentID)) {
+			return null;
+		}
+		return map.remove(continentID);
 	}
 }

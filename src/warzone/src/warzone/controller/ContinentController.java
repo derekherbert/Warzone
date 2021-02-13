@@ -21,8 +21,8 @@ public class ContinentController {
 
 		//1. create a new contient instance
 		Continent l_Continent = new Continent(l_continentID, l_continentName);
-		//2. TODO Auto-generated method stub
-		//ContinentService.add(continent);
+		//2. add continent to ContinentService
+		d_continentService.add(l_Continent);
 		
 		//3. render to view
 		GenericView.println(l_Continent.getContinentName());
@@ -36,8 +36,11 @@ public class ContinentController {
 		//0. parse [p_parameters] to  [ l_continentID ]
 		int l_continentID = 0;
 		
-		// TODO Auto-generated method stub
-		
-		return true;
+		//1. remove continent from ContinentService by id
+		if(d_continentService.remove(l_continentID)==null) {
+			return false;
+		}else {
+			return true;
+		}
 	}
 }
