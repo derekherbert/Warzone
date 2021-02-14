@@ -13,31 +13,36 @@ public class CountryService {
 		d_gameContext = p_gameContext;
 	}
 	
-	public boolean add(Country country) {
-		Map<Integer,Country> countryMap=d_gameContext.getCountries();
-		int countryKey=country.getCountryID();
-		Map<Integer,Continent> continentMap=d_gameContext.getContinents();
-		int continentKey=country.getOwnerID();
-		if(countryMap.containsKey(countryKey)||
-				continentMap.containsKey(continentKey)) {
-			return false;
+	public boolean addCountryToContient(int p_countryID, int p_ContinentID) {
+		if(p_countryID > 0 && p_ContinentID>0) {
+			Country l_country = d_gameContext.getCountries().get(p_countryID);
+			Continent l_continent = d_gameContext.getContinents().get(p_ContinentID);
+			
+			if(l_country != null && l_continent != null){
+				l_country.setContinent(l_continent);
+				return true;
+			}
 		}
-		countryMap.put(countryKey, country);
-		continentMap.get(continentKey).getCountries().put(countryKey, country);
-		return true;
-	}
+		return false;
+	}	
 	
-	public Country remove(int countryID) {
-		Map<Integer,Country> countryMap=d_gameContext.getCountries();
-		if(!countryMap.containsKey(countryID)) {
-			return null;
+	public boolean remove(int p_countryID) {
+		Country l_country = d_gameContext.getCountries().get(p_countryID);
+		
+		if(l_country != null) {
+			//remove from neighbor
+	        for (Country l_tempCountry : d_gameContext.getCountries().values()) {
+	        	l_tempCountry.getNeighbors().remove(p_countryID);        	
+	        }
+	        
+	        //remove from Continent
+	        d_gameContext.getContinents().get( l_country.getContinent().getContinentID() ).getCountries().remove(p_countryID);
+	        
+	        //remove from Country
+			d_gameContext.getCountries().remove(p_countryID);
+			return true;
 		}
-		Country country=countryMap.remove(countryID);
-		Map<Integer,Continent> continentMap=d_gameContext.getContinents();
-		int continentKey=country.getOwnerID();
-		if(continentMap.containsKey(continentKey)) {
-			continentMap.remove(continentKey);
-		}
-		return country;
+		
+		return false;		
 	}
 }

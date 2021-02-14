@@ -14,20 +14,22 @@ public class ContinentService {
 	
 	public boolean add(Continent p_continent) {
 		//0. add the item to
-		Map<Integer,Continent> map=d_gameContext.getContinents();
-		int key=p_continent.getContinentID();
-		if(map.containsKey(key)) {
-			return false;
+		if(p_continent != null) {
+			Map<Integer,Continent> l_continents=d_gameContext.getContinents();			
+			l_continents.put(p_continent.getContinentID(), p_continent);
+			return true;
 		}
-		map.put(key, p_continent);
-		return true;
+		return false;
 	}
 	
-	public Continent remove(int continentID) {
-		Map<Integer,Continent> map=d_gameContext.getContinents();
-		if(!map.containsKey(continentID)) {
-			return null;
+	public boolean remove(int p_continentID) {
+		if(p_continentID > 0) {
+			Map<Integer,Continent> l_continents=d_gameContext.getContinents();
+			if(l_continents.containsKey(p_continentID)){
+				l_continents.remove(p_continentID);
+				return true;
+			}			
 		}
-		return map.remove(continentID);
+		return false;
 	}
 }

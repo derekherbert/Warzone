@@ -13,32 +13,26 @@ public class NeighborService {
 		d_gameContext = p_gameContext;
 	}
 	
-	public boolean add(int countryID, int neighborCountryID) {
-		Map<Integer,Country> countryMap=d_gameContext.getCountries();
-		if(!(countryMap.containsKey(countryID)&&countryMap.containsKey(neighborCountryID))) {
+	public boolean add(int p_countryID, int p_neighborCountryID) {
+		Map<Integer,Country> l_countries=d_gameContext.getCountries();
+		if(!l_countries.containsKey(p_countryID) || !l_countries.containsKey(p_neighborCountryID)) {
 			return false;
 		}
 		
-		Country c1=countryMap.get(countryID);
-		Country c2=countryMap.get(neighborCountryID);
-		c1.getNeighbors().put(neighborCountryID, c2);
-		c2.getNeighbors().put(countryID,c1);
-		
-		return true;
+		Country l_country = l_countries.get(p_countryID);
+		Country l_neighborCountry = l_countries.get(p_neighborCountryID);
+
+		return l_country.addNeighbor(l_neighborCountry);		
 	}
 	
-	public boolean remove(int countryID, int neighborCountryID) {
-		Map<Integer,Country> countryMap=d_gameContext.getCountries();
-		if(!(countryMap.containsKey(countryID)&&
-				countryMap.get(countryID).getNeighbors().containsKey(neighborCountryID))) {
+	public boolean remove(int p_countryID, int p_neighborCountryID) {
+		Map<Integer,Country> l_countries=d_gameContext.getCountries();
+		if(!l_countries.containsKey(p_countryID) || !l_countries.containsKey(p_neighborCountryID)) {
 			return false;
 		}
-		countryMap.get(countryID).getNeighbors().remove(neighborCountryID);
 		
-		if(countryMap.get(neighborCountryID).getNeighbors().containsKey(countryID)) {
-			countryMap.get(neighborCountryID).getNeighbors().remove(countryID);
-		}
-		
+		Country l_country = l_countries.get(p_countryID);
+		l_country.getNeighbors().remove(p_neighborCountryID);		
 		return true;
 	}
 }

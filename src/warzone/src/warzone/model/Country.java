@@ -75,7 +75,9 @@ public class Country {
 		return d_neighbors;
 	}
 
-	public Continent getContinent() { return d_continent; }
+	public Continent getContinent() { 
+		return d_continent; 
+	}
 
 	public boolean setContinent(Continent p_continent) {
 

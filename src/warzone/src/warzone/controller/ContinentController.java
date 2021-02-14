@@ -16,11 +16,30 @@ public class ContinentController {
 	
 	public boolean addContinent(String p_parameters) {
 		//0. parse [p_parameters] to  [ l_continentID, String l_continentName]
-		int l_continentID = 0;
-		String l_continentName = ""; 
+		if(p_parameters == null)
+		{			
+			GenericView.printError("Missing valid parameters.");
+			return false;
+		}
 
+		int l_continentID = -1;
+		String l_continentName = "";
+		String[] l_parameters = CommonTool.conventToArray(p_parameters);
+		if(l_parameters.length == 2 ) {			
+			l_continentID = CommonTool.parseInt(l_parameters[0]);
+			l_continentName = l_parameters[1];
+		}
+		if(l_continentID == -1 || l_continentName ==""){
+			GenericView.printError("Missing valid parameters.");
+			return false;
+		}
+
+		return addContinent(l_continentID, l_continentName);		
+	}
+	public boolean addContinent(int p_continentID, String p_continentName) {
 		//1. create a new contient instance
-		Continent l_Continent = new Continent(l_continentID, l_continentName);
+		Continent l_Continent = new Continent(p_continentID, p_continentName);
+		
 		//2. add continent to ContinentService
 		d_continentService.add(l_Continent);
 		
@@ -34,13 +53,24 @@ public class ContinentController {
 	 */
 	public boolean removeContinent(String p_parameters) {
 		//0. parse [p_parameters] to  [ l_continentID ]
-		int l_continentID = 0;
+		if(p_parameters == null)
+		{			
+			GenericView.printError("Missing valid parameters.");
+			return false;
+		}
+
+		int l_continentID = CommonTool.parseInt(p_parameters);
+		
+		if(l_continentID == -1 ){
+			GenericView.printError("Missing valid parameters.");
+			return false;
+		}
 		
 		//1. remove continent from ContinentService by id
-		if(d_continentService.remove(l_continentID)==null) {
-			return false;
-		}else {
-			return true;
-		}
+		return removeContinent(l_continentID);
+	}
+	
+	public boolean removeContinent(int p_continentID) {
+		return d_continentService.remove(p_continentID);
 	}
 }
