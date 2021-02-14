@@ -45,14 +45,20 @@ public class MapController {
 		
 		// call mapService to save the map and return the path
 		p_fileName = p_fileName.trim();
-		if(d_mapService.saveMap(p_fileName)) {
-			GenericView.printDone("Map was saved in :" + p_fileName + ".map" );
-			return true;
+		try{
+			if(d_mapService.saveMap(p_fileName)) {
+				GenericView.printSuccess("Map was saved in :" + p_fileName + ".map" );
+				return true;
+			}
+			else {
+				GenericView.printError("Exception occured when saving the map, please valid the file name or contact the Administrator.");
+				return false;	
+			}		
 		}
-		else {
-			GenericView.printError("Exception occured when saving the map, please valid the file name or contact the Administrator.");
-			return false;	
-		}		
+		catch(Exception ex) {
+			GenericView.printError("Exception occured when saving the map. " + ex.toString());
+			return false;
+		}
 	}
 	
 	/**

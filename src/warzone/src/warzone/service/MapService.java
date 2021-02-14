@@ -21,7 +21,8 @@ public class MapService {
 	public boolean saveMap(String p_fileName) throws IOException {
 		try{
 			String l_fullFileName = p_fileName + ".map";
-			String content  = "hello world !!";
+			
+			//build the content using StringBuilder
 			StringBuilder l_map = new StringBuilder();
 			l_map.append("; map: " + p_fileName);
 			l_map.append("\n; map made with the 6441 Super Team");
@@ -57,12 +58,13 @@ public class MapService {
 			}		
 			l_map.append("\n");
 			
+			//write the content into the map
 			Path l_fileFullPath = Path.of(l_fullFileName);	        
 	        Files.write(l_fileFullPath, l_map.toString().getBytes());
 	        return true;
 		}
 		catch(Exception ex) {
-			return false;
+			throw ex;
 		}		
 	}
 }
