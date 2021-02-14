@@ -1,6 +1,9 @@
 package warzone.service;
 
 import warzone.model.*;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -59,8 +62,14 @@ public class MapService {
 			l_map.append("\n");
 			
 			//write the content into the map
-			Path l_fileFullPath = Path.of(l_fullFileName);	        
-	        Files.write(l_fileFullPath, l_map.toString().getBytes());
+//			Path l_fileFullPath = Path.of(l_fullFileName);	        
+//	        Files.write(l_fileFullPath, l_map.toString().getBytes());
+//	        
+	        
+	        BufferedWriter writer = new BufferedWriter(new FileWriter(l_fullFileName));
+	        writer.write(l_map.toString());
+	        
+	        writer.close();
 	        return true;
 		}
 		catch(Exception ex) {
