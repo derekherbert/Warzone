@@ -41,7 +41,14 @@ public class CountryController {
 	 * Performs the action for the user command: editcountry -add countryID continentID
 	 */
 	public boolean addCountry (int p_countryID, int p_continentID) {		
-		return d_countryService.addCountryToContient(p_countryID, p_continentID);		
+		if( d_countryService.addCountryToContient(p_countryID, p_continentID) ) {
+			GenericView.printSuccess( String.format("Country ID [%s] was added to Continent [%s] successfully.", p_countryID, p_continentID) );
+			return true;
+		}			
+		else {
+			GenericView.printWarning( String.format("Failed to add Country ID [%s] to Continent [%s].", p_countryID , p_continentID) );
+			return false;
+		}	
 	}
 	
 	public boolean removeCountry(String p_parameters) {
@@ -68,6 +75,13 @@ public class CountryController {
 	 * Performs the action for the user command: editcountry -remove countryID
 	 */
 	public boolean removeCountry (int p_countryID) {
-		return d_countryService.remove(p_countryID);		
+		if( d_countryService.remove(p_countryID)) {
+			GenericView.printSuccess( String.format("Country ID [%s] was removed successfully.", p_countryID) );
+			return true;
+		}			
+		else {
+			GenericView.printWarning( String.format("Failed to remove Country ID [%s].", p_countryID ) );
+			return false;
+		}			
 	}
 }

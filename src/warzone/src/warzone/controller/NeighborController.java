@@ -43,7 +43,14 @@ public class NeighborController {
 		
 		// TODO Auto-generated method stub
 		
-		return d_neighborService.add(p_countryID, p_neighborCountryID);
+		if( d_neighborService.add(p_countryID, p_neighborCountryID)) {
+			GenericView.printSuccess( String.format("Neighbor [%s] was added to Country [%s] successfully.", p_neighborCountryID, p_countryID) );
+			return true;
+		}			
+		else {
+			GenericView.printWarning( String.format("Failed to add Neighbor [%s] to Country [%s].", p_neighborCountryID, p_countryID) );
+			return false;
+		}	
 	}
 	
 	public boolean removeNeighbor (String p_parameters) {
@@ -70,10 +77,17 @@ public class NeighborController {
 	/**
 	 * Performs the action for the user command: editneighbor -remove countryID neighborCountryID
 	 */
-	public boolean removeNeighbor (int countryID, int neighborCountryID) {
+	public boolean removeNeighbor (int p_countryID, int p_neighborCountryID) {
 		
 		// TODO Auto-generated method stub
 		
-		return d_neighborService.remove(countryID, neighborCountryID);
+		if( d_neighborService.remove(p_countryID, p_neighborCountryID)) {
+			GenericView.printSuccess( String.format("Neighbor [%s] was removed from Country [%s] successfully.", p_neighborCountryID, p_countryID) );
+			return true;
+		}			
+		else {
+			GenericView.printWarning( String.format("Failed to remove Neighbor [%s] to Country [%s].", p_neighborCountryID, p_countryID) );
+			return false;
+		}	
 	}
 }

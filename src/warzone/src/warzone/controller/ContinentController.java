@@ -44,7 +44,7 @@ public class ContinentController {
 		d_continentService.add(l_Continent);
 		
 		//3. render to view
-		GenericView.println(l_Continent.getContinentName());
+		GenericView.printSuccess( String.format("Continent [%s] was added successfully.", l_Continent.getContinentName()) );
 		return true;
 	}
 	
@@ -71,6 +71,14 @@ public class ContinentController {
 	}
 	
 	public boolean removeContinent(int p_continentID) {
-		return d_continentService.remove(p_continentID);
+		if( d_continentService.remove(p_continentID)) {
+			GenericView.printSuccess( String.format("Continent ID [%s] was removed successfully.", p_continentID) );
+			return true;
+		}			
+		else {
+			GenericView.printWarning( String.format("Failed to remove Continent ID [%s].", p_continentID ) );
+			return false;
+		}
+			
 	}
 }
