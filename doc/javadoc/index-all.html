@@ -86,10 +86,14 @@
 <dd>
 <div class="block">Performs the action for the user command: editcountry -add countryID continentID</div>
 </dd>
+<dt><span class="memberNameLink"><a href="warzone/model/Continent.html#addCountry-warzone.model.Country-">addCountry(Country)</a></span> - Method in class warzone.model.<a href="warzone/model/Continent.html" title="class in warzone.model">Continent</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="warzone/controller/NeighborController.html#addNeighbor-int-java.lang.String-">addNeighbor(int, String)</a></span> - Method in class warzone.controller.<a href="warzone/controller/NeighborController.html" title="class in warzone.controller">NeighborController</a></dt>
 <dd>
 <div class="block">Performs the action for the user command: editneighbor -add countryID neighborCountryID</div>
 </dd>
+<dt><span class="memberNameLink"><a href="warzone/model/Country.html#addNeighbor-warzone.model.Country-">addNeighbor(Country)</a></span> - Method in class warzone.model.<a href="warzone/model/Country.html" title="class in warzone.model">Country</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="warzone/controller/StartupController.html#addPlayer-java.lang.String-">addPlayer(String)</a></span> - Method in class warzone.controller.<a href="warzone/controller/StartupController.html" title="class in warzone.controller">StartupController</a></dt>
 <dd>
 <div class="block">Performs the action for user command: gameplayer -add playerName</div>
@@ -193,6 +197,8 @@
 <dt><span class="memberNameLink"><a href="warzone/service/ControllerFactory.html#getCommonController--">getCommonController()</a></span> - Method in class warzone.service.<a href="warzone/service/ControllerFactory.html" title="class in warzone.service">ControllerFactory</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="warzone/model/Player.html#getConqueredCountries--">getConqueredCountries()</a></span> - Method in class warzone.model.<a href="warzone/model/Player.html" title="class in warzone.model">Player</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="warzone/model/Country.html#getContinent--">getContinent()</a></span> - Method in class warzone.model.<a href="warzone/model/Country.html" title="class in warzone.model">Country</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="warzone/service/ControllerFactory.html#getContinentController--">getContinentController()</a></span> - Method in class warzone.service.<a href="warzone/service/ControllerFactory.html" title="class in warzone.service">ControllerFactory</a></dt>
 <dd>&nbsp;</dd>
@@ -320,6 +326,13 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="warzone/view/GenericView.html#println-warzone.model.Render-">println(Render)</a></span> - Static method in class warzone.view.<a href="warzone/view/GenericView.html" title="class in warzone.view">GenericView</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="warzone/view/MapView.html#printMap-java.util.Map-">printMap(Map&lt;Integer, Continent&gt;)</a></span> - Static method in class warzone.view.<a href="warzone/view/MapView.html" title="class in warzone.view">MapView</a></dt>
+<dd>
+<div class="block">generate the table of continent information
+ continentId and continentName
+                              countryId, countryName,
+                                                      neighbours</div>
+</dd>
 <dt><span class="memberNameLink"><a href="warzone/view/GenericView.html#printSuccess-java.lang.String-">printSuccess(String)</a></span> - Static method in class warzone.view.<a href="warzone/view/GenericView.html" title="class in warzone.view">GenericView</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="warzone/view/GenericView.html#printWarning-java.lang.String-">printWarning(String)</a></span> - Static method in class warzone.view.<a href="warzone/view/GenericView.html" title="class in warzone.view">GenericView</a></dt>
@@ -378,6 +391,8 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="warzone/model/Continent.html#setColor-java.lang.String-">setColor(String)</a></span> - Method in class warzone.model.<a href="warzone/model/Continent.html" title="class in warzone.model">Continent</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="warzone/model/Country.html#setContinent-warzone.model.Continent-">setContinent(Continent)</a></span> - Method in class warzone.model.<a href="warzone/model/Country.html" title="class in warzone.model">Country</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="warzone/model/Continent.html#setContinentID-int-">setContinentID(int)</a></span> - Method in class warzone.model.<a href="warzone/model/Continent.html" title="class in warzone.model">Continent</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="warzone/model/Continent.html#setContinentName-java.lang.String-">setContinentName(String)</a></span> - Method in class warzone.model.<a href="warzone/model/Continent.html" title="class in warzone.model">Continent</a></dt>
@@ -408,7 +423,7 @@
 <dt><span class="memberNameLink"><a href="warzone/controller/MapController.html#showMap--">showMap()</a></span> - Method in class warzone.controller.<a href="warzone/controller/MapController.html" title="class in warzone.controller">MapController</a></dt>
 <dd>
 <div class="block">Performs the action for the user command: showmap
- 
+
  Displays the map as text, showing all continents and countries and their respective neighbors.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="warzone/controller/CommonController.html#standby--">standby()</a></span> - Method in class warzone.controller.<a href="warzone/controller/CommonController.html" title="class in warzone.controller">CommonController</a></dt>
