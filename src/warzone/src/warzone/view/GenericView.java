@@ -7,6 +7,8 @@ import warzone.model.Render;
  * */
 public class GenericView {
 	
+	private static boolean IS_DEBUG = true;
+	
 	public static void println(String p_text) {
 		System.out.println(p_text);
 	}
@@ -20,6 +22,11 @@ public class GenericView {
 	}
 	public static void printSuccess(String p_text) {
 		System.out.println("Success : " + p_text);
+	}
+	
+	public static void printDebug(String p_text) {
+		if(IS_DEBUG)
+			System.out.println("Debug : " + p_text);
 	}
 	
 	public static void println(Render p_content) {
