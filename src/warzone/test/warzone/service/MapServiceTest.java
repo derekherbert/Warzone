@@ -1,15 +1,16 @@
-package warzone.controller;
+package warzone.service;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import warzone.controller.MapController;
 import warzone.model.GameContext;
 
-public class MapControllerTest {
+public class MapServiceTest {
 
 	@Test
-	public void test() {
+	public void testEditMap() {
 		
 		GameContext gameContext = GameContext.getGameContext();
 		MapController mapController = new MapController(gameContext);
@@ -26,5 +27,4 @@ public class MapControllerTest {
 		System.out.println("Number of Continents: " + gameContext.getContinents().size());
 		System.out.println("Number of Countries: " + gameContext.getCountries().size());
 	}
-
 }
