@@ -6,7 +6,7 @@ import warzone.model.GameContext;
 public class ControllerFactory {	
 	
 	private static ControllerFactory CONTROLLER_FACTORY;
-	private static GameContext GAME_CONTEXT;
+	private GameContext d_gameContext;
 	
 	private CommonController d_commonController;
 	private ContinentController d_continentController;
@@ -15,8 +15,9 @@ public class ControllerFactory {
 	private NeighborController d_neighborController;
 	
 	private ControllerFactory()	{	
-		GAME_CONTEXT = GameContext.getGameContext();
+		d_gameContext = GameContext.getGameContext();
 	}
+	
 	
 	public static ControllerFactory getControllerFactory() {
 		if( CONTROLLER_FACTORY == null)
@@ -27,31 +28,31 @@ public class ControllerFactory {
 	
 	public CommonController getCommonController() {
 		if(d_commonController == null)
-			d_commonController = new CommonController(GAME_CONTEXT);
+			d_commonController = new CommonController(d_gameContext);
 		return d_commonController;
 	};
 	
 	public ContinentController getContinentController() {
 		if(d_continentController == null)
-			d_continentController = new ContinentController(GAME_CONTEXT);
+			d_continentController = new ContinentController(d_gameContext);
 		return d_continentController;
 	};
 	
 	public MapController getMapController() {
 		if(d_mapController == null)
-			d_mapController = new MapController(GAME_CONTEXT);
+			d_mapController = new MapController(d_gameContext);
 		return d_mapController;
 	};
 	
 	public CountryController getCountryController() {
 		if(d_countryController == null)
-			d_countryController = new CountryController(GAME_CONTEXT);
+			d_countryController = new CountryController(d_gameContext);
 		return d_countryController;
 	};
 	
 	public NeighborController getNeighborController() {
 		if(d_neighborController == null)
-			d_neighborController = new NeighborController(GAME_CONTEXT);
+			d_neighborController = new NeighborController(d_gameContext);
 		return d_neighborController;
 	};
 	

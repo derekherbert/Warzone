@@ -9,6 +9,8 @@ public class Player {
 	private String d_name;
 	private Map<Integer, Country> d_conqueredCountries;
 	private Queue<Order> d_orders;
+	private int d_armyNumber = 0;
+	private boolean d_isLoser = false;
 	
 	public String getName() {
 		return d_name;
@@ -24,6 +26,22 @@ public class Player {
 
 	public Queue<Order> getOrders() {
 		return d_orders;
+	}
+	
+	public int getArmyNumber() {
+		return d_armyNumber;
+	}
+
+	public void setArmyNumber(int p_armyNumber) {
+		this.d_armyNumber = p_armyNumber;
+	}
+	
+	public boolean getIsLoser() {
+		return d_isLoser;
+	}
+
+	public void setIsLoser(boolean p_isLoser) {
+		this.d_isLoser = p_isLoser;
 	}
 
 
@@ -53,4 +71,9 @@ public class Player {
 		
 		return null;
 	}
+	
+	public void assignReinforcements() {		
+
+	}	
+	
 }
