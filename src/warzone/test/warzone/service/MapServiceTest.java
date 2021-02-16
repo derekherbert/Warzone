@@ -1,12 +1,15 @@
 package warzone.service;
 
+import static org.junit.Assert.*;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import warzone.controller.MapController;
+import warzone.model.GameContext;
+
 import warzone.model.*;
 
-import static org.junit.Assert.*;
 public class MapServiceTest {
 
     GameContext d_gameContext = GameContext.getGameContext();
