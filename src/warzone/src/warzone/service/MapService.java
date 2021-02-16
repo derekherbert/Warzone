@@ -1,6 +1,5 @@
 package warzone.service;
 
-import sun.awt.image.ImageWatched;
 import warzone.model.*;
 import warzone.view.GenericView;
 
@@ -21,9 +20,6 @@ public class MapService {
 
 	public MapService(GameContext p_gameContext) {
 		d_gameContext = p_gameContext;
-	}
-	public MapService(){
-
 	}
 
 	public boolean saveMap(String p_fileName) throws IOException {
@@ -251,7 +247,7 @@ public class MapService {
 	}
 
 	/**
-	 * initiate the local list of neighbours
+	 * initiate the list of neighbours
 	 * @param p_size list size
 	 * @param p_adj list for manipulation
 	 * @return list of (country, neighbour)
@@ -273,7 +269,6 @@ public class MapService {
 		p_list[p_from.getContinentID()].add(p_to.getContinentID());
 	}
 
-
 	Map<Integer, Integer> d_mapIndexToCountryId = new HashMap<>();
 	Map<Integer, Integer> d_mapCountryIdToIndex = new HashMap<>();
 	Map<Integer, Integer> d_mapIndexToContinentId = new HashMap<>();
@@ -284,8 +279,9 @@ public class MapService {
 	 * Tarjan method is used in connectivity check
 	 *
 	 * condition1: check if more than one country
-	 * condition2: check if each continent is strongly connected
-	 * condition3: check if the whole map is strongly connected
+	 * condition2: check if each continent has one country
+	 * condition3: check if each continent is strongly connected
+	 * condition4: check if the whole map is strongly connected
 	 *
 	 * @param p_gameContext game context
 	 * @return if map is valid
@@ -294,15 +290,20 @@ public class MapService {
 
 		d_mapIndexToContinentId.clear();
 		d_mapContinentIdToIndex.clear();
+
 		// condition1: check if more than one country
 		int countryCount = p_gameContext.getCountries().size();
 		if ( countryCount <= 1 )
 			return false;
 
-		// condition2: check if each continent is strongly connected
+		// condition2: check if each continent has one country
 		Map<Integer, Continent> l_continent = p_gameContext.getContinents();
+		for( Continent _continent : l_continent.values()) {
+			if(_continent.getCountries().size() <= 1)
+				return false;
+		}
 
-
+		// condition3: check if each continent is strongly connected
 		LinkedList<Object>[] l_continentAdjList = new LinkedList[l_continent.size()];
 		l_continentAdjList = listInit(l_continent.size(), l_continentAdjList);
 
@@ -364,19 +365,17 @@ public class MapService {
 				return false;
 			}
 			else
-			{
-				GenericView.printSuccess("yeah");
-			}
+				GenericView.printDebug("continents are connected");
 		}
 
-		// condition3: check if the whole map is strongly connected
+		// condition4: check if the whole map is strongly connected
 		// if each connected continents are strongly connected, the whole map is connected
 		if(!ifConnected(l_continent.size(), l_continentAdjList)) {
 			GenericView.printError("the map is not strongly connected.");
 			return false;
 		}
 		else {
-			GenericView.printSuccess("yyyyyyy");
+			GenericView.printSuccess("Yeah! You got a connected map!");
 			return true;
 		}
 	}
@@ -389,7 +388,6 @@ public class MapService {
 	 * @return if the graph is strongly connected components
 	 */
 	public boolean ifConnected(int p_size, LinkedList<Object>[] p_list) {
-
 
 		List<List<Integer>> l_resList = new LinkedList<>();
 		int l_disc[] = new int[p_size];
@@ -441,7 +439,9 @@ public class MapService {
 		if(l_clist == null || l_clist.size() ==0)
 			return;
 
+		// if it is a connected country graph
 		if( l_clist.get(0) instanceof Country ){
+
 			l_isCountry = true;
 			Iterator<Object> i = p_list[p_cur].iterator();
 			while( i.hasNext() ){
@@ -456,7 +456,8 @@ public class MapService {
 				}
 			}
 		}
-		else{
+		//if it is a continnet graph
+		else {
 			Iterator<Object> i = p_list[p_cur].iterator();
 			while( i.hasNext() ){
 				Continent c_next = (Continent) i.next();
