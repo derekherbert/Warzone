@@ -41,6 +41,7 @@ public class StartupService {
 		} catch (IOException ex) {
 				
 			GenericView.printError("Error loading properties file.");
+			return false;
 		}
 		
 		try {
@@ -199,6 +200,7 @@ public class StartupService {
 			if(!(new MapController(d_gameContext).validateMap())) {
 				
 				GenericView.printError("The map file selected failed validation: " + p_fileName);
+				return false;
 			}
 			
 			GenericView.printSuccess("Map succesfully loaded: " + p_fileName);
@@ -206,6 +208,7 @@ public class StartupService {
 		} catch (Exception e) {
 		      
 			GenericView.printError("An error occured reading the map file: " + p_fileName);
+			return false;
 		}
 		
 		return true;

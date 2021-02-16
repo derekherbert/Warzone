@@ -96,6 +96,7 @@ public class MapService {
 		} catch (IOException ex) {
 				
 			GenericView.printError("Error loading properties file.");
+			return false;
 		}
 		
 		try {
@@ -255,6 +256,7 @@ public class MapService {
 		} catch (Exception e) {
 		      
 			GenericView.printError("An error occured reading the map file: " + p_fileName);
+			return false;
 		}
 		
 		return true;
