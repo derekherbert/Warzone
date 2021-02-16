@@ -1,5 +1,6 @@
 package warzone.service;
 
+import sun.awt.image.ImageWatched;
 import warzone.model.*;
 import warzone.view.GenericView;
 
@@ -10,21 +11,21 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Scanner;
+import java.util.*;
 
 public class MapService {
+
+	private int l_seq = 0;
 
 	private GameContext d_gameContext;
 
 	public MapService(GameContext p_gameContext) {
 		d_gameContext = p_gameContext;
 	}
-	
-	
-	public boolean validateMap() {
-		return true;
+	public MapService(){
+
 	}
-	
+
 	public boolean saveMap(String p_fileName) throws IOException {
 		try{
 			String l_fullFileName = p_fileName + ".map";
@@ -247,5 +248,242 @@ public class MapService {
 		}
 		
 		return true;
+	}
+
+	/**
+	 * initiate the local list of neighbours
+	 * @param p_size list size
+	 * @param p_adj list for manipulation
+	 * @return list of (country, neighbour)
+	 */
+	public LinkedList<Object>[] listInit(int p_size, LinkedList<Object>[] p_adj ) {
+		p_adj = new LinkedList[p_size];
+		for (int i = 0; i < p_size; ++i)
+			p_adj[i] = new LinkedList<>();
+		return p_adj;
+	}
+
+	/**
+	 * add the relationship of neighborhood continent into list
+	 * @param p_list list to add neighbors
+	 * @param p_from neighbor from countryId
+	 * @param p_to to countryId
+	 */
+	public void addContinentToList(ArrayList<Integer>[] p_list, Continent p_from,Continent p_to) {
+		p_list[p_from.getContinentID()].add(p_to.getContinentID());
+	}
+
+
+	Map<Integer, Integer> d_mapIndexToCountryId = new HashMap<>();
+	Map<Integer, Integer> d_mapCountryIdToIndex = new HashMap<>();
+	Map<Integer, Integer> d_mapIndexToContinentId = new HashMap<>();
+	Map<Integer, Integer> d_mapContinentIdToIndex = new HashMap<>();
+
+	/**
+	 *
+	 * Tarjan method is used in connectivity check
+	 *
+	 * condition1: check if more than one country
+	 * condition2: check if each continent is strongly connected
+	 * condition3: check if the whole map is strongly connected
+	 *
+	 * @param p_gameContext game context
+	 * @return if map is valid
+	 */
+	public boolean validateMap(GameContext p_gameContext) {
+
+		d_mapIndexToContinentId.clear();
+		d_mapContinentIdToIndex.clear();
+		// condition1: check if more than one country
+		int countryCount = p_gameContext.getCountries().size();
+		if ( countryCount <= 1 )
+			return false;
+
+		// condition2: check if each continent is strongly connected
+		Map<Integer, Continent> l_continent = p_gameContext.getContinents();
+
+
+		LinkedList<Object>[] l_continentAdjList = new LinkedList[l_continent.size()];
+		l_continentAdjList = listInit(l_continent.size(), l_continentAdjList);
+
+		int l_continentIndex = 0;
+		
+		for( Continent _continent : l_continent.values()) {
+
+			int l_countryIndex = 0;
+			d_mapIndexToCountryId.clear();
+			d_mapCountryIdToIndex.clear();
+
+			if( !d_mapContinentIdToIndex.containsKey(_continent.getContinentID()) ) {
+				l_continentAdjList[l_continentIndex].add(_continent);
+				d_mapIndexToContinentId.put(l_continentIndex, _continent.getContinentID());
+				d_mapContinentIdToIndex.put(_continent.getContinentID(), l_continentIndex++);
+			}
+			else{
+				int i = d_mapContinentIdToIndex.get(_continent.getContinentID());
+				l_continentAdjList[i].add(_continent);
+			}
+			LinkedList<Object>[] l_countryList = new LinkedList[_continent.getCountries().size()];
+			l_countryList= listInit(_continent.getCountries().size(), l_countryList);
+			
+			for( Country _fromCountry : _continent.getCountries().values() ) {
+
+				if( !d_mapCountryIdToIndex.containsKey(_fromCountry.getCountryID()) ) {
+					l_countryList[l_countryIndex].add(_fromCountry);
+					d_mapIndexToCountryId.put(l_countryIndex, _fromCountry.getCountryID());
+					d_mapCountryIdToIndex.put(_fromCountry.getCountryID(), l_countryIndex++);
+				}
+				else{
+					int i = d_mapCountryIdToIndex.get(_fromCountry.getCountryID());
+					l_countryList[i].add(_fromCountry);
+				}
+
+				for( Country _toCountry : _fromCountry.getNeighbors().values() ) {
+
+					if( _toCountry.getContinent().getContinentID() == _continent.getContinentID() ) {
+						if( !d_mapCountryIdToIndex.containsKey(_toCountry.getCountryID()) ) {
+							d_mapIndexToCountryId.put(l_countryIndex, _toCountry.getCountryID());
+							d_mapCountryIdToIndex.put(_toCountry.getCountryID(), l_countryIndex++);
+						}
+						int i = d_mapCountryIdToIndex.get(_fromCountry.getCountryID());
+						l_countryList[i].add(_toCountry);
+					}
+					else {
+						if( !d_mapContinentIdToIndex.containsKey(_toCountry.getContinent().getContinentID()) ) {
+							d_mapIndexToContinentId.put(l_continentIndex, _toCountry.getContinent().getContinentID());
+							d_mapContinentIdToIndex.put(_toCountry.getContinent().getContinentID(), l_continentIndex++);
+						}
+						int i = d_mapContinentIdToIndex.get(_fromCountry.getContinent().getContinentID());
+						l_continentAdjList[i].add(_toCountry.getContinent());
+					}
+				}
+			}
+
+			if(!ifConnected(_continent.getCountries().size(), l_countryList)) {
+				GenericView.printError("continent " + _continent.getContinentName() + " is not a connected graph");
+				return false;
+			}
+			else
+			{
+				GenericView.printSuccess("yeah");
+			}
+		}
+
+		// condition3: check if the whole map is strongly connected
+		// if each connected continents are strongly connected, the whole map is connected
+		if(!ifConnected(l_continent.size(), l_continentAdjList)) {
+			GenericView.printError("the map is not strongly connected.");
+			return false;
+		}
+		else {
+			GenericView.printSuccess("yyyyyyy");
+			return true;
+		}
+	}
+
+	/**
+	 * using Tarjan's algorithm (use DFS traversal) to get the connected parts in the graph
+	 * the graph is strongly connected if there is only one connected part
+	 * @param p_size size of list
+	 * @param p_list the graph stored as tree in List for DFS
+	 * @return if the graph is strongly connected components
+	 */
+	public boolean ifConnected(int p_size, LinkedList<Object>[] p_list) {
+
+
+		List<List<Integer>> l_resList = new LinkedList<>();
+		int l_disc[] = new int[p_size];
+		int l_low[] = new int[p_size];
+		for (int i = 0; i < p_size; i++) {
+			l_disc[i] = -1;
+			l_low[i] = -1;
+		}
+		l_seq = 0;
+
+		boolean l_stackMember[] = new boolean[p_size];
+		Stack<Integer> l_st = new Stack<Integer>();
+
+		for (int _curr = 0; _curr < p_size; _curr++) {
+			if (l_disc[_curr] == -1)
+				innerDFS(_curr, l_low, l_disc, l_stackMember, l_st, p_list, l_resList);
+		}
+		GenericView.printDebug( l_resList.toString() );
+
+		// the l_resList store the connected parts in the graph.
+		if(l_resList.size() == 1)
+			return true;
+		else
+			return false;
+	}
+
+	/**
+	 * inner function of DFS traversal
+	 * @param p_cur current node in tree
+	 * @param p_low the low number of the node
+	 * @param p_disc the discovery number of the node
+	 * @param p_stackMember if the node is a stack number
+	 * @param p_st the stack of the nodes
+	 * @param p_list the list for traversal
+	 * @param p_resList the return list for saving the results
+	 */
+	private void innerDFS(int p_cur, int p_low[], int p_disc[],
+						  boolean p_stackMember[], Stack<Integer> p_st, LinkedList<Object>[] p_list,
+						  List<List<Integer>> p_resList) {
+		boolean l_isCountry = false;
+		p_disc[p_cur] = l_seq;
+		p_low[p_cur] = l_seq;
+		l_seq += 1;
+		p_stackMember[p_cur] = true;
+		p_st.push(p_cur);
+
+		// Go through all vertices adjacent to this
+		List<Object> l_clist = p_list[p_cur];
+		if(l_clist == null || l_clist.size() ==0)
+			return;
+
+		if( l_clist.get(0) instanceof Country ){
+			l_isCountry = true;
+			Iterator<Object> i = p_list[p_cur].iterator();
+			while( i.hasNext() ){
+				Country c_next = (Country) i.next();
+				int n_index = d_mapCountryIdToIndex.get(c_next.getCountryID());
+				if(p_disc[n_index] == -1){
+					innerDFS(n_index, p_low, p_disc, p_stackMember, p_st, p_list, p_resList);
+					p_low[p_cur] = Math.min(p_low[p_cur], p_low[n_index]);
+				}
+				else if(p_stackMember[n_index] == true) {
+					p_low[p_cur] = Math.min(p_low[p_cur], p_disc[n_index]);
+				}
+			}
+		}
+		else{
+			Iterator<Object> i = p_list[p_cur].iterator();
+			while( i.hasNext() ){
+				Continent c_next = (Continent) i.next();
+				int n_index = d_mapContinentIdToIndex.get(c_next.getContinentID());
+				if(p_disc[n_index] == -1){
+					innerDFS(n_index, p_low, p_disc, p_stackMember, p_st, p_list, p_resList);
+					p_low[p_cur] = Math.min(p_low[p_cur], p_low[n_index]);
+				}
+				else if(p_stackMember[n_index] == true) {
+					p_low[p_cur] = Math.min(p_low[p_cur], p_disc[n_index]);
+				}
+			}
+		}
+
+		// record the result and pop the stack
+		int w = -1;
+		if (p_low[p_cur] == p_disc[p_cur]) {
+			List<Integer> _list = new ArrayList<>();
+			while (w != p_cur) {
+				w = (int) p_st.pop();
+				if(l_isCountry)
+					_list.add(d_mapIndexToCountryId.get(w));
+				else
+					_list.add(d_mapIndexToContinentId.get(w));
+				p_stackMember[w] = false;
+			}
+			p_resList.add(_list);
+		}
 	}
 }

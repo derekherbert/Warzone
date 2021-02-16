@@ -84,7 +84,7 @@ public class MapController {
 	public boolean validateMap () {
 		
 		// TODO Auto-generated method stub
-		
+		d_mapService.validateMap(d_gameContext);
 		return false;
 	}
 

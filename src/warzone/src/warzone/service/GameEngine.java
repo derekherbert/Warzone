@@ -29,8 +29,11 @@ public class GameEngine {
 
 //		Router showMapRouter = new Router(ControllerName.MAP, "showMap");
 //		d_RouterService.route(showMapRouter);
-		
-//		Router addContinentRouter = new Router(ControllerName.CONTINENT, "add", "1 veu");
+
+		Router validateMapRouter = new Router(ControllerName.MAP, "validateMap");
+		d_RouterService.route(validateMapRouter);
+
+		//		Router addContinentRouter = new Router(ControllerName.CONTINENT, "add", "1 veu");
 //		d_RouterService.route(addContinentRouter);
 
 
