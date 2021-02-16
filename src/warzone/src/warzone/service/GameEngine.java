@@ -12,11 +12,11 @@ import warzone.model.*;
  */
 public class GameEngine {
 	private GameContext d_gameContext;
-
-	public GameEngine() {
-		d_gameContext = GameContext.getGameContext();
-	}
 	
+	public GameEngine(GameContext p_gameContext) {
+		d_gameContext = p_gameContext;
+	}
+
 	public static void main(String[] args) throws IOException {
 
 		RouterService d_RouterService;
@@ -25,6 +25,9 @@ public class GameEngine {
 		//1 welcome
 		Router welcomeRouter = new Router(ControllerName.COMMON, "welcome");
 		d_RouterService.route(welcomeRouter);
+		
+//		Router tempRouter = new Router(ControllerName.GAMEPLAY, "play");
+//		d_RouterService.route(tempRouter);
 		
 //		Router saveMapRouter = new Router(ControllerName.MAP, "saveMap","map-na");
 //		d_RouterService.route(saveMapRouter);
@@ -49,12 +52,22 @@ public class GameEngine {
 //		}
 	}
 	
-	public void startGameLoop() {		
+	
+	public boolean play() {
+		int l_loopNumber = 1;		
+		while( !isGameEnded() && l_loopNumber <= 100) {
+			startGameLoop();
+			l_loopNumber ++;
+		}
+		
+		return isGameEnded();
+	}
+	
+	
+	private void startGameLoop() {		
 		assignReinforcements();
 		issueOrders();
-		executeOrders();
-		if(!isGameEnded())
-			startGameLoop();
+		executeOrders();		
 	}
 	
 	private boolean isGameEnded() {
@@ -67,7 +80,7 @@ public class GameEngine {
 				l_survivedPlayerNumber ++;
 			}
 		}		
-		return l_survivedPlayerNumber == 1;
+		return l_survivedPlayerNumber <= 1;
 	}
 	
 
