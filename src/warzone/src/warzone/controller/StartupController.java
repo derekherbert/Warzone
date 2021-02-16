@@ -65,9 +65,7 @@ public class StartupController {
 	 */
 	public boolean assignCountries() {
 		
-		// TODO Auto-generated method stub
-		
-		return false;
+		return d_startupService.assignCountries();
 	}
 	
 }
