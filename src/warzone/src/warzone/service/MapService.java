@@ -1,6 +1,6 @@
 package warzone.service;
 
-import warzone.model.*;
+import  warzone.model.*;
 import warzone.view.GenericView;
 
 import java.io.BufferedWriter;
