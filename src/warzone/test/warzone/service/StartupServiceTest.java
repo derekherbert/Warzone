@@ -51,10 +51,10 @@ public class StartupServiceTest {
 	@Test
 	public void testAssignCountries() {
 		
-		d_gameContext.getPlayers().put(1, new Player("player1"));
-		d_gameContext.getPlayers().put(2, new Player("player2"));
-		d_gameContext.getPlayers().put(3, new Player("player3"));
-		d_gameContext.getPlayers().put(4, new Player("player4"));
+		d_gameContext.getPlayers().put("player1", new Player("player1"));
+		d_gameContext.getPlayers().put("player2", new Player("player2"));
+		d_gameContext.getPlayers().put("player3", new Player("player3"));
+		d_gameContext.getPlayers().put("player4", new Player("player4"));
 		
 		d_gameContext.getCountries().put(1, new Country(1, "country01", 5, 5, null));
 		d_gameContext.getCountries().put(2, new Country(2, "country02", 5, 5, null));
@@ -71,11 +71,11 @@ public class StartupServiceTest {
 		d_startupController.assignCountries();
 		
 		//Create a list of playerIDs from the game context and shuffle their order
-		List<Integer> playerIDs = new ArrayList<Integer>(d_gameContext.getPlayers().keySet());
+		List<String> playerNames = new ArrayList<String>(d_gameContext.getPlayers().keySet());
 		List<Integer> neighborIDs;
 		Player player;
 		
-		for(Integer playerID : playerIDs) {	
+		for(String playerID : playerNames) {	
 			
 			player = d_gameContext.getPlayers().get(playerID);
 			System.out.print(player.getName() + " neighbors: ");

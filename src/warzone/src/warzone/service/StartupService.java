@@ -228,12 +228,19 @@ public class StartupService {
 	 */
 	public boolean assignCountries() {
 
+		//Make sure there are enough countries to distribute between all the players
+		if(d_gameContext.getPlayers().size() > d_gameContext.getCountries().size()) {
+			
+			GenericView.printError("There must be at least the same number of countries as players");
+			return false;
+		}
+		
 		//Each player will be assigned the same number of countries. Leftover countries will be unassigned (neutral)
 		int countriesToAssign = d_gameContext.getCountries().size() - (d_gameContext.getCountries().size() % d_gameContext.getPlayers().size());
 		
 		//Create a list of playerIDs from the game context and shuffle their order
-		List<Integer> playerIDs = new ArrayList<Integer>(d_gameContext.getPlayers().keySet());
-		Collections.shuffle(playerIDs);
+		List<String> playerNames = new ArrayList<String>(d_gameContext.getPlayers().keySet());
+		Collections.shuffle(playerNames);
 		
 		//Create a list of countryIDs from the game context and shuffle their order
 		List<Integer> countryIDs = new ArrayList<Integer>(d_gameContext.getCountries().keySet());
@@ -254,13 +261,13 @@ public class StartupService {
 			}
 			
 			//Reset the index once each player has been assigned a country
-			if(playerIndex >= playerIDs.size()) {
+			if(playerIndex >= playerNames.size()) {
 				playerIndex = 0;
 			}
 			
 			country = d_gameContext.getCountries().get(countryID);
 			
-			d_gameContext.getPlayers().get(playerIDs.get(playerIndex)).getConqueredCountries().put(country.getCountryID(), country);
+			d_gameContext.getPlayers().get(playerNames.get(playerIndex)).getConqueredCountries().put(country.getCountryID(), country);
 			
 			//Update the looping variables
 			playerIndex++;
