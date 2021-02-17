@@ -56,7 +56,7 @@ public class GameEngine {
 	public boolean play() {
 		int l_loopNumber = 1;		
 		while( !isGameEnded() && l_loopNumber <= 100) {
-			startGameLoop();
+			startTurn();
 			l_loopNumber ++;
 		}
 		
@@ -64,7 +64,7 @@ public class GameEngine {
 	}
 	
 	
-	private void startGameLoop() {		
+	private void startTurn() {		
 		assignReinforcements();
 		issueOrders();
 		executeOrders();		
