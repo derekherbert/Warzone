@@ -284,6 +284,9 @@ public class MapService {
 	Map<Integer, Integer> d_mapIndexToContinentId = new HashMap<>();
 	Map<Integer, Integer> d_mapContinentIdToIndex = new HashMap<>();
 
+	LinkedList<Object>[] l_continentAdjList; // list to store the relationship between continents
+	int l_continentIndex = 0; // initiate the record of continent tree
+
 	/**
 	 * initiate the list of neighbours
 	 * @param p_size list size
@@ -302,9 +305,11 @@ public class MapService {
 	 * Tarjan method is used in connectivity check
 	 *
 	 * condition1: check if more than one country
-	 * condition2: check if each continent has one country
-	 * condition3: check if each continent is strongly connected
-	 * condition4: check if the whole map is strongly connected
+	 * condition2: check if each country belongs to one continent
+	 * condition3: check if more than one continent
+	 * condition4: check if each continent has one country
+	 * condition5: check if each continent is strongly connected
+	 * condition6: check if the whole map is strongly connected
 	 *
 	 * @param p_gameContext game context
 	 * @return if map is valid
@@ -342,19 +347,10 @@ public class MapService {
 
 		// condition5: check if each continent is strongly connected
 		// l_continentAdjList is the list store the relationship between continents
-		LinkedList<Object>[] l_continentAdjList = new LinkedList[l_continent.size()];
+		l_continentAdjList = new LinkedList[l_continent.size()];
 		l_continentAdjList = listInit(l_continent.size(), l_continentAdjList);
 
-		// initiate the record of continent tree
-		int l_continentIndex = 0;
-
 		for( Continent _continent : l_continent.values()) {
-
-			// initiat the records of country tree
-			int l_countryIndex = 0;
-			d_mapIndexToCountryId.clear();
-			d_mapCountryIdToIndex.clear();
-
 			// add the from continent as the head of the list l_continentAdjList
 			// also, check if the continent is recored in the map, if not, add to the map
 			if( !d_mapContinentIdToIndex.containsKey(_continent.getContinentID()) ) {
@@ -366,55 +362,8 @@ public class MapService {
 				int i = d_mapContinentIdToIndex.get(_continent.getContinentID());
 				l_continentAdjList[i].add(_continent);
 			}
-
-			//l_countrylist is the list store the relationship between the countries in the same continent
-			LinkedList<Object>[] l_countryList = new LinkedList[_continent.getCountries().size()];
-			l_countryList= listInit(_continent.getCountries().size(), l_countryList);
-
-			for( Country _fromCountry : _continent.getCountries().values() ) {
-
-				// add the from country as the head of the list l_countryList
-				// also, check if the country is recored in the map, if not, add to the map
-				if( !d_mapCountryIdToIndex.containsKey(_fromCountry.getCountryID()) ) {
-					l_countryList[l_countryIndex].add(_fromCountry);
-					d_mapIndexToCountryId.put(l_countryIndex, _fromCountry.getCountryID());
-					d_mapCountryIdToIndex.put(_fromCountry.getCountryID(), l_countryIndex++);
-				}
-				else{
-					int i = d_mapCountryIdToIndex.get(_fromCountry.getCountryID());
-					l_countryList[i].add(_fromCountry);
-				}
-
-				for( Country _toCountry : _fromCountry.getNeighbors().values() ) {
-					// check if the country is in the same continent of from country
-					if( _toCountry.getContinent().getContinentID() == _continent.getContinentID() ) {
-						// check if the county is already recorded in the map
-						if( !d_mapCountryIdToIndex.containsKey(_toCountry.getCountryID()) ) {
-							d_mapIndexToCountryId.put(l_countryIndex, _toCountry.getCountryID());
-							d_mapCountryIdToIndex.put(_toCountry.getCountryID(), l_countryIndex++);
-						}
-						// add country to the list of from country
-						int i = d_mapCountryIdToIndex.get(_fromCountry.getCountryID());
-						l_countryList[i].add(_toCountry);
-					}
-					// if not, add the country's continent to the list l_continentAdjList
-					else {
-						if( !d_mapContinentIdToIndex.containsKey(_toCountry.getContinent().getContinentID()) ) {
-							d_mapIndexToContinentId.put(l_continentIndex, _toCountry.getContinent().getContinentID());
-							d_mapContinentIdToIndex.put(_toCountry.getContinent().getContinentID(), l_continentIndex++);
-						}
-						int i = d_mapContinentIdToIndex.get(_fromCountry.getContinent().getContinentID());
-						l_continentAdjList[i].add(_toCountry.getContinent());
-					}
-				}
-			}
-
-			if(!ifConnected(_continent.getCountries().size(), l_countryList)) {
-				GenericView.printError("The continent " + _continent.getContinentName() + " is not a connected graph");
+			if (!validateSubGraph(_continent))
 				return false;
-			}
-			else
-				GenericView.printDebug("continents "+ _continent.getContinentName() + " is connected");
 		}
 
 		// condition6: check if the whole map is strongly connected
@@ -427,6 +376,66 @@ public class MapService {
 			GenericView.printSuccess("Yeah! You got a connected map!");
 			return true;
 		}
+	}
+
+	/**
+	 * validate if the continent graph is connected
+	 * @param p_continent continent map
+	 * @return true if it is valid
+	 */
+	public boolean validateSubGraph(Continent p_continent) {
+		// initiat the records of country tree
+		int l_countryIndex = 0;
+		d_mapIndexToCountryId.clear();
+		d_mapCountryIdToIndex.clear();
+
+		//l_countrylist is the list store the relationship between the countries in the same continent
+		LinkedList<Object>[] l_countryList = new LinkedList[p_continent.getCountries().size()];
+		l_countryList = listInit(p_continent.getCountries().size(), l_countryList);
+
+		for (Country _fromCountry : p_continent.getCountries().values()) {
+
+			// add the from country as the head of the list l_countryList
+			// also, check if the country is recored in the map, if not, add to the map
+			if (!d_mapCountryIdToIndex.containsKey(_fromCountry.getCountryID())) {
+				l_countryList[l_countryIndex].add(_fromCountry);
+				d_mapIndexToCountryId.put(l_countryIndex, _fromCountry.getCountryID());
+				d_mapCountryIdToIndex.put(_fromCountry.getCountryID(), l_countryIndex++);
+			} else {
+				int i = d_mapCountryIdToIndex.get(_fromCountry.getCountryID());
+				l_countryList[i].add(_fromCountry);
+			}
+
+			for (Country _toCountry : _fromCountry.getNeighbors().values()) {
+				// check if the country is in the same continent of from country
+				if (_toCountry.getContinent().getContinentID() == p_continent.getContinentID()) {
+					// check if the county is already recorded in the map
+					if (!d_mapCountryIdToIndex.containsKey(_toCountry.getCountryID())) {
+						d_mapIndexToCountryId.put(l_countryIndex, _toCountry.getCountryID());
+						d_mapCountryIdToIndex.put(_toCountry.getCountryID(), l_countryIndex++);
+					}
+					// add country to the list of from country
+					int i = d_mapCountryIdToIndex.get(_fromCountry.getCountryID());
+					l_countryList[i].add(_toCountry);
+				}
+				// if not, add the country's continent to the list l_continentAdjList
+				else {
+					if (!d_mapContinentIdToIndex.containsKey(_toCountry.getContinent().getContinentID())) {
+						d_mapIndexToContinentId.put(l_continentIndex, _toCountry.getContinent().getContinentID());
+						d_mapContinentIdToIndex.put(_toCountry.getContinent().getContinentID(), l_continentIndex++);
+					}
+					int i = d_mapContinentIdToIndex.get(_fromCountry.getContinent().getContinentID());
+					l_continentAdjList[i].add(_toCountry.getContinent());
+				}
+			}
+		}
+
+		if (!ifConnected(p_continent.getCountries().size(), l_countryList)) {
+			GenericView.printError("The continent " + p_continent.getContinentName() + " is not a connected graph");
+			return false;
+		} else
+			GenericView.printDebug("continents " + p_continent.getContinentName() + " is connected");
+		return true;
 	}
 
 	private int l_seq = 0; // the sequence it is read in tree
