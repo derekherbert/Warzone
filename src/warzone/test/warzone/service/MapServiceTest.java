@@ -9,15 +9,24 @@ import org.junit.Test;
 import warzone.controller.MapController;
 import warzone.model.*;
 
+/**
+ * test cases for map service
+ */
 public class MapServiceTest {
 	
     GameContext d_gameContext;
 
+    /**
+     * clear the gamecontext before each test
+     */
     @Before
     public void beforeEachTetCase(){
         d_gameContext = GameContext.clear();
     }
 
+    /**
+     * clear the gamecontext after this class run
+     */
     @AfterClass
     public static void afterClass() {
         GameContext.clear();
