@@ -41,7 +41,8 @@ public class GameplayController {
 	 */
 	public GameContext showMap() {
 		
-		// TODO Auto-generated method stub
+		MapView.printMap(d_gameContext.getContinents());
+		MapView.printMapWithArmies(d_gameContext.getContinents());
 		
 		return null;
 	}
