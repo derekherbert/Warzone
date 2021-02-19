@@ -1,7 +1,8 @@
 package warzoneTest.controller;
 
-import warzone.controller.CommonController;
 import org.junit.Test;
+
+import warzone.controller.CommonController;
 
 public class CommonControllerTest {
 	@Test
@@ -11,5 +12,22 @@ public class CommonControllerTest {
 	@Test
 	public void standbyTest() {
 		(new CommonController()).standby();
+	}
+	@Test
+	public void testSwitch() {
+		switch("abc") {
+			case "abc" :
+				System.out.println("abc");
+				return;
+			case "aaaa" :
+				System.out.println("aa");
+				break;
+			default:
+			{
+				System.out.println("123");
+			}
+		}
+		
+			
 	}
 }

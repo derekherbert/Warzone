@@ -2,6 +2,7 @@ package warzone.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import warzone.controller.*;
 import warzone.model.*;
@@ -10,7 +11,6 @@ import warzone.view.GenericView;
 public class RouterService {
 	
 	public void route(Router p_router) throws IOException{
-		 
 		ControllerFactory l_controllerFactory = ControllerFactory.getControllerFactory();
 		switch(p_router.getControllerName()) {
 			case COMMON:
@@ -114,8 +114,8 @@ public class RouterService {
 			//exception
 		}
 	}
-	private Router createErrorRouter(){
-		return null;
+	private Router createErrorRouter(String p_errorType){
+		return new Router(ControllerName.ERROR, p_errorType);
 	}
 	
 	/**
@@ -127,34 +127,39 @@ public class RouterService {
 	 *   new Router(ControllerName.COUNTRY, "remove", "countryID");
 	 */
 	public ArrayList<Router> parseCommand(String p_command) {
-		//String
-		ArrayList<Router> l_routers = new ArrayList<Router>();
+		ArrayList<Router> l_routerList = new ArrayList<Router>();
 		GenericView.printDebug("parseCommand: start to work on command: " + p_command);
 		
-		if(p_command == null) {
-			l_routers.add(createErrorRouter());
-			return l_routers;
+		// remove prefix whitespace and convert the String to lower case 
+		p_command = p_command.toLowerCase().trim();
+		
+		// null command only with whitespace
+		if (p_command.length() == 0) {
+			l_routerList.add(createErrorRouter(ErrorType.MISSING_COMMAND.name()));
+			return l_routerList;
 		}
 		
-		String l_firstWord = p_command.indexOf(" ") > 0 ? p_command.substring(0, p_command.indexOf(" ")) : p_command.trim().toLowerCase();
-		if(l_firstWord != null && l_firstWord != "") {
-			String l_complexeCommand = "editcontinent,editcountry,editneighbor,gameplayer";
-			if(l_complexeCommand.indexOf(l_firstWord) > -1 ) {
-				//complexe command with multiple routers
-				GenericView.printDebug("parseCommand: start to work on complexe command: " + p_command);
-				l_routers = parseComplexeCommand(p_command);
-			}
-			else {
-				//simple command with only one router
-				GenericView.printDebug("parseCommand: start to work on simple command: " + p_command);
-				l_routers.add(parseSimpleCommand(p_command));				
-			}			
-		}		
-		return l_routers;
+		// split command with any number of whitespace
+		String[] l_commandArray = p_command.split("\\s+");
+		
+		String l_firstWord = l_commandArray[0];
+		// TODO move these commands into the properties file
+		String l_complexeCommand = "editcontinent,editcountry,editneighbor,gameplayer";
+		if(l_complexeCommand.indexOf(l_firstWord) > -1 ) {
+			//complex command with multiple routers
+			GenericView.printDebug("parseCommand: start to work on complexe command: " + p_command);
+			l_routerList = parseComplexCommand(l_commandArray);
+		}
+		else {
+			//simple command with only one router
+			GenericView.printDebug("parseCommand: start to work on simple command: " + p_command);
+			l_routerList.add(parseSimpleCommand(l_commandArray));				
+		}				
+		return l_routerList;
 	}	
 	
 	
-	private ArrayList<Router> parseComplexeCommand(String p_command) {
+	private ArrayList<Router> parseComplexCommand(String[] commandArray) {
 		ArrayList<Router> l_routers = new ArrayList<Router>();
 		if(p_command == null) {
 			l_routers.add(createErrorRouter());
@@ -205,43 +210,46 @@ public class RouterService {
 		return l_routers;
 	}
 	
-	private Router parseSimpleCommand(String p_command) {
-		//validation
-		String[] l_parameters = CommonTool.conventToArray(p_command);
-		if(l_parameters.length <1 || l_parameters[0].toString().trim().equals("") )		{
-			GenericView.printDebug("parseSimpleCommand: Include Invalid Action" );
-			return createErrorRouter();
-		}
-
-		//create the router accoding to the command
+	private Router parseSimpleCommand(String[] p_commandArray) {
+		// create the router according to the command
 		Router l_router = null;
-		boolean l_hasError = false;
-		switch (l_parameters[0].trim().toLowerCase()) {
+		// the first element of commandArray is command
+		switch (p_commandArray[0]) {
 			case  "showmap":
 				l_router = new Router(ControllerName.MAP, "showmap");
 				break;
 			case  "validatemap":
 				l_router =  new Router(ControllerName.MAP, "validatemap");
 				break;
+			case  "assigncountries":
+				l_router =  new Router(ControllerName.STARTUP, "assigncountries");
+				break;
 			case  "savemap":
-				if(l_parameters.length == 2 ) {
-					l_router =  new Router(ControllerName.MAP, "savemap", l_parameters[1]);
+				if(p_commandArray.length == 2 ) {
+					l_router =  new Router(ControllerName.MAP, "savemap", p_commandArray[1]);
 				}
-				else
-					l_hasError = true;
+				else {
+					return createErrorRouter(ErrorType.MISSING_PARAMETER.toString());
+				}
 				break;
 			case  "editmap":
-				if(l_parameters.length == 2 ) {
-					l_router =  new Router(ControllerName.MAP, "editmap", l_parameters[1]);
+				if(p_commandArray.length == 2 ) {
+					l_router =  new Router(ControllerName.MAP, "editmap", p_commandArray[1]);
 				}
-				else
-					l_router =  createErrorRouter();
+				else {
+					return createErrorRouter(ErrorType.MISSING_PARAMETER.toString());
+				}
 				break;
-			//:todo other routers
+			case  "loeadmap":
+				if(p_commandArray.length == 2 ) {
+					l_router =  new Router(ControllerName.MAP, "loadmap", p_commandArray[1]);
+				}
+				else {
+					return createErrorRouter(ErrorType.MISSING_PARAMETER.toString());
+				}
+				break;
+			//TODO other routers for simple commands
 		}
-		
-		if(l_hasError)
-			l_router =  createErrorRouter();
 		
 		return l_router;
 	}
