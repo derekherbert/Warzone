@@ -25,4 +25,8 @@ public class GenericView {
 	public static void println(Render p_content) {
 		p_content.render();
 	}
+	
+	public static void printDebug(String p_text) {
+		System.out.println("Debug : " + p_text);
+	}
 }

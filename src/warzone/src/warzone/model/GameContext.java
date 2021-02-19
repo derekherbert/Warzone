@@ -88,6 +88,14 @@ public class GameContext {
 		return GAME_CONTEXT;
 	}
 	
+	/**
+	 * clear the game context 
+	 * @return a new game context
+	 */
+	public static GameContext clear(){
+		return GAME_CONTEXT = new GameContext();
+	}
+	
 	public Map<String, Player> getPlayers() {
 		if(d_players == null) {
 			d_players = new HashMap<String, Player>();

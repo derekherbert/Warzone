@@ -10,8 +10,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Properties;
-import java.util.Scanner;
+import java.util.*;
+
 
 public class MapService {
 
@@ -20,11 +20,7 @@ public class MapService {
 	public MapService(GameContext p_gameContext) {
 		d_gameContext = p_gameContext;
 	}
-	
-	
-	public boolean validateMap() {
-		return true;
-	}
+
 	
 	public boolean saveMap(String p_fileName) throws IOException {
 		try{
@@ -260,5 +256,178 @@ public class MapService {
 		}
 		
 		return true;
+	}
+
+	// record the relationship between index of linkedlist and the country id
+	private Map<Integer, Integer> d_mapIndexToCountryId = new HashMap<>();
+	private Map<Integer, Integer> d_mapCountryIdToIndex = new HashMap<>();
+
+	/**
+	 *
+	 * Tarjan method is used in connectivity check
+	 *
+	 * condition1: check if more than one country
+	 * condition2: check if each country belongs to one continent
+	 * condition3: check if more than one continent
+	 * condition4: check if each continent has one country
+	 * condition5: check if each country is strongly connected
+	 *
+	 * @param p_gameContext game context
+	 * @return if map is valid
+	 */
+	public boolean validateMap(GameContext p_gameContext) {
+
+		// condition1: check if more than one country
+		int l_countryCount = p_gameContext.getCountries().size();
+		if ( l_countryCount <= 1 ) {
+			GenericView.printError("The map should contain more than one country.");
+			return false;
+		}
+		// condition2: check if each country belongs to one continent
+		for (Country _country : p_gameContext.getCountries().values()){
+			if(_country.getContinent() == null)
+				GenericView.printError("Each country should belong to one continent.");
+
+		}
+		// condition3: check if more than one continent
+		Map<Integer, Continent> l_continent = p_gameContext.getContinents();
+		if ( l_continent.size() <= 1 ) {
+			GenericView.printError("The map should contain at least one continent.");
+			return false;
+		}
+		// condition4: check if each continent has one country
+		for( Continent _continent : l_continent.values()) {
+			if(_continent.getCountries().size() < 1) {
+				GenericView.printError("Each countinent should have at least a country.");
+				return false;
+			}
+		}
+		// condition5: check if each country is strongly connected
+		// initiate the linked list to store the map
+		LinkedList<Country>[] l_countryList = new LinkedList[l_countryCount];
+		for (int i = 0; i < l_countryCount; ++i)
+			l_countryList[i] = new LinkedList<>();
+
+		int l_countryIndex = 0; // record the current node in tree
+
+		for( Country _fromCountry : p_gameContext.getCountries().values() ) {
+			// add the from country as the head of the list
+			// also, check if the country is recored in the map, if not, add to the map
+			if( !d_mapCountryIdToIndex.containsKey(_fromCountry.getCountryID()) ) {
+				l_countryList[l_countryIndex].add(_fromCountry);
+				d_mapIndexToCountryId.put(l_countryIndex, _fromCountry.getCountryID());
+				d_mapCountryIdToIndex.put(_fromCountry.getCountryID(), l_countryIndex++);
+			}
+			else {
+				int i = d_mapCountryIdToIndex.get(_fromCountry.getCountryID());
+				l_countryList[i].add(_fromCountry);
+			}
+
+			for( Country _toCountry : _fromCountry.getNeighbors().values() ) {
+				// check if the county is already recorded in the map
+				if( !d_mapCountryIdToIndex.containsKey(_toCountry.getCountryID()) ) {
+					d_mapIndexToCountryId.put(l_countryIndex, _toCountry.getCountryID());
+					d_mapCountryIdToIndex.put(_toCountry.getCountryID(), l_countryIndex++);
+				}
+				// add country to the list of from country
+				int i = d_mapCountryIdToIndex.get(_fromCountry.getCountryID());
+				l_countryList[i].add(_toCountry);
+			}
+		}
+		if(!ifConnected(l_countryCount, l_countryList)) {
+			GenericView.printError("It is not a connected map.");
+			return false;
+		}
+		else {
+			GenericView.printSuccess("Yeah! You got a connected map!");
+			return true;
+		}
+	}
+
+	private int l_seq = 0; // the sequence it is read in tree
+
+	/**
+	 * using Tarjan's algorithm (use DFS traversal) to get the connected parts in the graph
+	 * the graph is strongly connected if there is only one connected part
+	 * @param p_size size of list
+	 * @param p_list the graph stored as tree in List for DFS
+	 * @return if the graph is strongly connected components
+	 */
+	public boolean ifConnected(int p_size, LinkedList<Country>[] p_list) {
+
+		//initialization
+		List<List<Integer>> l_resList = new LinkedList<>();
+		int l_disc[] = new int[p_size];
+		int l_low[] = new int[p_size];
+		for (int i = 0; i < p_size; i++) {
+			l_disc[i] = -1;
+			l_low[i] = -1;
+		}
+		l_seq = 0;
+		boolean l_stackMember[] = new boolean[p_size];
+		Stack<Integer> l_st = new Stack<Integer>();
+
+		//DFS traversal
+		for (int _curr = 0; _curr < p_size; _curr++) {
+			if (l_disc[_curr] == -1)
+				innerDFS(_curr, l_low, l_disc, l_stackMember, l_st, p_list, l_resList);
+		}
+		GenericView.printDebug( l_resList.toString() );
+
+		// the l_resList store the connected parts in the graph.
+		if(l_resList.size() == 1)
+			return true;
+		else
+			return false;
+	}
+
+	/**
+	 * inner function of DFS traversal
+	 * @param p_cur current node in tree
+	 * @param p_low the low number of the node
+	 * @param p_disc the discovery number of the node
+	 * @param p_stackMember if the node is a stack number
+	 * @param p_st the stack of the nodes
+	 * @param p_list the list for traversal
+	 * @param p_resList the return list for saving the results
+	 */
+	private void innerDFS(int p_cur, int p_low[], int p_disc[],
+						  boolean p_stackMember[], Stack<Integer> p_st, LinkedList<Country>[] p_list,
+						  List<List<Integer>> p_resList) {
+		// record the sequence information of the node
+		p_disc[p_cur] = l_seq;
+		p_low[p_cur] = l_seq;
+		l_seq += 1;
+		p_stackMember[p_cur] = true;
+		p_st.push(p_cur);
+
+		// go through all vertices adjacent to this
+		List<Country> l_clist = p_list[p_cur];
+		if(l_clist == null || l_clist.size() ==0)
+			return;
+
+		// if it is a connected country graph
+		Iterator<Country> i = p_list[p_cur].iterator();
+		while( i.hasNext() ) {
+			int n_index = d_mapCountryIdToIndex.get(i.next().getCountryID());
+			if (p_disc[n_index] == -1) {
+				innerDFS(n_index, p_low, p_disc, p_stackMember, p_st, p_list, p_resList);
+				p_low[p_cur] = Math.min(p_low[p_cur], p_low[n_index]);
+			} else if (p_stackMember[n_index] == true) {
+				p_low[p_cur] = Math.min(p_low[p_cur], p_disc[n_index]);
+			}
+		}
+
+		// record the result and pop the stack
+		int w = -1;
+		if (p_low[p_cur] == p_disc[p_cur]) {
+			List<Integer> _list = new ArrayList<>();
+			while (w != p_cur) {
+				w = (int) p_st.pop();
+				_list.add(d_mapIndexToCountryId.get(w));
+				p_stackMember[w] = false;
+			}
+			p_resList.add(_list);
+		}
 	}
 }
