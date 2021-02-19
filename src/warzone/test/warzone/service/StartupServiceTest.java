@@ -1,17 +1,11 @@
 package warzone.service;
 
 import static org.junit.Assert.*;
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
-
-import warzone.controller.MapController;
 import warzone.controller.StartupController;
-import warzone.model.Continent;
 import warzone.model.Country;
 import warzone.model.GameContext;
 import warzone.model.Player;
@@ -33,6 +27,10 @@ public class StartupServiceTest {
 	@Test
 	public void testLoadMap() {
 		
+		System.out.println("=====================================");
+		System.out.println("testAssignCountries()");
+		System.out.println("=====================================");
+		
 		d_startupController = new StartupController(d_gameContext);
 		d_startupController.loadMap("europe.map");
 		
@@ -46,10 +44,17 @@ public class StartupServiceTest {
 		System.out.println("Number of Continents: " + d_gameContext.getContinents().size());
 		System.out.println("Number of Countries: " + d_gameContext.getCountries().size());
 		System.out.println();
+		
+		assertTrue(d_gameContext.getContinents().size() == 4);
+		assertTrue(d_gameContext.getCountries().size() == 24);
 	}
 	
 	@Test
 	public void testAssignCountries() {
+		
+		System.out.println("=====================================");
+		System.out.println("testAssignCountries()");
+		System.out.println("=====================================");
 		
 		d_gameContext.getPlayers().put("player1", new Player("player1"));
 		d_gameContext.getPlayers().put("player2", new Player("player2"));
@@ -88,6 +93,50 @@ public class StartupServiceTest {
 			}
 			
 			System.out.println();
+			
+			assertTrue(player.getConqueredCountries().size() == 2);
 		}
+		
+		//Create a list of playerIDs from the game context and shuffle their order
+		List<Integer> countryIDs = new ArrayList<Integer>(d_gameContext.getCountries().keySet());
+		int player1CountryCtr = 0, player2CountryCtr = 0, player3CountryCtr = 0, player4CountryCtr = 0, neutralCountryCtr = 0;
+		Country country;
+		
+		for(Integer countryID : countryIDs) {
+			
+			country = d_gameContext.getCountries().get(countryID);
+			
+			if(country.getOwner() == null || country.getOwner().getName() == null) {
+				
+				neutralCountryCtr++;
+			}
+			else if(country.getOwner().getName().equals("player1")) {
+				
+				player1CountryCtr++;
+			}
+			else if(country.getOwner().getName().equals("player2")) {
+				
+				player2CountryCtr++;
+			}
+			else if(country.getOwner().getName().equals("player3")) {
+				
+				player3CountryCtr++;
+			}
+			else if(country.getOwner().getName().equals("player4")) {
+				
+				player4CountryCtr++;
+			}
+		}
+		
+		System.out.println("player1CountryCtr: " + player1CountryCtr);
+		System.out.println("player2CountryCtr: " + player2CountryCtr);
+		System.out.println("player3CountryCtr: " + player3CountryCtr);
+		System.out.println("player4CountryCtr: " + player4CountryCtr);
+		System.out.println("neutralCountryCtr: " + neutralCountryCtr);
+		
+		assertTrue(player1CountryCtr == 2 && player2CountryCtr == 2 && player3CountryCtr == 2 && player4CountryCtr == 2);
+		assertTrue(neutralCountryCtr == 2);
+		
+		System.out.println();
 	}
 }

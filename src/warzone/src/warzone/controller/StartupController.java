@@ -65,7 +65,14 @@ public class StartupController {
 	 */
 	public boolean assignCountries() {
 		
-		return d_startupService.assignCountries();
+		boolean result = d_startupService.assignCountries();
+		
+		if(result == false) {
+			
+			GenericView.printError("There must be at least the same number of countries as players");
+		}
+		
+		return false;
 	}
 	
 }

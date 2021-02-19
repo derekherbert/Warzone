@@ -231,7 +231,6 @@ public class StartupService {
 		//Make sure there are enough countries to distribute between all the players
 		if(d_gameContext.getPlayers().size() > d_gameContext.getCountries().size()) {
 			
-			GenericView.printError("There must be at least the same number of countries as players");
 			return false;
 		}
 		
@@ -248,6 +247,7 @@ public class StartupService {
 				
 		//Looping variables
 		Country country;
+		Player player;
 		int ctr = 0;
 		int playerIndex = 0;
 		
@@ -266,8 +266,10 @@ public class StartupService {
 			}
 			
 			country = d_gameContext.getCountries().get(countryID);
+			player = d_gameContext.getPlayers().get(playerNames.get(playerIndex));
 			
-			d_gameContext.getPlayers().get(playerNames.get(playerIndex)).getConqueredCountries().put(country.getCountryID(), country);
+			country.setOwner(player);
+			player.getConqueredCountries().put(country.getCountryID(), country);
 			
 			//Update the looping variables
 			playerIndex++;
