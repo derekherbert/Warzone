@@ -20,4 +20,13 @@ public class CommonTool {
 		else
 			return new String[] {};
 	}	
+	
+	public static String convertArray2String(String[] p_stringArray, String p_separator) {
+		StringBuilder l_sb = new StringBuilder();
+		for (String l_str : p_stringArray) {
+			l_sb.append(l_str);
+			l_sb.append(p_separator);
+		}
+		return l_sb.toString();
+	}
 }

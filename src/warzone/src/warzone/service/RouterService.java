@@ -1,8 +1,9 @@
 package warzone.service;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
 
 import warzone.controller.*;
 import warzone.model.*;
@@ -10,6 +11,11 @@ import warzone.view.GenericView;
 
 public class RouterService {
 	
+	/**
+	 * This method will parse console commands entered by the user and call the corresponding controller by controller name
+	 * @param p_router the Router parsed from the command
+	 * @throws IOException 
+	 */
 	public void route(Router p_router) throws IOException{
 		ControllerFactory l_controllerFactory = ControllerFactory.getControllerFactory();
 		switch(p_router.getControllerName()) {
@@ -77,7 +83,7 @@ public class RouterService {
 						break;
 				}
 				break;
-			
+			//TODO add error controllerp
 		}	
 		
 	}
@@ -100,7 +106,7 @@ public class RouterService {
 	 *   new Router(ControllerName.COUNTRY, "add", "countryID continentID");
 	 *   new Router(ControllerName.COUNTRY, "remove", "countryID");
 	 */
-	public void route(ArrayList<Router> p_routers) {
+	public void route(List<Router> p_routers) {
 		if(p_routers != null) {
 			p_routers.forEach((router) ->{
 				try {
@@ -114,20 +120,19 @@ public class RouterService {
 			//exception
 		}
 	}
-	private Router createErrorRouter(String p_errorType){
-		return new Router(ControllerName.ERROR, p_errorType);
-	}
 	
 	/**
-
-	 * 
+	 * This method parse the command entered by the player, and construct corresponding Router
+	 * by different commands
 	 * e.g.
 	 * editcountry -add countryID continentID -remove countryID
-	 *   new Router(ControllerName.COUNTRY, "add", "countryID continentID");
-	 *   new Router(ControllerName.COUNTRY, "remove", "countryID");
+	 * new Router(ControllerName.COUNTRY, "add", "countryID continentID");
+	 * new Router(ControllerName.COUNTRY, "remove", "countryID");
+	 * @param p_command command entered by the player
+	 * @return error Router if the command is wrong
 	 */
-	public ArrayList<Router> parseCommand(String p_command) {
-		ArrayList<Router> l_routerList = new ArrayList<Router>();
+	public List<Router> parseCommand(String p_command) {
+		List<Router> l_routerList = new LinkedList<Router>();
 		GenericView.printDebug("parseCommand: start to work on command: " + p_command);
 		
 		// remove prefix whitespace and convert the String to lower case 
@@ -158,28 +163,24 @@ public class RouterService {
 		return l_routerList;
 	}	
 	
-	
-	private ArrayList<Router> parseComplexCommand(String[] commandArray) {
-		ArrayList<Router> l_routers = new ArrayList<Router>();
-		if(p_command == null) {
-			l_routers.add(createErrorRouter());
-			GenericView.printDebug("parseComplexeCommand: Null Action" );
-			return l_routers;
-		}
-		
-		String l_firstWord =  p_command.indexOf(" ")> 1 ? p_command.substring(0, p_command.indexOf(" ")) : p_command.trim().toLowerCase();
-		//String l_stringAfterFirstWord = p_command.substring(p_command.indexOf(" "));
-		//String[] l_orders = l_stringAfterFirstWord.split("-");
-		ArrayList<Action> l_actions = parseCommandToAction(p_command);		
+	/**
+	 * A command can be divided into two types, complex command and simple command. 
+	 * This method is responsible to parse complex commands, such as editCountry and editContinent, 
+	 * and convert the command into a list of Router
+	 * @param p_commandArray command divided by whitespace
+	 * @return a Router list representing the command
+	 */
+	private List<Router> parseComplexCommand(String[] p_commandArray) {
+		List<Router> l_routers = new LinkedList<Router>();
+		List<Action> l_actions = parseCommandToAction(p_commandArray);		
 		 
 		if(l_actions.isEmpty() ) {
-			l_routers.add(createErrorRouter());
+			l_routers.add(createErrorRouter(ErrorType.MISSING_PARAMETER.toString()));
 			GenericView.printDebug("parseComplexeCommand: Empty Action" );
 			return l_routers;
 		}
-		boolean l_hasInvalidAction = false;
 		ControllerName l_controllerName = ControllerName.COMMON;
-		switch (l_firstWord.trim().toLowerCase()) {
+		switch (p_commandArray[0]) {
 			case "editcontinent":
 				l_controllerName = ControllerName.CONTINENT;
 				break;
@@ -194,22 +195,28 @@ public class RouterService {
 				break;
 		}
 		
+		// if the action is not equal to 'add' or 'remove', we return an error router
 		for(Action l_action: l_actions) {
-			if(l_action.getAction().equals("add") || l_action.getAction().equals("remove") ) 
-				l_routers.add(new Router(l_controllerName, l_action.getAction(), l_action.getParameters()));
-			else 
-				l_hasInvalidAction = true;
-		}
-		
-		if(l_hasInvalidAction) {
-			GenericView.printDebug("parseComplexeCommand: Include Invalid Action" );
-			l_routers = new ArrayList<Router>();
-			l_routers.add(createErrorRouter());
+			//TODO add it in the property file
+			String l_actionArray = "add,remove";
+			if(l_actionArray.indexOf("l_action.getAction()") > -1) { 
+				l_routers.add(new Router(l_controllerName, l_action.getAction(), CommonTool.convertArray2String(l_action.getParameters(), " ")));
+			}
+			else {
+				l_routers = new LinkedList<Router>();
+				l_routers.add(createErrorRouter(ErrorType.BAD_OPTION.toString()));
+				return l_routers;
+			}
 		}		
-		
 		return l_routers;
 	}
 	
+	/**
+	 * This method is responsible to parse simple commands, such as showmap and validatemap, 
+	 * and convert the command into a list of Router
+	 * @param p_commandArray command divided by whitespace
+	 * @return a Router list representing the command
+	 */
 	private Router parseSimpleCommand(String[] p_commandArray) {
 		// create the router according to the command
 		Router l_router = null;
@@ -254,33 +261,42 @@ public class RouterService {
 		return l_router;
 	}
 
-	public ArrayList<Action> parseCommandToAction(String p_command) {
-		ArrayList<Action> l_actions = new ArrayList<Action>();
-		
-		String l_stringAfterFirstWord = p_command.indexOf(" ") > 1 ? p_command.substring(p_command.indexOf(" ")).trim() : "";
-		String[] l_subCommands = l_stringAfterFirstWord.split("-");
-		boolean l_hasError = false;
-		for(String l_command : l_subCommands) {
-			if(l_command.equals(""))
-				continue;
-			String l_actionString = "" ;
-			String l_parameters = "" ;
-			
-			l_actionString = l_command.indexOf(" ") > 1? l_command.substring(0, l_command.indexOf(" ")).toLowerCase() : "";
-			l_parameters = l_command.indexOf(" ") > 1? l_command.substring(l_command.indexOf(" ")).trim() : "";
-			
-			if(l_actionString != "" ) {
-				Action l_action = new Action(l_actionString, l_parameters);
-				l_actions.add(l_action);
-			}
-			else {
-				l_hasError = true;				
-			}
-		}
-		if(l_hasError) {
-			 l_actions = new ArrayList<Action>();
-		}
+	/**
+	 * This method can extract options and corresponding parameters from the command and construct
+	 * Action for every option.
+	 * @param p_commandArray command divided by whitespace
+	 * @return a list of Action representing option and parameters
+	 */
+	private List<Action> parseCommandToAction(String[] p_commandArray) {
+		List<Action> l_actions = new LinkedList<Action>();
 
+		// in this loop we recognize option and according parameter
+		for(int i = 1; i < p_commandArray.length; i++) {
+			// judge that if p_commandArray[i] is an option
+			if(p_commandArray[i].charAt(0) == '-') {
+				// if an option is the last element of the array or there are two
+				// continuous options, we still return missing parameter error
+				if (i == p_commandArray.length - 1 || p_commandArray[i + 1].charAt(0) == '-') {
+					return new LinkedList<Action>();
+				}
+				for (int j = i + 1; j < p_commandArray.length; j++) {
+					if (p_commandArray[j].charAt(0) == '-' || j == p_commandArray.length - 1) {
+						Action l_action = new Action(p_commandArray[i], Arrays.copyOfRange(p_commandArray, i, j - 1));
+						l_actions.add(l_action);
+						i = j;
+					}
+				}
+			}
+		}
 		return l_actions;
+	}
+	
+	/**
+	 * This method will create the error controller by its error type.
+	 * @param p_errorType the error type of the command
+	 * @return Router representing error
+	 */
+	private Router createErrorRouter(String p_errorType){
+		return new Router(ControllerName.ERROR, p_errorType);
 	}
 }

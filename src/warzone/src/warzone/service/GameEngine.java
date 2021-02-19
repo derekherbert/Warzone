@@ -2,6 +2,8 @@ package warzone.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 import warzone.model.*;
 
@@ -24,7 +26,7 @@ public class GameEngine {
 		Router l_welcomeRouter = new Router(ControllerName.COMMON, "welcome");
 		d_RouterService.route(l_welcomeRouter);
 		
-		ArrayList<Router> l_routers = d_RouterService.parseCommand("showmap");
+		List<Router> l_routers = d_RouterService.parseCommand("showmap");
 		d_RouterService.route(l_routers);
 		
 		l_routers = d_RouterService.parseCommand("savemap eu");
