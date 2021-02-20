@@ -17,7 +17,7 @@ public class CountryController {
 	}
 	
 	public boolean addCountry (String p_parameters) {
-		//0. parse [p_parameters] to  [ l_continentID, String l_continentName]
+		//parse [p_parameters] to  [ l_continentID, String l_continentName]
 		if(p_parameters == null){			
 			GenericView.printError("Missing valid parameters.");
 			return false;
@@ -52,7 +52,7 @@ public class CountryController {
 	}
 	
 	public boolean removeCountry(String p_parameters) {
-		//0. parse [p_parameters] 
+		//parse [p_parameters] 
 		if(p_parameters == null)
 		{			
 			GenericView.printError("Missing valid parameters.");
@@ -60,13 +60,6 @@ public class CountryController {
 		}
 
 		int l_countryID = CommonTool.parseInt(p_parameters);
-		
-		if(l_countryID == -1 ){
-			GenericView.printError("Missing valid parameters.");
-			return false;
-		}
-		
-		//1. remove continent from ContinentService by id
 		return removeCountry(l_countryID);
 	}	
 	

@@ -1,5 +1,7 @@
 package warzone.service;
 
+import warzone.view.GenericView;
+
 public class CommonTool {
 	
 	public static int parseInt(String p_number) {
@@ -9,6 +11,7 @@ public class CommonTool {
 				 l_result = Integer.parseInt(p_number.trim());
 			}
 			catch(Exception ex) {
+				GenericView.printError(p_number + " is not a valid Integer");
 			}
 		}
 		return l_result;		

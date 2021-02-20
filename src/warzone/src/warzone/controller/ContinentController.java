@@ -15,7 +15,6 @@ public class ContinentController {
 	}
 	
 	public boolean addContinent(String p_parameters) {
-		//0. parse [p_parameters] to  [ l_continentID, String l_continentName]
 		if(p_parameters == null)
 		{			
 			GenericView.printError("Missing valid parameters.");
@@ -53,21 +52,13 @@ public class ContinentController {
 	 * Performs the action for the user command: editcontinent -remove continentID
 	 */
 	public boolean removeContinent(String p_parameters) {
-		//0. parse [p_parameters] to  [ l_continentID ]
+		//parse [p_parameters] to  [ l_continentID ]
 		if(p_parameters == null)
 		{			
 			GenericView.printError("Missing valid parameters.");
 			return false;
 		}
-
 		int l_continentID = CommonTool.parseInt(p_parameters);
-		
-		if(l_continentID == -1 ){
-			GenericView.printError("Missing valid parameters.");
-			return false;
-		}
-		
-		//1. remove continent from ContinentService by id
 		return removeContinent(l_continentID);
 	}
 	

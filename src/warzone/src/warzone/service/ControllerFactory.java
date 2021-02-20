@@ -13,6 +13,7 @@ public class ControllerFactory {
 	private MapController d_mapController;
 	private CountryController d_countryController;
 	private NeighborController d_neighborController;
+	private StartupController d_startupController;
 	
 	private ControllerFactory()	{	
 		GAME_CONTEXT = GameContext.getGameContext();
@@ -55,5 +56,9 @@ public class ControllerFactory {
 		return d_neighborController;
 	};
 	
-	
+	public StartupController getStartupController() {
+		if(d_startupController == null)
+			d_startupController = new StartupController();
+		return d_startupController;
+	};
 }

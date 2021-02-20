@@ -83,7 +83,17 @@ public class RouterService {
 						break;
 				}
 				break;
-			//TODO add error controllerp
+			case STARTUP:
+				StartupController l_startupController = l_controllerFactory.getStartupController();
+				switch(p_router.getActionName()) {
+					case "add":
+						l_startupController.addRawPlayer(p_router.getActionParameters());
+						break;
+					case "remove":
+						l_startupController.removeRawPlayer(p_router.getActionParameters());
+						break;
+				}
+			//TODO add error controller
 		}	
 		
 	}
@@ -198,7 +208,7 @@ public class RouterService {
 		// if the action is not equal to 'add' or 'remove', we return an error router
 		for(Action l_action: l_actions) {
 			//TODO add it in the property file
-			String l_actionArray = "add,remove";
+			String l_actionArray = "-add,-remove";
 			if(l_actionArray.indexOf("l_action.getAction()") > -1) { 
 				l_routers.add(new Router(l_controllerName, l_action.getAction(), CommonTool.convertArray2String(l_action.getParameters(), " ")));
 			}
@@ -249,7 +259,7 @@ public class RouterService {
 				break;
 			case  "loeadmap":
 				if(p_commandArray.length == 2 ) {
-					l_router =  new Router(ControllerName.MAP, "loadmap", p_commandArray[1]);
+					l_router =  new Router(ControllerName.STARTUP, "loadmap", p_commandArray[1]);
 				}
 				else {
 					return createErrorRouter(ErrorType.MISSING_PARAMETER.toString());
