@@ -20,4 +20,8 @@ public class CommonTool {
 		else
 			return new String[] {};
 	}	
+	
+	public static int getRandomNumber(int p_minNumber, int p_maxNumber) {
+	    return (int) ((Math.random() * (p_maxNumber - p_minNumber)) + p_minNumber);
+	}
 }

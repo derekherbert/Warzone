@@ -8,6 +8,10 @@ public class GameContext {
 	private static GameContext GAME_CONTEXT;
 	GamePhase d_gamePhase = GamePhase.MAPEDITING;
 	private int d_orderNumberPerRound = 5;
+	/**
+	 * current player in the run time
+	 */
+	Player d_currentPlayer = null;
 	
 
 	private Map<String, Player> d_players;

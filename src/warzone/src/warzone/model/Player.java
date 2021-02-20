@@ -1,9 +1,13 @@
 package warzone.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+
+import warzone.service.CommonTool;
 
 
 public class Player {
@@ -72,8 +76,21 @@ public class Player {
 	 * Issuing order command: deploy countryID num (until all reinforcements have been placed)
 	 */
 	public void issue_order() {
+		if( this.d_armyRemainingNumber == 0 )
+			return ;
 		
-		// TODO Auto-generated method stub
+		//ask user to enter the command or generate the command automatically. ???????????????????????????????
+		List<Integer> l_countryKeys = new ArrayList(d_conqueredCountries.keySet());
+		Integer l_countryKey = l_countryKeys.get( CommonTool.getRandomNumber(0, (l_countryKeys.size() -1 )) );
+		
+		Country l_country = d_conqueredCountries.get(l_countryKey);
+		int l_armyNumber =  CommonTool.getRandomNumber(0, this.d_armyRemainingNumber);
+		
+		if(l_country != null)
+		{
+			DeployOrder l_order = new DeployOrder(this, l_country, l_armyNumber );
+			this.d_orders.add(l_order);
+		}		
 	}
 	
 	
