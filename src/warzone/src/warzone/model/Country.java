@@ -1,16 +1,28 @@
 package warzone.model;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class Country {
 	
 	private int d_countryID;
 	private String d_countryName;
-	private int d_ownerID;
+	private Player d_owner;
 	private int d_deployedForces;
 	private int d_xPosition;
 	private int d_yPosition;
 	private Map<Integer, Country> d_neighbors;
+	private Continent d_continent;
+
+	public Country(int p_countryID, String p_countryName, int p_xPosition, int p_yPosition, Continent p_continent) {
+		
+		d_countryID = p_countryID;
+		d_countryName = p_countryName;
+		d_xPosition = p_xPosition;
+		d_yPosition = p_yPosition;
+		d_neighbors = new HashMap<Integer, Country>();
+		d_continent = p_continent;
+	}
 	
 	public int getCountryID() {
 		return d_countryID;
@@ -28,12 +40,12 @@ public class Country {
 		this.d_countryName = p_countryName;
 	}	
 	
-	public int getOwnerID() {
-		return d_ownerID;
+	public Player getOwner() {
+		return d_owner;
 	}
 
-	public void setOwnerID(int p_ownerID) {
-		this.d_ownerID = p_ownerID;
+	public void setOwner(Player p_owner) {
+		this.d_owner = p_owner;
 	}
 
 	public int getDeployedForces() {
@@ -62,5 +74,28 @@ public class Country {
 
 	public Map<Integer, Country> getNeighbors() {
 		return d_neighbors;
+	}
+
+	public Continent getContinent() { 
+		return d_continent; 
+	}
+
+	public boolean setContinent(Continent p_continent) {
+
+		if(p_continent != null) {
+			d_continent = p_continent;
+			return true;
+		}
+		else
+			return false;
+	}
+
+	public boolean addNeighbor(Country p_country) {
+		if(p_country != null) {
+			d_neighbors.put(p_country.getCountryID(), p_country);
+			return true;
+		}
+		else
+			return false;
 	}
 }
