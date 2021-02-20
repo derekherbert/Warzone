@@ -76,7 +76,7 @@ public class GameEngine {
 		int l_survivedPlayerNumber = 0;
 		for(Player l_player :d_gameContext.getPlayers().values() ){
 			if(l_player.getConqueredCountries().size() == 0) {
-				l_player.setIsLoser(true);
+				l_player.setIsSurvived(false);
 				l_survivedPlayerNumber ++;
 			}
 		}		
@@ -89,7 +89,7 @@ public class GameEngine {
 	 */
 	private void assignReinforcements() {
 		d_gameContext.getPlayers().forEach((k, player) -> {
-			if(!player.getIsLoser())
+			if(player.getIsSurvived())
 				player.assignReinforcements();
 		});
 	}
@@ -104,7 +104,7 @@ public class GameEngine {
 		int l_number= 0;		
 		while(l_number < d_gameContext.getOrderNumberPerRound() ){
 			d_gameContext.getPlayers().forEach((k, player) -> {
-				if(!player.getIsLoser())
+				if(player.getIsSurvived())
 					player.issue_order();
 			});
 			l_number ++;			
@@ -121,7 +121,7 @@ public class GameEngine {
 		int l_number = 0;		
 		while(l_number < d_gameContext.getOrderNumberPerRound() ){
 			d_gameContext.getPlayers().forEach((k, player) -> {
-				if(!player.getIsLoser()) {
+				if(player.getIsSurvived()) {
 					Order l_order = player.next_order();
 					if(l_order != null)
 						l_order.execute();

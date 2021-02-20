@@ -12,7 +12,7 @@ public class Player {
 	private Map<Integer, Country> d_conqueredCountries;
 	private Queue<Order> d_orders;
 	private int d_armyNumber = 0;
-	private boolean d_isLoser = false;
+	private boolean d_isSurvived = true;
 	
 	public Player(String p_name) {
 		
@@ -45,12 +45,12 @@ public class Player {
 		this.d_armyNumber = p_armyNumber;
 	}
 	
-	public boolean getIsLoser() {
-		return d_isLoser;
+	public boolean getIsSurvived() {
+		return d_isSurvived;
 	}
 
-	public void setIsLoser(boolean p_isLoser) {
-		this.d_isLoser = p_isLoser;
+	public void setIsSurvived(boolean p_isSurvived) {
+		this.d_isSurvived = p_isSurvived;
 	}
 
 
