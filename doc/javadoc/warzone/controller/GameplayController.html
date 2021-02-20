@@ -22,7 +22,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10};
+var methods = {"i0":10,"i1":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -151,7 +151,11 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code>void</code></td>
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../warzone/controller/GameplayController.html#play--">play</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i1" class="rowColor">
+<td class="colFirst"><code><a href="../../warzone/model/GameContext.html" title="class in warzone.model">GameContext</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../warzone/controller/GameplayController.html#showMap--">showMap</a></span>()</code>
 <div class="block">Performs the action for user command: showmap 
  
@@ -198,17 +202,29 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <!--   -->
 </a>
 <h3>Method Detail</h3>
+<a name="play--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>play</h4>
+<pre>public&nbsp;boolean&nbsp;play()</pre>
+</li>
+</ul>
 <a name="showMap--">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>showMap</h4>
-<pre>public&nbsp;void&nbsp;showMap()</pre>
+<pre>public&nbsp;<a href="../../warzone/model/GameContext.html" title="class in warzone.model">GameContext</a>&nbsp;showMap()</pre>
 <div class="block">Performs the action for user command: showmap 
  
  Shows all countries and continents, armies on each country, ownership, 
  and connectivity in a way that enables efficient game play</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+</dl>
 </li>
 </ul>
 </li>
