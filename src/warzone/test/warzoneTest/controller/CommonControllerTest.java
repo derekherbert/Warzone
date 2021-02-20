@@ -13,21 +13,4 @@ public class CommonControllerTest {
 	public void standbyTest() {
 		(new CommonController()).standby();
 	}
-	@Test
-	public void testSwitch() {
-		switch("abc") {
-			case "abc" :
-				System.out.println("abc");
-				return;
-			case "aaaa" :
-				System.out.println("aa");
-				break;
-			default:
-			{
-				System.out.println("123");
-			}
-		}
-		
-			
-	}
 }

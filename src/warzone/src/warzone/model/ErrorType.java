@@ -8,7 +8,7 @@ public enum ErrorType {
 	BAD_OPTION,
 	WRONG_PARAMETER,
 	COMMAND_ERROR,
-	TOO_MUCH_COMMANDS;
+	TOO_MUCH_PARAMETERS;
 	
 	public String toString() {
 		return this.getClass().getName();

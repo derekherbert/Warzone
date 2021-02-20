@@ -14,6 +14,13 @@ public class ContinentController {
 		d_continentService = new ContinentService(p_gameContext);
 	}
 	
+	/**
+	 * This methods can receive parameters from the Router, check the correctness of 
+	 * commands and call the internal methods.
+	 * @param p_parameters parameters parsed by parser
+	 * @return the result of adding new continent
+	 * @see {@link #addContinent(int p_continentID, String p_continentName)}
+	 */
 	public boolean addContinent(String p_parameters) {
 		if(p_parameters == null)
 		{			

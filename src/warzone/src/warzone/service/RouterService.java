@@ -1,7 +1,6 @@
 package warzone.service;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -12,7 +11,7 @@ import warzone.view.GenericView;
 public class RouterService {
 	
 	/**
-	 * This method will parse console commands entered by the user and call the corresponding controller by controller name
+	 * This method will parse a single console commands entered by the user and call the corresponding controller by controller name
 	 * @param p_router the Router parsed from the command
 	 * @throws IOException 
 	 */
@@ -93,28 +92,17 @@ public class RouterService {
 						l_startupController.removeRawPlayer(p_router.getActionParameters());
 						break;
 				}
-			//TODO add error controller
+				break;
+			case ERROR:
+				ErrorController l_errorController = l_controllerFactory.getErrorController();
+				l_errorController.error(p_router.getActionName());
 		}	
 		
 	}
 	
 	/**
-	 * This class will parse console commands entered by the user and call the corresponding Java method(s)
-	 * passing any command line arguments as parameters
-	 * 
-	 */
-//	public Router parseCommand(String p_command) {
-//		//todo
-//		return null;
-//	}
-	
-	/**
-
-	 * 
-	 * e.g.
-	 * editcountry -add countryID continentID -remove countryID
-	 *   new Router(ControllerName.COUNTRY, "add", "countryID continentID");
-	 *   new Router(ControllerName.COUNTRY, "remove", "countryID");
+	 * This method can parse a list of commands
+	 * @param p_routers the list of router
 	 */
 	public void route(List<Router> p_routers) {
 		if(p_routers != null) {
@@ -132,7 +120,7 @@ public class RouterService {
 	}
 	
 	/**
-	 * This method parse the command entered by the player, and construct corresponding Router
+	 * This method parses the command entered by the player, and construct corresponding Router
 	 * by different commands
 	 * e.g.
 	 * editcountry -add countryID continentID -remove countryID
@@ -150,7 +138,7 @@ public class RouterService {
 		
 		// null command only with whitespace
 		if (p_command.length() == 0) {
-			l_routerList.add(createErrorRouter(ErrorType.MISSING_COMMAND.name()));
+			l_routerList.add(createErrorRouter(ErrorType.MISSING_COMMAND.toString()));
 			return l_routerList;
 		}
 		
@@ -160,16 +148,21 @@ public class RouterService {
 		String l_firstWord = l_commandArray[0];
 		// TODO move these commands into the properties file
 		String l_complexeCommand = "editcontinent,editcountry,editneighbor,gameplayer";
-		if(l_complexeCommand.indexOf(l_firstWord) > -1 ) {
+		String l_simpleCommand = "loadmap,editmap,savemap,assigncountries,validatemap,showmap";
+		if(l_complexeCommand.indexOf(l_firstWord) > -1) {
 			//complex command with multiple routers
 			GenericView.printDebug("parseCommand: start to work on complexe command: " + p_command);
 			l_routerList = parseComplexCommand(l_commandArray);
 		}
-		else {
+		else if(l_simpleCommand.indexOf(l_firstWord) > -1) {
 			//simple command with only one router
 			GenericView.printDebug("parseCommand: start to work on simple command: " + p_command);
 			l_routerList.add(parseSimpleCommand(l_commandArray));				
-		}				
+		}
+		else {
+			l_routerList.add(createErrorRouter(ErrorType.NO_SUCH_COMMAND.toString()));
+			return l_routerList;
+		}
 		return l_routerList;
 	}	
 	
@@ -209,8 +202,8 @@ public class RouterService {
 		for(Action l_action: l_actions) {
 			//TODO add it in the property file
 			String l_actionArray = "-add,-remove";
-			if(l_actionArray.indexOf("l_action.getAction()") > -1) { 
-				l_routers.add(new Router(l_controllerName, l_action.getAction(), CommonTool.convertArray2String(l_action.getParameters(), " ")));
+			if(l_actionArray.indexOf(l_action.getAction()) > -1) { 
+				l_routers.add(new Router(l_controllerName, l_action.getAction(), l_action.getParameters()));
 			}
 			else {
 				l_routers = new LinkedList<Router>();
@@ -242,27 +235,36 @@ public class RouterService {
 				l_router =  new Router(ControllerName.STARTUP, "assigncountries");
 				break;
 			case  "savemap":
+				if (p_commandArray.length == 1) {
+					return createErrorRouter(ErrorType.MISSING_PARAMETER.toString());
+				}
 				if(p_commandArray.length == 2 ) {
 					l_router =  new Router(ControllerName.MAP, "savemap", p_commandArray[1]);
 				}
 				else {
-					return createErrorRouter(ErrorType.MISSING_PARAMETER.toString());
+					return createErrorRouter(ErrorType.TOO_MUCH_PARAMETERS.toString());
 				}
 				break;
 			case  "editmap":
+				if (p_commandArray.length == 1) {
+					return createErrorRouter(ErrorType.MISSING_PARAMETER.toString());
+				}
 				if(p_commandArray.length == 2 ) {
 					l_router =  new Router(ControllerName.MAP, "editmap", p_commandArray[1]);
 				}
 				else {
-					return createErrorRouter(ErrorType.MISSING_PARAMETER.toString());
+					return createErrorRouter(ErrorType.TOO_MUCH_PARAMETERS.toString());
 				}
 				break;
-			case  "loeadmap":
+			case  "loadmap":
+				if (p_commandArray.length == 1) {
+					return createErrorRouter(ErrorType.MISSING_PARAMETER.toString());
+				}
 				if(p_commandArray.length == 2 ) {
 					l_router =  new Router(ControllerName.STARTUP, "loadmap", p_commandArray[1]);
 				}
 				else {
-					return createErrorRouter(ErrorType.MISSING_PARAMETER.toString());
+					return createErrorRouter(ErrorType.TOO_MUCH_PARAMETERS.toString());
 				}
 				break;
 			//TODO other routers for simple commands
@@ -290,8 +292,13 @@ public class RouterService {
 					return new LinkedList<Action>();
 				}
 				for (int j = i + 1; j < p_commandArray.length; j++) {
-					if (p_commandArray[j].charAt(0) == '-' || j == p_commandArray.length - 1) {
-						Action l_action = new Action(p_commandArray[i], Arrays.copyOfRange(p_commandArray, i, j - 1));
+					if (p_commandArray[j].charAt(0) == '-') {
+						Action l_action = new Action(p_commandArray[i], CommonTool.convertArray2String(p_commandArray, " ", i + 1, j - 1));
+						l_actions.add(l_action);
+						i = j;
+					}
+					if (j == p_commandArray.length - 1) {
+						Action l_action = new Action(p_commandArray[i], CommonTool.convertArray2String(p_commandArray, " ", i + 1, j));
 						l_actions.add(l_action);
 						i = j;
 					}

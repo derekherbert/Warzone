@@ -14,6 +14,8 @@ public class ControllerFactory {
 	private CountryController d_countryController;
 	private NeighborController d_neighborController;
 	private StartupController d_startupController;
+	private ErrorController d_errorController;
+	private GameplayController d_gameplayController;
 	
 	private ControllerFactory()	{	
 		GAME_CONTEXT = GameContext.getGameContext();
@@ -60,5 +62,17 @@ public class ControllerFactory {
 		if(d_startupController == null)
 			d_startupController = new StartupController();
 		return d_startupController;
+	};
+	
+	public ErrorController getErrorController() {
+		if(d_errorController == null)
+			d_errorController = new ErrorController();
+		return d_errorController;
+	};
+	
+	public GameplayController getGameplayController() {
+		if(d_gameplayController == null)
+			d_gameplayController = new GameplayController();
+		return d_gameplayController;
 	};
 }

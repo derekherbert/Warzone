@@ -24,11 +24,13 @@ public class CommonTool {
 			return new String[] {};
 	}	
 	
-	public static String convertArray2String(String[] p_stringArray, String p_separator) {
+	public static String convertArray2String(String[] p_stringArray, String p_separator, int from, int to) {
 		StringBuilder l_sb = new StringBuilder();
-		for (String l_str : p_stringArray) {
-			l_sb.append(l_str);
-			l_sb.append(p_separator);
+		for (int i = from; i < to + 1; i++) {
+			l_sb.append(p_stringArray[i]);
+			if (i < to && i < p_stringArray.length - 1) {
+				l_sb.append(p_separator);
+			}
 		}
 		return l_sb.toString();
 	}
