@@ -26,8 +26,8 @@ public class GameEngine {
 		Router welcomeRouter = new Router(ControllerName.COMMON, "welcome");
 		d_RouterService.route(welcomeRouter);
 		
-//		Router tempRouter = new Router(ControllerName.GAMEPLAY, "play");
-//		d_RouterService.route(tempRouter);
+		Router tempRouter = new Router(ControllerName.GAMEPLAY, "play");
+		d_RouterService.route(tempRouter);
 		
 //		Router saveMapRouter = new Router(ControllerName.MAP, "saveMap","map-na");
 //		d_RouterService.route(saveMapRouter);
@@ -52,8 +52,18 @@ public class GameEngine {
 //		}
 	}
 	
+	public boolean isReadyToStart() {
+		if(this.d_gameContext == null || this.d_gameContext.getContinents().size() <1 
+				|| this.d_gameContext.getCountries().size() < 1 || this.d_gameContext.getPlayers().size() < 1 )
+			return false;
+		else
+			return true;
+	}
 	
 	public boolean play() {
+		if(! isReadyToStart())
+			return false;
+		
 		int l_loopNumber = 1;		
 		while( !isGameEnded() && l_loopNumber <= 100) {
 			startTurn();
