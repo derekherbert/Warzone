@@ -12,6 +12,7 @@ public class Player {
 	private Map<Integer, Country> d_conqueredCountries;
 	private Queue<Order> d_orders;
 	private int d_armyNumber = 0;
+	private int d_armyRemainingNumber = 0;
 	private boolean d_isSurvived = true;
 	
 	public Player(String p_name) {
@@ -44,6 +45,14 @@ public class Player {
 	public void setArmyNumber(int p_armyNumber) {
 		this.d_armyNumber = p_armyNumber;
 	}
+	
+	public int getArmyRemainingNumber() {
+		return d_armyRemainingNumber;
+	}
+
+	public void setArmyRemainingNumber(int p_armyRemainingNumber) {
+		this.d_armyRemainingNumber = p_armyRemainingNumber;
+	}	
 	
 	public boolean getIsSurvived() {
 		return d_isSurvived;
