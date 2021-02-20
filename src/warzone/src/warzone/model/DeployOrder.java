@@ -12,6 +12,11 @@ public class DeployOrder implements Order {
 		d_player = p_player;
 	}
 	
+	public DeployOrder(Country p_country, int p_armyNumber) {
+		d_country = p_country;
+		d_armyNumber = p_armyNumber;
+	}
+	
 	
 	public Country getCountry() {
 		return d_country;
@@ -45,13 +50,13 @@ public class DeployOrder implements Order {
 			return false;
 		} 
 		// if the remaining army is less than deploy number:
-		if( this.d_player.getArmyRemainingNumber() <  this.d_armyNumber) {
-			this.d_armyNumber = this.d_player.getArmyRemainingNumber();
+		if( this.d_player.getArmiesToDeploy() <  this.d_armyNumber) {
+			this.d_armyNumber = this.d_player.getArmiesToDeploy();
 		}
 				
 		//move army
 		this.d_country.setArmyNumber( this.d_country.getArmyNumber() +  this.d_armyNumber );
-		this.d_player.setArmyRemainingNumber(this.d_player.getArmyRemainingNumber() - this.d_armyNumber);
+		this.d_player.setArmiesToDeploy(this.d_player.getArmiesToDeploy() - this.d_armyNumber);
 		return true;
 	}
 }

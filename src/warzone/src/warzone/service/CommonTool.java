@@ -16,7 +16,7 @@ public class CommonTool {
 	
 	public static String[] conventToArray(String p_parameters) {
 		if(p_parameters != null)
-			return p_parameters.split(" ");
+			return p_parameters.split("\\s+");
 		else
 			return new String[] {};
 	}	
