@@ -1,5 +1,6 @@
 package warzone.view;
 
+import warzone.model.GameContext;
 import warzone.model.Render;
 
 /*
@@ -30,6 +31,7 @@ public class GenericView {
 	 * @param p_text debug text
 	 */
 	public static void printDebug(String p_text) {
-		System.out.println("Debug : " + p_text);
-	}
+		if(GameContext.getGameContext().getIsDebug())
+			System.out.println("Debug : " + p_text);
+	}	
 }

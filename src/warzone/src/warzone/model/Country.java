@@ -24,6 +24,10 @@ public class Country {
 		d_neighbors = new HashMap<Integer, Country>();
 		d_continent = p_continent;
 	}
+	public Country(int p_countryID, String p_countryName) {
+		d_countryID = p_countryID;
+		d_countryName = p_countryName;
+	}
 	
 	public int getCountryID() {
 		return d_countryID;
@@ -94,7 +98,7 @@ public class Country {
 	public boolean setContinent(Continent p_continent) {
 
 		if(p_continent != null) {
-			d_continent = p_continent;
+			d_continent = p_continent;			
 			return true;
 		}
 		else

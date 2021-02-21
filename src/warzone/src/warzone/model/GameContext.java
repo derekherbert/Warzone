@@ -10,10 +10,12 @@ public class GameContext {
 	private int d_orderNumberPerRound = 5;
 	
 	private boolean d_isDemoMode = true;
+	private boolean d_isDebug = false;
 
 	private Map<String, Player> d_players;
 	private Map<Integer, Country> d_countries;
 	private Map<Integer, Continent> d_continents;
+
 	
 	private String d_mapFileName;
 	private String d_mapFilePic;
@@ -32,7 +34,7 @@ public class GameContext {
 		
 		d_players = new HashMap<String, Player>() ;
 		d_countries = new HashMap<Integer, Country>();
-		d_continents = new HashMap<Integer, Continent>();
+		d_continents = new HashMap<Integer, Continent>();		
 	}		
 	
 	public static GameContext getGameContext() {
@@ -51,23 +53,14 @@ public class GameContext {
 	}
 	
 	public Map<String, Player> getPlayers() {
-		if(d_players == null) {
-			d_players = new HashMap<String, Player>();
-		}
 		return d_players;
 	}
 	
 	public Map<Integer, Country> getCountries() {
-		if(d_countries == null) {
-			d_countries = new HashMap<Integer, Country>();
-		}
 		return d_countries;
 	}
 	
 	public Map<Integer, Continent> getContinents() {
-		if(d_continents == null) {
-			d_continents = new HashMap<Integer, Continent>();
-		}
 		return d_continents;
 	}
 
@@ -110,6 +103,14 @@ public class GameContext {
 	public void setIsDemoMode(boolean p_isDemoMode) {
 		this.d_isDemoMode = p_isDemoMode;
 	}		
+	public boolean getIsDebug() {
+		return d_isDebug;
+	}
+
+	public void setIsDebug(boolean p_isDebug) {
+		this.d_isDebug = p_isDebug;
+	}			
+	
 	
 	public int getOrderNumberPerRound() {
 		return d_orderNumberPerRound;
