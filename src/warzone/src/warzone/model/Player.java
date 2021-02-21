@@ -154,8 +154,44 @@ public class Player {
 		return this.d_orders.poll();
 	}
 	
-	public void assignReinforcements() {		
+	public void assignReinforcements(GameContext p_gameContext) {		
+		
+		this.setArmiesToDeploy(5); //LOAD THIS FROM PROPERTIES FILE
 
+		//Key: continentID, Value: Number of countries player owns in this continent
+		Map<Integer, Integer> armiesPerContinent = new HashMap<Integer, Integer>(p_gameContext.getContinents().size());
+
+		//Create a list of playerIDs from the game context and shuffle their order
+		List<Integer> conqueredCountryIDs = new ArrayList<Integer>(this.getConqueredCountries().keySet());
+				
+		//Looping variables
+		int continentID;
+		Integer deployedArmies;
+		
+		for(Integer countryID : conqueredCountryIDs) {
+						
+			continentID = p_gameContext.getCountries().get(countryID).getContinent().getContinentID();
+			deployedArmies = armiesPerContinent.get(continentID); 
+			
+			if(deployedArmies == null) {
+				
+				armiesPerContinent.put(continentID, 1);
+			}
+			else {
+				
+				armiesPerContinent.put(continentID, deployedArmies + 1);
+			}
+		}
+
+		armiesPerContinent.forEach(
+				
+			(apcContinentID, apcDeployedArmies) -> {
+				
+				if(apcDeployedArmies == p_gameContext.getContinents().get(apcContinentID).getCountries().size()) {
+					
+					this.setArmiesToDeploy(this.getArmiesToDeploy() + p_gameContext.getContinents().get(apcContinentID).getBonusReinforcements());
+				}
+			}
+		);
 	}	
-	
 }

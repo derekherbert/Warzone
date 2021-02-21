@@ -100,7 +100,7 @@ public class GameEngine {
 	private void assignReinforcements() {
 		d_gameContext.getPlayers().forEach((k, player) -> {
 			if(player.getIsAlive())
-				player.assignReinforcements();
+				player.assignReinforcements(d_gameContext);
 		});
 	}
 	
