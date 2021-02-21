@@ -16,6 +16,44 @@ public class StartupController {
 		d_startupService = new StartupService(p_gameContext);
 	}
 	
+
+	/**
+	 * Performs the action for user command: gameplayer -add playerName
+	 * 
+	 * @param name player's name
+	 * @return true if add success else false
+	 */
+	public boolean addPlayer(String p_playerName) {
+		//1. create a new player instance
+		Player l_player = new Player(p_playerName);
+		
+		//2. add player to PlayerService
+		boolean l_ok=d_startupService.addPlayer(l_player);
+		
+		//3. render to view
+		if(l_ok) {
+			GenericView.printSuccess( String.format("Player [%s] was added successfully.", l_player.getName()) );
+		}else {
+			GenericView.printError( String.format("Player [%s] was added failed.", l_player.getName()) );
+		}
+		return l_ok;
+	}
+	
+	/**
+	 * Performs the action for user command: gameplayer -remove playerName
+	 * 
+	 * @param name player's name
+	 * @return true if remove success else false
+	 */
+	public boolean removePlayer(String p_playerName) {
+		if( d_startupService.removePlayer(p_playerName)) {
+			GenericView.printSuccess( String.format("Continent ID [%s] was removed successfully.", p_playerName) );
+			return true;
+		}else {
+			GenericView.printWarning( String.format("Failed to remove Continent ID [%s].", p_playerName ) );
+			return false;
+		}
+	}
 	
 	/**
 	 * Performs the action for user command: loadmap filename

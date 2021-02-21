@@ -25,6 +25,39 @@ public class StartupService {
 	}
 	
 	/**
+	 * Add player
+	 * @param p_player Player object
+	 * @return true if add success else false
+	 */
+	public boolean addPlayer(Player p_player) {
+		//0. add the item to
+		Map<String,Player> l_players=d_gameContext.getPlayers();
+		Map<Integer,Country> l_countries=d_gameContext.getCountries();
+		if(p_player != null 
+				&& p_player.getName()!="" 
+				&& l_players.size()<5 
+				&& l_players.size()<l_countries.size()) {			
+			l_players.put(p_player.getName(), p_player);
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Remove player by name
+	 * @param p_playerName name of player
+	 * @return true if remove success else false
+	 */
+	public boolean removePlayer(String p_playerName) {
+		Map<String,Player> l_players=d_gameContext.getPlayers();
+		if(l_players.containsKey(p_playerName)){
+			l_players.remove(p_playerName);
+			return true;
+		}
+		return false;
+	}
+
+	/**
 	 * Performs the action for user command: loadmap filename
 	 * 
 	 * Game starts by user selection of a user-saved map file, which loads the map as a connected directed graph
