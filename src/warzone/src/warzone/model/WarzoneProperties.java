@@ -7,20 +7,22 @@ import warzone.view.GenericView;
 
 public class WarzoneProperties {
 
-	//Properties
-	public static String GAME_MAP_DIRECTORY;
-	
 	//Class variables
 	private static WarzoneProperties WARZONE_PROPERTIES;
-	private static Properties PROPERTIES;
+	private Properties d_properties;
 	
-	//Create singlton
+	//Properties
+	private String d_gameMapDirectory;
+	private boolean d_isDemoMode;
+	private boolean d_isDebug;
+	
+	//Create singelton
 	private WarzoneProperties() {
 		
 		try {
 
-			PROPERTIES = new Properties();
-			PROPERTIES.load(getClass().getClassLoader().getResourceAsStream("config.properties"));
+			d_properties = new Properties();
+			d_properties.load(getClass().getClassLoader().getResourceAsStream("config.properties"));
 			
 			loadProperties();
 		
@@ -42,8 +44,15 @@ public class WarzoneProperties {
 	/**
 	 * Load each property from config.properties into the java variables 
 	 */
-	private static void loadProperties() {
+	private void loadProperties() {
 		
-		GAME_MAP_DIRECTORY = PROPERTIES.getProperty("gameMapDirectory");
+		d_gameMapDirectory = d_properties.getProperty("gameMapDirectory");
+		d_isDemoMode = Boolean.parseBoolean(d_properties.getProperty("isDemoMode"));
+		d_isDebug = Boolean.parseBoolean(d_properties.getProperty("isDebug"));
 	}
+	
+	//Properties getters
+	public String getGameMapDirectory() { return d_gameMapDirectory; }
+	public boolean getIsDemoMode() { return d_isDemoMode; }
+	public boolean getIsDebug() { return d_isDebug; }
 }

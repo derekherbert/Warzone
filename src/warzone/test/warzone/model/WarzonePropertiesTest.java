@@ -9,10 +9,8 @@ public class WarzonePropertiesTest {
 	@Test
 	public void warzonePropertiesTest() {
 
-		WarzoneProperties.getWarzoneProperties();
-		
-		System.out.println(WarzoneProperties.GAME_MAP_DIRECTORY);
-		
-		assertTrue(WarzoneProperties.GAME_MAP_DIRECTORY != null);
+		assertTrue(WarzoneProperties.getWarzoneProperties().getGameMapDirectory() != null);
+		System.out.println(WarzoneProperties.getWarzoneProperties().getIsDemoMode());
+		System.out.println(WarzoneProperties.getWarzoneProperties().getIsDebug());
 	}
 }
