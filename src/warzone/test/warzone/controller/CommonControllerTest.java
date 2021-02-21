@@ -1,4 +1,4 @@
-package warzoneTest.controller;
+package warzone.controller;
 
 import org.junit.Test;
 
