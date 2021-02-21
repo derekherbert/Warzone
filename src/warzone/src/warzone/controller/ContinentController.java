@@ -57,6 +57,8 @@ public class ContinentController {
 	
 	/**
 	 * Performs the action for the user command: editcontinent -remove continentID
+	 * @param p_parameters id of continent
+	 * @return if remove success
 	 */
 	public boolean removeContinent(String p_parameters) {
 		//parse [p_parameters] to  [ l_continentID ]
@@ -66,6 +68,11 @@ public class ContinentController {
 			return false;
 		}
 		int l_continentID = CommonTool.parseInt(p_parameters);
+		if(l_continentID == -1 ){	
+			GenericView.printError("Missing valid parameters.");	
+			return false;	
+		}
+		
 		return removeContinent(l_continentID);
 	}
 	

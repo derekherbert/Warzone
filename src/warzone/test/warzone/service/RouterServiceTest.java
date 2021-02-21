@@ -91,7 +91,7 @@ public class RouterServiceTest {
 		d_command = "gameplayer -add 1    2    -remove  aaa 2 -add   3  555 2dsa  4  ";
 		d_routerList = d_routerService.parseCommand(d_command);
 		assertEquals(d_routerList.size(), 3);
-		assertEquals(d_routerList.get(0).getControllerName(), ControllerName.GAMEPLAYER);
+		assertEquals(d_routerList.get(0).getControllerName(), ControllerName.GAMEPLAY);
 		assertEquals(d_routerList.get(0).getActionName(), "-add");
 		assertEquals(d_routerList.get(0).getActionParameters(), "1 2");
 		assertEquals(d_routerList.get(1).getActionName(), "-remove");

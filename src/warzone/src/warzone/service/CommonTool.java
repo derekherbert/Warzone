@@ -11,7 +11,6 @@ public class CommonTool {
 				 l_result = Integer.parseInt(p_number.trim());
 			}
 			catch(Exception ex) {
-				GenericView.printError(p_number + " is not a valid Integer");
 			}
 		}
 		return l_result;		
@@ -19,10 +18,14 @@ public class CommonTool {
 	
 	public static String[] conventToArray(String p_parameters) {
 		if(p_parameters != null)
-			return p_parameters.split(" ");
+			return p_parameters.split("\\s+");
 		else
 			return new String[] {};
 	}	
+	
+	public static int getRandomNumber(int p_minNumber, int p_maxNumber) {
+	    return (int) ((Math.random() * (p_maxNumber - p_minNumber)) + p_minNumber);
+	}
 	
 	public static String convertArray2String(String[] p_stringArray, String p_separator, int from, int to) {
 		StringBuilder l_sb = new StringBuilder();

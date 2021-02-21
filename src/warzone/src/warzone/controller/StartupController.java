@@ -3,23 +3,32 @@ package warzone.controller;
 import warzone.view.*;
 import warzone.model.*;
 import warzone.service.CommonTool;
+import warzone.service.MapService;
+import warzone.service.StartupService;
 
 public class StartupController {
 
+	private StartupService d_startupService;
+	private GameContext d_gameContext;
 
+	public StartupController(GameContext p_gameContext) {
+		
+		d_gameContext = p_gameContext;
+		d_startupService = new StartupService(p_gameContext);
+	}
+	
+	
 	/**
 	 * Performs the action for user command: loadmap filename
 	 * 
 	 * Game starts by user selection of a user-saved map file, which loads the map as a connected directed graph
 	 * 
-	 * @param fileName
-	 * @return
+	 * @param p_fileName
+	 * @return if load map success
 	 */
-	public GameContext loadMap(String fileName) {
+	public boolean loadMap(String p_fileName) {
 		
-		// TODO Auto-generated method stub
-		
-		return null;
+		return d_startupService.loadMap(p_fileName);
 	}
 	
 	public boolean addRawPlayer(String p_parameters) {
@@ -97,7 +106,12 @@ public class StartupController {
 	 */
 	public boolean assignCountries() {
 		
-		// TODO Auto-generated method stub
+		boolean result = d_startupService.assignCountries();
+		
+		if(result == false) {
+			
+			GenericView.printError("There must be at least the same number of countries as players");
+		}
 		
 		return false;
 	}

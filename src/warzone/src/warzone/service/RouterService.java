@@ -82,6 +82,18 @@ public class RouterService {
 						break;
 				}
 				break;
+			case GAMEPLAY:
+				GameplayController l_gameplayController = l_controllerFactory.getGameplayController();
+
+				switch(p_router.getActionName()) {
+					case "showmap":
+						l_gameplayController.showMap();
+						break;
+					case "play":
+						l_gameplayController.play();
+						break;
+				}
+				break;
 			case STARTUP:
 				StartupController l_startupController = l_controllerFactory.getStartupController();
 				switch(p_router.getActionName()) {
@@ -114,9 +126,6 @@ public class RouterService {
 				}
 			});			
 		}
-		else {
-			//exception
-		}
 	}
 	
 	/**
@@ -131,27 +140,28 @@ public class RouterService {
 	 */
 	public List<Router> parseCommand(String p_command) {
 		List<Router> l_routerList = new LinkedList<Router>();
+		
+		//validation
+		if( p_command == null || p_command.trim().equals("") ){
+			l_routerList.add(createErrorRouter(ErrorType.MISSING_COMMAND.toString()));
+			return l_routerList;
+		}
+			
 		GenericView.printDebug("parseCommand: start to work on command: " + p_command);
 		
 		// remove prefix whitespace and convert the String to lower case 
 		p_command = p_command.toLowerCase().trim();
-		
-		// null command only with whitespace
-		if (p_command.length() == 0) {
-			l_routerList.add(createErrorRouter(ErrorType.MISSING_COMMAND.toString()));
-			return l_routerList;
-		}
-		
+				
 		// split command with any number of whitespace
 		String[] l_commandArray = p_command.split("\\s+");
 		
 		String l_firstWord = l_commandArray[0];
 		// TODO move these commands into the properties file
-		String l_complexeCommand = "editcontinent,editcountry,editneighbor,gameplayer";
+		String l_complexCommand = "editcontinent,editcountry,editneighbor,gameplayer";
 		String l_simpleCommand = "loadmap,editmap,savemap,assigncountries,validatemap,showmap";
-		if(l_complexeCommand.indexOf(l_firstWord) > -1) {
+		if(l_complexCommand.indexOf(l_firstWord) > -1) {
 			//complex command with multiple routers
-			GenericView.printDebug("parseCommand: start to work on complexe command: " + p_command);
+			GenericView.printDebug("parseCommand: start to work on complex command: " + p_command);
 			l_routerList = parseComplexCommand(l_commandArray);
 		}
 		else if(l_simpleCommand.indexOf(l_firstWord) > -1) {
@@ -179,7 +189,7 @@ public class RouterService {
 		 
 		if(l_actions.isEmpty() ) {
 			l_routers.add(createErrorRouter(ErrorType.MISSING_PARAMETER.toString()));
-			GenericView.printDebug("parseComplexeCommand: Empty Action" );
+			GenericView.printDebug("parseComplexCommand: Empty Action" );
 			return l_routers;
 		}
 		ControllerName l_controllerName = ControllerName.COMMON;
@@ -194,7 +204,7 @@ public class RouterService {
 				l_controllerName = ControllerName.NEIGHBOR;				
 				break;
 			case "gameplayer":
-				l_controllerName = ControllerName.GAMEPLAYER;				
+				l_controllerName = ControllerName.GAMEPLAY;				
 				break;
 		}
 		

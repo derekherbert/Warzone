@@ -59,7 +59,12 @@ public class CountryController {
 			return false;
 		}
 
-		int l_countryID = CommonTool.parseInt(p_parameters);
+		int l_countryID = CommonTool.parseInt(p_parameters);		
+		if(l_countryID == -1 ){	
+			GenericView.printError("Missing valid parameters.");	
+			return false;	
+		}
+		
 		return removeCountry(l_countryID);
 	}	
 	
