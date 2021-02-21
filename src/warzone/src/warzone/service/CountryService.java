@@ -24,7 +24,7 @@ public class CountryService {
 			}
 			
 			if(l_continent != null){
-				l_country.setContinent(l_continent);
+				l_continent.addCountry(l_country);
 				return true;
 			}
 		}
@@ -49,5 +49,8 @@ public class CountryService {
 		}
 		
 		return false;		
+	}
+	public boolean isExisted(int p_countryID) {
+		return d_gameContext.getCountries().containsKey(p_countryID);
 	}
 }

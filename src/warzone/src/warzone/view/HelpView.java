@@ -53,7 +53,6 @@ public class HelpView {
 	    				+ " -  gameplayer -add playername -remove playername\n"
 	    				+ " -  assigncountries\n"
 	    				+ " -  play                      [will start the game engine and go to next phase.]\n"
-	    				+ " -  startup \n"
 	    				+ " -  reboot \n"
 	    				+ " "
 	    				);
