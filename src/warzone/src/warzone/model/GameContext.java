@@ -5,18 +5,23 @@ import java.util.Map;
 import java.util.Set;
 
 public class GameContext {
+	private static GameContext GAME_CONTEXT;
+	GamePhase d_gamePhase = GamePhase.MAPEDITING;
+	private int d_orderNumberPerRound = 5;
+	
+	private boolean d_isDemoMode = true;
+	private boolean d_isDebug = false;
 
 	private Map<String, Player> d_players;
 	private Map<Integer, Country> d_countries;
 	private Map<Integer, Continent> d_continents;
-	
-	private static GameContext GAME_CONTEXT;
+
 	
 	private String d_mapFileName;
 	private String d_mapFilePic;
 	private String d_mapFileMap;
 	private String d_mapFileCards;
-	
+		
 	public String getMapFileCards() {
 		return d_mapFileCards;
 	}
@@ -29,7 +34,7 @@ public class GameContext {
 		
 		d_players = new HashMap<String, Player>() ;
 		d_countries = new HashMap<Integer, Country>();
-		d_continents = new HashMap<Integer, Continent>();
+		d_continents = new HashMap<Integer, Continent>();		
 	}		
 	
 	public static GameContext getGameContext() {
@@ -48,23 +53,14 @@ public class GameContext {
 	}
 	
 	public Map<String, Player> getPlayers() {
-		if(d_players == null) {
-			d_players = new HashMap<String, Player>();
-		}
 		return d_players;
 	}
 	
 	public Map<Integer, Country> getCountries() {
-		if(d_countries == null) {
-			d_countries = new HashMap<Integer, Country>();
-		}
 		return d_countries;
 	}
 	
 	public Map<Integer, Continent> getContinents() {
-		if(d_continents == null) {
-			d_continents = new HashMap<Integer, Continent>();
-		}
 		return d_continents;
 	}
 
@@ -91,4 +87,35 @@ public class GameContext {
 	public void setMapFileMap(String p_mapFileMap) {
 		this.d_mapFileMap = p_mapFileMap;
 	}
+	
+	public GamePhase getGamePhase() {
+		return d_gamePhase;
+	}
+
+	public void setGamePhase(GamePhase p_gamePhase) {
+		this.d_gamePhase = p_gamePhase;
+	}	
+	
+	public boolean getIsDemoMode() {
+		return d_isDemoMode;
+	}
+
+	public void setIsDemoMode(boolean p_isDemoMode) {
+		this.d_isDemoMode = p_isDemoMode;
+	}		
+	public boolean getIsDebug() {
+		return d_isDebug;
+	}
+
+	public void setIsDebug(boolean p_isDebug) {
+		this.d_isDebug = p_isDebug;
+	}			
+	
+	
+	public int getOrderNumberPerRound() {
+		return d_orderNumberPerRound;
+	}	
+	
+	
+	
 }
