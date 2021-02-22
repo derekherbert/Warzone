@@ -5,10 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
+
+import warzone.controller.MapController;
 import warzone.controller.StartupController;
 import warzone.model.Country;
 import warzone.model.GameContext;
 import warzone.model.Player;
+import warzone.model.WarzoneProperties;
+import warzone.view.GenericView;
 
 public class StartupServiceTest {
 
@@ -138,5 +142,70 @@ public class StartupServiceTest {
 		assertTrue(neutralCountryCtr == 2);
 		
 		System.out.println();
+	}
+	
+	@Test
+	public void testAssignReinforcementsNoOwnedContinents() {
+		
+		d_gameContext.setIsDebug(true);
+		
+		GenericView.printDebug("=====================================");
+		GenericView.printDebug("testAssignReinforcementsNoOwnedContinents()");
+		GenericView.printDebug("=====================================");
+		
+		//Load map file
+		d_startupController = new StartupController(d_gameContext);
+		d_startupController.loadMap("europe.map");
+		
+		Player player1 = new Player("player1");
+		player1.assignReinforcements(d_gameContext);
+		GenericView.printDebug("Total reinforcements assigned: " + player1.getArmiesToDeploy());
+		
+		assertTrue(player1.getArmiesToDeploy() == WarzoneProperties.getWarzoneProperties().getDefaultReinforcementsEachRound());
+	}
+	
+	@Test
+	public void testAssignReinforcementsOneOwnedContinent() {
+		
+		d_gameContext.setIsDebug(true);
+		
+		int l_continentID = 2;
+		
+		GenericView.printDebug("=====================================");
+		GenericView.printDebug("testAssignReinforcementsOneOwnedContinent()");
+		GenericView.printDebug("=====================================");
+		
+		//Load map file
+		d_startupController = new StartupController(d_gameContext);
+		d_startupController.loadMap("europe.map");
+		
+		Player player1 = new Player("player1");
+		player1.assignReinforcements(d_gameContext);
+		GenericView.printDebug("Initial reinforcements assigned: " + player1.getArmiesToDeploy());
+		
+		assertTrue(player1.getArmiesToDeploy() == WarzoneProperties.getWarzoneProperties().getDefaultReinforcementsEachRound());
+		
+		/* Bonus: 4 armies
+		 * 8 Denmark 2 275 76
+		 * 9 Germany 2 261 149
+		 * 10 Poland 2 346 141
+		 * 11 Czech_Rep 2 308 173
+		 * 12 Slovakia 2 356 190
+		 */
+		
+		//Assign the player all the countries from continentID:2
+		d_gameContext.getContinents().get(l_continentID).getCountries().forEach(
+				
+			(countryID, country) -> {
+				
+				player1.getConqueredCountries().put(countryID, country);
+			}
+		);
+		
+		player1.assignReinforcements(d_gameContext);
+		
+		GenericView.printDebug("Total reinforcements assigned: " + player1.getArmiesToDeploy());
+		
+		assertTrue(player1.getArmiesToDeploy() == WarzoneProperties.getWarzoneProperties().getDefaultReinforcementsEachRound() + d_gameContext.getContinents().get(l_continentID).getBonusReinforcements());
 	}
 }

@@ -154,9 +154,18 @@ public class Player {
 		return this.d_orders.poll();
 	}
 	
+	/**
+	 * Assign reinforcements to a player based on the continents they have conquered. Each continent has a bonus number of reinforcements
+	 * per round if a player owns all the countries within it. This method loops through all the conquered countries, tracking counters of
+	 * the number of countries owned in each continent. If the number of countries owned in a continent matches the number of countries in that
+	 * continent, the player gets the bonus reinforcements added (for each applicable continent).
+	 * 
+	 * @param p_gameContext
+	 */
 	public void assignReinforcements(GameContext p_gameContext) {		
 		
-		this.setArmiesToDeploy(5); //LOAD THIS FROM PROPERTIES FILE
+		//Set the armiesToDeploy to the default/minimum value
+		this.setArmiesToDeploy(WarzoneProperties.getWarzoneProperties().getDefaultReinforcementsEachRound()); 
 
 		//Key: continentID, Value: Number of countries player owns in this continent
 		Map<Integer, Integer> armiesPerContinent = new HashMap<Integer, Integer>(p_gameContext.getContinents().size());
@@ -168,6 +177,7 @@ public class Player {
 		int continentID;
 		Integer deployedArmies;
 		
+		//Loop through each conquered country, incrementing each counter of the conquered country's continent
 		for(Integer countryID : conqueredCountryIDs) {
 						
 			continentID = p_gameContext.getCountries().get(countryID).getContinent().getContinentID();
@@ -182,7 +192,8 @@ public class Player {
 				armiesPerContinent.put(continentID, deployedArmies + 1);
 			}
 		}
-
+		
+		//Loop through the continent counters and update the players' armiesToDeploy if they own all the countries in a continent
 		armiesPerContinent.forEach(
 				
 			(apcContinentID, apcDeployedArmies) -> {
