@@ -6,16 +6,30 @@ import warzone.service.CommonTool;
 import warzone.service.ContinentService;
 import warzone.service.CountryService;
 
+/**
+ * Country controller is for manipulate the countries in the map
+ */
 public class CountryController {
 
 	private CountryService d_countryService;
 	private GameContext d_gameContext;
-	
+
+	/**
+	 * instructor with game context setting and country service initiated
+	 * @param p_gameContext game context
+	 */
 	public CountryController(GameContext p_gameContext) {
 		d_gameContext = p_gameContext;
 		d_countryService = new CountryService(p_gameContext);
 	}
-	
+
+	/**
+	 * add country to the map
+	 * This methods can receive parameters from the Router, check the correctness of
+	 * commands and call the internal methods.
+	 * @param p_parameters parameters parsed by parser
+	 * @return true if successfully add country, otherwise return false
+	 */
 	public boolean addCountry (String p_parameters) {
 		//parse [p_parameters] to  [ l_continentID, String l_continentName]
 		if(p_parameters == null){			
@@ -25,10 +39,12 @@ public class CountryController {
 
 		int l_countryID = -1, l_continentID = -1;
 		String[] l_parameters = CommonTool.conventToArray(p_parameters);
+		// check if parameter length is valid
 		if(l_parameters.length == 2 ) {			
 			l_countryID = CommonTool.parseInt(l_parameters[0]);
 			l_continentID = CommonTool.parseInt(l_parameters[1]);
 		}
+		// if country id or name is not correct, return error info
 		if(l_countryID == -1 || l_continentID == -1 ){
 			GenericView.printError("Missing valid parameters.");
 			return false;
@@ -36,9 +52,12 @@ public class CountryController {
 		else
 			return addCountry(l_countryID, l_continentID);
 	}
-	
+
 	/**
 	 * Performs the action for the user command: editcountry -add countryID continentID
+	 * @param p_countryID the id of country to add
+	 * @param p_continentID the id of countinent add to
+	 * @return true if successfully added, otherwise return false
 	 */
 	public boolean addCountry (int p_countryID, int p_continentID) {		
 		if( d_countryService.addCountryToContient(p_countryID, p_continentID) ) {
@@ -53,11 +72,15 @@ public class CountryController {
 			return false;
 		}	
 	}
-	
+
+	/**
+	 * remove the country from map
+	 * @param p_parameters parameters parsed by parser
+	 * @return true if successfully remove the country, otherwise return false
+	 */
 	public boolean removeCountry(String p_parameters) {
 		//parse [p_parameters] 
-		if(p_parameters == null)
-		{			
+		if(p_parameters == null) {
 			GenericView.printError("Missing valid parameters.");
 			return false;
 		}
@@ -74,6 +97,8 @@ public class CountryController {
 	
 	/**
 	 * Performs the action for the user command: editcountry -remove countryID
+	 * @param p_countryID the id of the country to remove
+	 * @return true if successfully remove the country, otherwise return false
 	 */
 	public boolean removeCountry (int p_countryID) {
 		if( d_countryService.remove(p_countryID)) {

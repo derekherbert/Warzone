@@ -10,6 +10,10 @@ import warzone.controller.*;
 import warzone.model.*;
 import warzone.view.GenericView;
 
+/**
+ * This class can offer service related router to controllers.
+ *
+ */
 public class RouterService {
 		
 	private static RouterService ROUTER_SERVICE;
@@ -20,6 +24,12 @@ public class RouterService {
 		d_gameContext = p_gameContext;
 	}	
 	
+	/**
+	 * This method will return a routerService instance and create it if the instance
+	 * is null.
+	 * @p_gameContext the game context instance
+	 * @return the RouterService instance
+	 */
 	public static RouterService getRouterService(GameContext p_gameContext) {
 		if( ROUTER_SERVICE == null)
 			ROUTER_SERVICE = new RouterService(p_gameContext);
@@ -42,7 +52,7 @@ public class RouterService {
 	/**
 	 * This method will parse a single console commands entered by the user and call the corresponding controller by controller name
 	 * @param p_router the Router parsed from the command
-	 * @throws IOException 
+	 * @throws IOException exception from reading the commands
 	 */
 	public void route(Router p_router) throws IOException{
 		ControllerFactory l_controllerFactory = ControllerFactory.getControllerFactory();

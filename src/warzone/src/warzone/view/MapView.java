@@ -10,12 +10,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * This class can print the map in the command line
+ *
+ */
 public class MapView {
 
     /**
      * generate the table of continent information
      * continentId, Name, countryId, Name, neighbours
-     * @param p_continents map of continent
+     * @param p_gameContext the game context
      */
     public static void printMap(GameContext p_gameContext) {
 
