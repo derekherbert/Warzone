@@ -46,7 +46,7 @@ public class Player {
 		return d_orders;
 	}
 	public void cleanConqueredCountries() {
-		d_conqueredCountries = new HashMap<Integer, Country>();
+		d_conqueredCountries.clear();
 	}
 	
 	public int getArmyNumber() {
