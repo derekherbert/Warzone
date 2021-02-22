@@ -47,7 +47,8 @@ public class WarzoneProperties {
 		
 		//Gameplay Settings
 		d_gameMapDirectory = d_properties.getProperty("gameMapDirectory");
-		d_defaultReinforcementsEachRound = Integer.parseInt(d_properties.getProperty("defaultReinforcementsEachRound"));
+		d_minimumReinforcementsEachRound = Integer.parseInt(d_properties.getProperty("minimumReinforcementsEachRound"));
+		d_minimumCountriesPerReinforcementBonus = Integer.parseInt(d_properties.getProperty("minimumCountriesPerReinforcementBonus"));
 	}
 	
 	//Run Configurations
@@ -61,6 +62,9 @@ public class WarzoneProperties {
 	private String d_gameMapDirectory;
 	public String getGameMapDirectory() { return d_gameMapDirectory; }
 		
-	private int d_defaultReinforcementsEachRound;
-	public int getDefaultReinforcementsEachRound() { return d_defaultReinforcementsEachRound; }
+	private int d_minimumReinforcementsEachRound;
+	public int getMinimumReinforcementsEachRound() { return d_minimumReinforcementsEachRound; }
+	
+	private int d_minimumCountriesPerReinforcementBonus;
+	public int getMinimumCountriesPerReinforcementBonus() { return d_minimumCountriesPerReinforcementBonus; }
 }

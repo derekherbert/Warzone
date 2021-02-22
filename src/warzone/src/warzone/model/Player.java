@@ -164,8 +164,18 @@ public class Player {
 	 */
 	public void assignReinforcements(GameContext p_gameContext) {		
 		
-		//Set the armiesToDeploy to the default/minimum value
-		this.setArmiesToDeploy(WarzoneProperties.getWarzoneProperties().getDefaultReinforcementsEachRound()); 
+		//Set the armiesToDeploy to the minimum value
+		this.setArmiesToDeploy(WarzoneProperties.getWarzoneProperties().getMinimumReinforcementsEachRound()); 
+		
+		//Set armiesToDeploy based on the number of owned countries (if that number is greater than the minimum)
+		int l_conqueredCountriesBonus = (int)(Math.floor(this.getConqueredCountries().size() / WarzoneProperties.getWarzoneProperties().getMinimumCountriesPerReinforcementBonus()));
+		
+		if(l_conqueredCountriesBonus > this.getArmiesToDeploy()) {
+			
+			this.setArmiesToDeploy(l_conqueredCountriesBonus);
+		}
+		
+		System.out.println("armiesToDeploy: " + this.getArmiesToDeploy());
 
 		//Key: continentID, Value: Number of countries player owns in this continent
 		Map<Integer, Integer> armiesPerContinent = new HashMap<Integer, Integer>(p_gameContext.getContinents().size());
@@ -174,22 +184,22 @@ public class Player {
 		List<Integer> conqueredCountryIDs = new ArrayList<Integer>(this.getConqueredCountries().keySet());
 				
 		//Looping variables
-		int continentID;
-		Integer deployedArmies;
+		int l_continentID;
+		Integer l_deployedArmies;
 		
 		//Loop through each conquered country, incrementing each counter of the conquered country's continent
 		for(Integer countryID : conqueredCountryIDs) {
 						
-			continentID = p_gameContext.getCountries().get(countryID).getContinent().getContinentID();
-			deployedArmies = armiesPerContinent.get(continentID); 
+			l_continentID = p_gameContext.getCountries().get(countryID).getContinent().getContinentID();
+			l_deployedArmies = armiesPerContinent.get(l_continentID); 
 			
-			if(deployedArmies == null) {
+			if(l_deployedArmies == null) {
 				
-				armiesPerContinent.put(continentID, 1);
+				armiesPerContinent.put(l_continentID, 1);
 			}
 			else {
 				
-				armiesPerContinent.put(continentID, deployedArmies + 1);
+				armiesPerContinent.put(l_continentID, l_deployedArmies + 1);
 			}
 		}
 		

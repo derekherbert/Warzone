@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import warzone.controller.MapController;
 import warzone.controller.StartupController;
+import warzone.model.Continent;
 import warzone.model.Country;
 import warzone.model.GameContext;
 import warzone.model.Player;
@@ -145,12 +146,12 @@ public class StartupServiceTest {
 	}
 	
 	@Test
-	public void testAssignReinforcementsNoOwnedContinents() {
+	public void testAssignReinforcementsNoOwnedContinentsNoOwnedCountries() {
 		
 		d_gameContext.setIsDebug(true);
 		
 		GenericView.printDebug("=====================================");
-		GenericView.printDebug("testAssignReinforcementsNoOwnedContinents()");
+		GenericView.printDebug("testAssignReinforcementsNoOwnedContinentsNoOwnedCountries()");
 		GenericView.printDebug("=====================================");
 		
 		//Load map file
@@ -161,11 +162,52 @@ public class StartupServiceTest {
 		player1.assignReinforcements(d_gameContext);
 		GenericView.printDebug("Total reinforcements assigned: " + player1.getArmiesToDeploy());
 		
-		assertTrue(player1.getArmiesToDeploy() == WarzoneProperties.getWarzoneProperties().getDefaultReinforcementsEachRound());
+		assertTrue(player1.getArmiesToDeploy() == WarzoneProperties.getWarzoneProperties().getMinimumReinforcementsEachRound());
 	}
 	
 	@Test
-	public void testAssignReinforcementsOneOwnedContinent() {
+	public void testAssignReinforcementsNoOwnedContinentsFourteenOwnedCountries() {
+		
+		d_gameContext.setIsDebug(true);
+		
+		GenericView.printDebug("=====================================");
+		GenericView.printDebug("testAssignReinforcementsNoOwnedContinentsFourteenOwnedCountries()");
+		GenericView.printDebug("=====================================");
+		
+		//Load map file
+		d_startupController = new StartupController(d_gameContext);
+		d_startupController.loadMap("europe.map");
+		
+		Player l_player1 = new Player("player1");
+		
+		//All but 1 country from continent 1
+		l_player1.getConqueredCountries().put(1, d_gameContext.getCountries().get(1));
+		l_player1.getConqueredCountries().put(2, d_gameContext.getCountries().get(2));
+		l_player1.getConqueredCountries().put(3, d_gameContext.getCountries().get(3));
+		l_player1.getConqueredCountries().put(4, d_gameContext.getCountries().get(4));
+		l_player1.getConqueredCountries().put(5, d_gameContext.getCountries().get(5));
+		l_player1.getConqueredCountries().put(6, d_gameContext.getCountries().get(6));
+		
+		//All but 1 country from continent 2
+		l_player1.getConqueredCountries().put(8, d_gameContext.getCountries().get(8));
+		l_player1.getConqueredCountries().put(9, d_gameContext.getCountries().get(9));
+		l_player1.getConqueredCountries().put(10, d_gameContext.getCountries().get(10));
+		l_player1.getConqueredCountries().put(11, d_gameContext.getCountries().get(11));
+		
+		//Some but not all countries from continent 3
+		l_player1.getConqueredCountries().put(13, d_gameContext.getCountries().get(13));
+		l_player1.getConqueredCountries().put(14, d_gameContext.getCountries().get(14));
+		l_player1.getConqueredCountries().put(15, d_gameContext.getCountries().get(15));
+		l_player1.getConqueredCountries().put(16, d_gameContext.getCountries().get(16));
+		
+		l_player1.assignReinforcements(d_gameContext);
+		GenericView.printDebug("Total reinforcements assigned: " + l_player1.getArmiesToDeploy());
+		
+		assertTrue(l_player1.getArmiesToDeploy() == 4);
+	}
+	
+	@Test
+	public void testAssignReinforcementsOneOwnedContinentFiveOwnedCountries() {
 		
 		d_gameContext.setIsDebug(true);
 		
@@ -183,7 +225,7 @@ public class StartupServiceTest {
 		player1.assignReinforcements(d_gameContext);
 		GenericView.printDebug("Initial reinforcements assigned: " + player1.getArmiesToDeploy());
 		
-		assertTrue(player1.getArmiesToDeploy() == WarzoneProperties.getWarzoneProperties().getDefaultReinforcementsEachRound());
+		assertTrue(player1.getArmiesToDeploy() == WarzoneProperties.getWarzoneProperties().getMinimumReinforcementsEachRound());
 		
 		/* Bonus: 4 armies
 		 * 8 Denmark 2 275 76
@@ -206,6 +248,6 @@ public class StartupServiceTest {
 		
 		GenericView.printDebug("Total reinforcements assigned: " + player1.getArmiesToDeploy());
 		
-		assertTrue(player1.getArmiesToDeploy() == WarzoneProperties.getWarzoneProperties().getDefaultReinforcementsEachRound() + d_gameContext.getContinents().get(l_continentID).getBonusReinforcements());
+		assertTrue(player1.getArmiesToDeploy() == WarzoneProperties.getWarzoneProperties().getMinimumReinforcementsEachRound() + d_gameContext.getContinents().get(l_continentID).getBonusReinforcements());
 	}
 }
