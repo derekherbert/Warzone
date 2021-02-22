@@ -33,7 +33,6 @@ public class StartupService {
 	public boolean addPlayer(Player p_player) {
 		//0. add the item to
 		Map<String,Player> l_players=d_gameContext.getPlayers();
-		Map<Integer,Country> l_countries=d_gameContext.getCountries();
 		if(p_player != null 
 				&& p_player.getName()!="" 
 				&& l_players.size()<= 5 ) {			

@@ -25,6 +25,10 @@ public class StartupController {
 	 * @return true if add success else false
 	 */
 	public boolean addPlayer(String p_playerName) {
+		if(p_playerName == null || p_playerName.trim().equals("")) {
+			GenericView.printWarning("Invalid player name.");
+			return false;
+		}
 		//1. create a new player instance
 		Player l_player = new Player(p_playerName);
 		
