@@ -113,10 +113,10 @@ public class RouterService {
 				StartupController l_startupController = l_controllerFactory.getStartupController();
 				switch(p_router.getActionName()) {
 					case "add":
-						l_startupController.addRawPlayer(p_router.getActionParameters());
+						l_startupController.addPlayer(p_router.getActionParameters());
 						break;
 					case "remove":
-						l_startupController.removeRawPlayer(p_router.getActionParameters());
+						l_startupController.removePlayer(p_router.getActionParameters());
 						break;
 					case "loadmap":
 						l_startupController.loadMap(p_router.getActionParameters());
