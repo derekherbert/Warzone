@@ -1,6 +1,8 @@
 package warzone.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -12,15 +14,30 @@ public class RouterService {
 		
 	private static RouterService ROUTER_SERVICE;
 	
-	private RouterService()	{	
-	}
+	private GameContext d_gameContext;
+
+	private RouterService(GameContext p_gameContext) {
+		d_gameContext = p_gameContext;
+	}	
 	
-	public static RouterService getRouterService() {
+	public static RouterService getRouterService(GameContext p_gameContext) {
 		if( ROUTER_SERVICE == null)
-			ROUTER_SERVICE = new RouterService();
+			ROUTER_SERVICE = new RouterService(p_gameContext);
 		return ROUTER_SERVICE;
 	}
-	
+	/**
+	 * Check if current game phase is included in the given game phases list.
+	 * @param p_gamePhases Given game phases list
+	 * @return True if included, otherwise false.
+	 */
+	private boolean getIsContainCurrentPhase(List<GamePhase> p_gamePhases) {
+		if( d_gameContext.getIsContainCurrentPhase(p_gamePhases))
+			return true;
+		else {
+			GenericView.printWarning("The command is not valid in the current phase: " + d_gameContext.getGamePhase());
+			return false;
+		}
+	}
 	
 	/**
 	 * This method will parse a single console commands entered by the user and call the corresponding controller by controller name
@@ -31,9 +48,11 @@ public class RouterService {
 		ControllerFactory l_controllerFactory = ControllerFactory.getControllerFactory();
 		switch(p_router.getControllerName()) {
 			case COMMON:
+				if(!getIsContainCurrentPhase( Arrays.asList(GamePhase.MAPEDITOR, GamePhase.STARTUP) ))
+					break;
 				CommonController l_commonController = l_controllerFactory.getCommonController();
 				switch(p_router.getActionName()) {
-					case "welcome":						
+					case "welcome":
 						l_commonController.welcome(p_router.getActionParameters());
 						break;
 					case "help":
@@ -42,12 +61,13 @@ public class RouterService {
 				}
 				break;
 			case CONTINENT:
+				if(!getIsContainCurrentPhase( Arrays.asList(GamePhase.MAPEDITOR) ))
+					break;
 				ContinentController l_continentController= l_controllerFactory.getContinentController();
-
 				switch(p_router.getActionName()) {
 					case "add":
 						GenericView.printDebug("route: CONTINENT-add- " + p_router.getActionParameters());
-						l_continentController.addContinent(p_router.getActionParameters());						
+						l_continentController.addContinent(p_router.getActionParameters());
 						break;
 					case "remove":
 						GenericView.printDebug("route: CONTINENT-remove-" + p_router.getActionParameters());
@@ -57,25 +77,29 @@ public class RouterService {
 				break;
 			case MAP:
 				MapController l_mapController= l_controllerFactory.getMapController();
-
 				switch(p_router.getActionName().toLowerCase()) {
 					case "savemap":
-						l_mapController.saveMap(p_router.getActionParameters());
+						if(getIsContainCurrentPhase( Arrays.asList(GamePhase.MAPEDITOR) ))
+							l_mapController.saveMap(p_router.getActionParameters());
 						break;
 					case "editmap":
-						l_mapController.editMap(p_router.getActionParameters());
+						if(getIsContainCurrentPhase( Arrays.asList(GamePhase.MAPEDITOR) ))
+							l_mapController.editMap(p_router.getActionParameters());
 						break;
 					case "showmap":
-						l_mapController.showMap();
+						if(getIsContainCurrentPhase( Arrays.asList(GamePhase.MAPEDITOR) ))
+							l_mapController.showMap();
 						break;
 					case "validatemap":
-						l_mapController.validateMap();
+						if(getIsContainCurrentPhase( Arrays.asList(GamePhase.MAPEDITOR, GamePhase.STARTUP) ))
+							l_mapController.validateMap();
 						break;
 				}
 				break;
 			case COUNTRY:
+				if(!getIsContainCurrentPhase( Arrays.asList(GamePhase.MAPEDITOR) ))
+					break;
 				CountryController l_countryController= l_controllerFactory.getCountryController();
-
 				switch(p_router.getActionName()) {
 					case "add":
 						l_countryController.addCountry(p_router.getActionParameters());
@@ -86,6 +110,8 @@ public class RouterService {
 				}
 				break;
 			case NEIGHBOR:
+				if(!getIsContainCurrentPhase( Arrays.asList(GamePhase.MAPEDITOR) ))
+					break;
 				NeighborController l_neighborController= l_controllerFactory.getNeighborController();
 
 				switch(p_router.getActionName()) {
@@ -98,6 +124,8 @@ public class RouterService {
 				}
 				break;
 			case GAMEPLAY:
+				if(!getIsContainCurrentPhase( Arrays.asList(GamePhase.STARTUP) ))
+					break;
 				GameplayController l_gameplayController = l_controllerFactory.getGameplayController();
 
 				switch(p_router.getActionName()) {
@@ -110,6 +138,8 @@ public class RouterService {
 				}
 				break;
 			case STARTUP:
+				if(!getIsContainCurrentPhase( Arrays.asList(GamePhase.STARTUP) ))
+					break;
 				StartupController l_startupController = l_controllerFactory.getStartupController();
 				switch(p_router.getActionName()) {
 					case "add":
@@ -265,7 +295,10 @@ public class RouterService {
 				l_router = new Router(ControllerName.COMMON, "help");
 				break;		
 			case  "showmap":
-				l_router = new Router(ControllerName.MAP, "showmap");
+				if(this.d_gameContext.getGamePhase().equals(GamePhase.MAPEDITOR))
+					l_router = new Router(ControllerName.MAP, "showmap");
+				else
+					l_router = new Router(ControllerName.STARTUP, "showmap");
 				break;
 			case  "validatemap":
 				l_router =  new Router(ControllerName.MAP, "validatemap");

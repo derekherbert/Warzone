@@ -27,9 +27,9 @@ public class HelpView {
     }
     
     public static void printHelp(GamePhase p_gamePhase ) {
-    	System.out.println("Commands available for current game phase:");
+    	System.out.println("Commands available for current game phase: " + p_gamePhase);
     	switch(p_gamePhase) {
-	    	case MAPEDITING:
+	    	case MAPEDITOR:
 	    		System.out.println(""
 	    				+ " -  loadmap filename\n"
 	    				+ " -  editmap filename\n"
@@ -40,9 +40,7 @@ public class HelpView {
 	    				+ " -  editcountry -add countryID continentID -remove countryID\n"
 	    				+ " -  editneighbor -add countryID neighborcountryID -remove countryID neighborcountryID\n"
 	    				+ " -  startup \n"
-	    				+ " -  reboot \n"
-	    				+ " \n"
-	    				);
+	    				+ " -  reboot \n");
 
 	    		break;
 	    	case STARTUP:
@@ -53,18 +51,13 @@ public class HelpView {
 	    				+ " -  gameplayer -add playername -remove playername\n"
 	    				+ " -  assigncountries\n"
 	    				+ " -  play                      [will start the game engine and go to next phase.]\n"
-	    				+ " -  reboot \n"
-	    				+ " "
-	    				);
+	    				+ " -  mapeditor \n"
+	    				+ " -  reboot \n");
 	    		break;
-	    	case PLAYING:
-	    		break;
-	    	case FINISHED:
+	    	case PLAY:
 	    		System.out.println(""
-	    		+ " -  map \n"
-				+ " -  startup \n"
-				+ " -  reboot \n"
-				+ " ");
+	    				+ " You are in game PLAYING phase, you can only deploy armies. \n"
+	    				+ " -  deploy countryID num\n");
 	    		break;
     	}
     }

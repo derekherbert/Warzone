@@ -32,7 +32,7 @@ public class GameEngine {
 	public static void main(String[] args) throws IOException {
 
 		GameContext l_gameContext = GameContext.getGameContext();
-		RouterService l_routerService =  RouterService.getRouterService();
+		RouterService l_routerService =  RouterService.getRouterService(l_gameContext);
 		CommandService l_commandService =  CommandService.getCommandService(l_gameContext);
 		
 		
@@ -41,21 +41,6 @@ public class GameEngine {
 		l_routerService.route(l_welcomeRouter);
 		
 		l_commandService.commandScanner(l_routerService);
-//		
-//		List<Router> l_routers = l_routerService.parseCommand("showmap");
-//		l_routerService.route(l_routers);
-//		
-//		l_routers = l_routerService.parseCommand("savemap eu");
-//		l_routerService.route(l_routers);
-//		
-//		l_routers = l_routerService.parseCommand("editcontinent -add 5 testsdfsdf -add 6 6666666666name -remove 3");
-//		l_routerService.route(l_routers);
-//		
-//		l_routers = l_routerService.parseCommand("showmap");
-//		l_routerService.route(l_routers);
-//		
-//		Router tempRouter = new Router(ControllerName.GAMEPLAY, "play");
-//		l_routerService.route(tempRouter);
 	}	
 	
 	public boolean isReadyToStart() {
@@ -64,6 +49,10 @@ public class GameEngine {
 			return false;
 		else
 			return true;
+	}
+	
+	public void setGamePhase(GamePhase p_gamePhase) {
+		d_gameContext.setGamePhase(p_gamePhase);		
 	}
 	
 	public boolean play() {
@@ -128,6 +117,10 @@ public class GameEngine {
 	/**
 	 * The GameEngine calls the next_order() method of the Player. Then the Order object�s execute() method is called 
 	 * which will enact the order. 
+	 * <ol>
+	 * <li>get the max number of the orders own by a single player</li>
+	 * <li>excute the orders from player's order list in round-robin fashion</li>
+	 * </ol>
 	 */
 	private void executeOrders() {
 
@@ -138,7 +131,7 @@ public class GameEngine {
 				if( l_player.getOrders().size() > l_maxOrderNumber)
 					l_maxOrderNumber = l_player.getOrders().size();				
 			}		
-		}			
+		}
 
 		//2. excute the orders
 		int l_roundIndex = 1;

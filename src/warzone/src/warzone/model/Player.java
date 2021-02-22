@@ -45,6 +45,9 @@ public class Player {
 	public Queue<Order> getOrders() {
 		return d_orders;
 	}
+	public void cleanConqueredCountries() {
+		d_conqueredCountries = new HashMap<Integer, Country>();
+	}
 	
 	public int getArmyNumber() {
 		return d_armyNumber;
