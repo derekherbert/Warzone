@@ -68,6 +68,12 @@ public class Player {
 	public Queue<Order> getOrders() {
 		return d_orders;
 	}
+	/**
+	 * clear the countries list for current player
+	 */
+	public void cleanConqueredCountries() {
+		d_conqueredCountries.clear();
+	}
 	
 	/**
 	 * This method will provide the number of armies owned by the current player.
