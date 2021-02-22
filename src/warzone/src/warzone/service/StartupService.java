@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Scanner;
 import warzone.controller.MapController;
@@ -16,14 +17,55 @@ import warzone.model.GameContext;
 import warzone.model.Player;
 import warzone.view.GenericView;
 
+/**
+ * This class will provide controllers with service associating with starup
+ *
+ */
 public class StartupService {
 
 	private GameContext d_gameContext;
 
+	/**
+	 * This constructor can initiate the game context of current instance.
+	 * @param p_gameContext the current game context
+	 */
 	public StartupService(GameContext p_gameContext) {
 		d_gameContext = p_gameContext;
 	}
 	
+	/**
+	 * Add player
+	 * @param p_player Player object
+	 * @return true if add success else false
+	 */
+	public boolean addPlayer(Player p_player) {
+		//0. add the item to
+		Map<String,Player> l_players=d_gameContext.getPlayers();
+		if(p_player != null 
+				&& p_player.getName()!="" 
+				&& l_players.size()<= 5 ) {			
+			l_players.put(p_player.getName(), p_player);
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Remove player by name
+	 * @param p_playerName name of player
+	 * @return true if remove success else false
+	 */
+	public boolean removePlayer(String p_playerName) {
+		if(p_playerName != null && d_gameContext.getPlayers().containsKey(p_playerName)) {
+			Player l_player = d_gameContext.getPlayers().get(p_playerName);
+			for( Country l_country : l_player.getConqueredCountries().values() ) 
+				l_country.setOwner(null);					
+			d_gameContext.getPlayers().remove(p_playerName);
+			return true;
+		}
+		return false;
+	}
+
 	/**
 	 * Performs the action for user command: loadmap filename
 	 * 
@@ -224,7 +266,7 @@ public class StartupService {
 	 * 
 	 * After user creates all the players, all countries are randomly assigned to players. 
 	 * 
-	 * @return
+	 * @return true if successfully assign the countries, otherwise return false
 	 */
 	public boolean assignCountries() {
 
@@ -233,47 +275,55 @@ public class StartupService {
 			
 			return false;
 		}
+		//reset the countries list and for each player.
+		for( Player l_player : d_gameContext.getPlayers().values()) {
+			l_player.cleanConqueredCountries();
+		}
+		//rest all the owner for countries
+		for( Country l_countryTemp: d_gameContext.getCountries().values()) {
+			l_countryTemp.setOwner(null);
+		}		
 		
 		//Each player will be assigned the same number of countries. Leftover countries will be unassigned (neutral)
-		int countriesToAssign = d_gameContext.getCountries().size() - (d_gameContext.getCountries().size() % d_gameContext.getPlayers().size());
+		int l_countriesToAssign = d_gameContext.getCountries().size() - (d_gameContext.getCountries().size() % d_gameContext.getPlayers().size());
 		
 		//Create a list of playerIDs from the game context and shuffle their order
-		List<String> playerNames = new ArrayList<String>(d_gameContext.getPlayers().keySet());
-		Collections.shuffle(playerNames);
+		List<String> l_playerNames = new ArrayList<String>(d_gameContext.getPlayers().keySet());
+		Collections.shuffle(l_playerNames);
 		
 		//Create a list of countryIDs from the game context and shuffle their order
-		List<Integer> countryIDs = new ArrayList<Integer>(d_gameContext.getCountries().keySet());
-		Collections.shuffle(countryIDs);
+		List<Integer> l_countryIDs = new ArrayList<Integer>(d_gameContext.getCountries().keySet());
+		Collections.shuffle(l_countryIDs);
 				
 		//Looping variables
-		Country country;
-		Player player;
-		int ctr = 0;
-		int playerIndex = 0;
+		Country l_country;
+		Player l_player;
+		int l_ctr = 0;
+		int l_playerIndex = 0;
 		
 		//Loop through each country to assign to a random player
-		for(Integer countryID : countryIDs) {		
+		for(Integer l_countryID : l_countryIDs) {		
 			
 			//Stop assigning countries once the remaining countries is less than the number of players
-			if (ctr >= countriesToAssign) {
+			if (l_ctr >= l_countriesToAssign) {
 				
 				return true;
 			}
 			
 			//Reset the index once each player has been assigned a country
-			if(playerIndex >= playerNames.size()) {
-				playerIndex = 0;
+			if(l_playerIndex >= l_playerNames.size()) {
+				l_playerIndex = 0;
 			}
 			
-			country = d_gameContext.getCountries().get(countryID);
-			player = d_gameContext.getPlayers().get(playerNames.get(playerIndex));
+			l_country = d_gameContext.getCountries().get(l_countryID);
+			l_player = d_gameContext.getPlayers().get(l_playerNames.get(l_playerIndex));
 			
-			country.setOwner(player);
-			player.getConqueredCountries().put(country.getCountryID(), country);
+			l_country.setOwner(l_player);
+			l_player.getConqueredCountries().put(l_country.getCountryID(), l_country);
 			
 			//Update the looping variables
-			playerIndex++;
-			ctr++;
+			l_playerIndex++;
+			l_ctr++;
 		}
 		
 		return true;

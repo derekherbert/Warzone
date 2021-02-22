@@ -148,8 +148,6 @@ public class StartupServiceTest {
 	@Test
 	public void testAssignReinforcementsNoOwnedContinentsNoOwnedCountries() {
 		
-		d_gameContext.setIsDebug(true);
-		
 		GenericView.printDebug("=====================================");
 		GenericView.printDebug("testAssignReinforcementsNoOwnedContinentsNoOwnedCountries()");
 		GenericView.printDebug("=====================================");
@@ -167,8 +165,6 @@ public class StartupServiceTest {
 	
 	@Test
 	public void testAssignReinforcementsNoOwnedContinentsFourteenOwnedCountries() {
-		
-		d_gameContext.setIsDebug(true);
 		
 		GenericView.printDebug("=====================================");
 		GenericView.printDebug("testAssignReinforcementsNoOwnedContinentsFourteenOwnedCountries()");
@@ -208,8 +204,6 @@ public class StartupServiceTest {
 	
 	@Test
 	public void testAssignReinforcementsOneOwnedContinentFiveOwnedCountries() {
-		
-		d_gameContext.setIsDebug(true);
 		
 		int l_continentID = 2;
 		

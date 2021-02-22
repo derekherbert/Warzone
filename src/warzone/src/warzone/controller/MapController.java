@@ -11,13 +11,19 @@ import warzone.model.*;
 import warzone.service.*;
 import java.util.Map;
 
+/**
+ * map controller is to manipulate the map
+ */
 public class MapController {
 
 	private MapService d_mapService;
 	private GameContext d_gameContext;
 
+	/**
+	 * constructor with setting gamecontext and create mapservice
+	 * @param p_gameContext gamecontext
+	 */
 	public MapController(GameContext p_gameContext) {
-		
 		d_gameContext = p_gameContext;
 		d_mapService = new MapService(p_gameContext);
 	}
@@ -29,14 +35,16 @@ public class MapController {
 	 */
 	public void showMap () {
 
-		MapView.printMap(d_gameContext.getContinents());
+		MapView.printMap(d_gameContext);
 	}
 	
 	/**
 	 * Performs the action for the user command: savemap filename
 	 * 
 	 * Save a map to a text file exactly as edited (using the "domination" game map format).
-	 * @throws IOException 
+	 * @param p_fileName the filename
+	 * @return true if successfully save the map, otherwise return false
+	 * @throws IOException the exception of saving files
 	 */
 	public boolean saveMap (String p_fileName) throws IOException {
 		
@@ -67,7 +75,10 @@ public class MapController {
 	/**
 	 * Performs the action for the user command: editmap filename
 	 * 
-	 * Load a map from an existing "domination" map file, or create a new map from scratch if the file does not exist
+	 * Load a map from an existing "domination" map file,
+	 * or create a new map from scratch if the file does not exist
+	 * @param p_fileName the filename
+	 * @return true if successfully edit the map, otherwise return false
 	 */
 	public boolean editMap (String p_fileName) {
 		
@@ -79,10 +90,18 @@ public class MapController {
 	 * 
 	 * Verification of map correctness. The map should be automatically validated upon loading 
 	 * and before saving (at least 3 types of incorrect maps). The validatemap command can be 
-	 * triggered any time during map editing. 
+	 * triggered any time during map editing.
+	 * @return true if it is a valid map, otherwise return false
 	 */
 	public boolean validateMap () {		
-		return d_mapService.validateMap(d_gameContext);
+		if(! d_mapService.validateMap(d_gameContext) ) {
+			GenericView.printError("It is not a connected map.");
+			return false;
+		}
+		else {
+			GenericView.printSuccess("Yeah! You got a connected map!");
+			return true;
+		}
 	}
 	
 }

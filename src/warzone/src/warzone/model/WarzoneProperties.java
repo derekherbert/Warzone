@@ -5,6 +5,10 @@ import java.util.Properties;
 
 import warzone.view.GenericView;
 
+/**
+ * This class is responsible to get all properties written in the properties file.
+ *
+ */
 public class WarzoneProperties {
 
 	//Class variables
@@ -12,6 +16,9 @@ public class WarzoneProperties {
 	private Properties d_properties;
 	
 	//Create singelton
+	/**
+	 * This method use Singleton pattern to ensure the singleton of the class.
+	 */
 	private WarzoneProperties() {
 		
 		try {
@@ -28,6 +35,10 @@ public class WarzoneProperties {
 	}
 	
 	//Return singleton
+	/**
+	 * This method can provide a unique instance of this class.
+	 * @return the unique instance of this class
+	 */
 	public static WarzoneProperties getWarzoneProperties() {
 		
 		if(WARZONE_PROPERTIES == null) {
@@ -53,13 +64,25 @@ public class WarzoneProperties {
 	
 	//Run Configurations
 	private boolean d_isDemoMode; 
+	/**
+	 * This method will show whether the current mode is demo mode
+	 * @return true if the current mode is demo
+	 */
 	public boolean getIsDemoMode() { return d_isDemoMode; }
 	
 	private boolean d_isDebug;
+	/**
+	 * This method will show whether the current mode is debug mode
+	 * @return true if the current mode is debug mode
+	 */
 	public boolean getIsDebug() { return d_isDebug; }
 		
 	//Gameplay Settings
 	private String d_gameMapDirectory;
+	/**
+	 * This method will provide all properties in the property file
+	 * @return all properties in the property file
+	 */
 	public String getGameMapDirectory() { return d_gameMapDirectory; }
 		
 	private int d_minimumReinforcementsEachRound;

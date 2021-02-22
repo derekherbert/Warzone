@@ -4,16 +4,27 @@ import warzone.view.*;
 import warzone.model.*;
 import warzone.service.*;
 
+/**
+ * Gameplay Controller is to manipulate the actions in game play
+ */
 public class GameplayController {	
 	
 	private GameEngine d_gameEngine;
 	private GameContext d_gameContext;
-	
+
+	/**
+	 * constructor with setting gameContext and gameEngine
+	 * @param p_gameContext the game context
+	 */
 	public GameplayController(GameContext p_gameContext) {
 		d_gameContext = p_gameContext;
 		d_gameEngine = GameEngine.getGameEngine(p_gameContext);
 	}
-	
+
+	/**
+	 * check if gameengine is ready to start and printout the map
+	 * @return true is ready to play, otherwise return false
+	 */
 	public boolean play() {
 		if( !d_gameEngine.isReadyToStart()) {
 			GenericView.printWarning("Game is not ready to start, please check the map and players.");
@@ -40,14 +51,10 @@ public class GameplayController {
 	 * 
 	 * Shows all countries and continents, armies on each country, ownership, 
 	 * and connectivity in a way that enables efficient game play
-	 * 
-	 * @return
 	 */
-	public GameContext showMap() {
+	public void showMap() {
 		
-		MapView.printMap(d_gameContext.getContinents());
+		MapView.printMap(d_gameContext);
 		MapView.printMapWithArmies(d_gameContext.getContinents());
-		
-		return null;
 	}
 }

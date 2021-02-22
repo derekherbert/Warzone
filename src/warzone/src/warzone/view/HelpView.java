@@ -4,8 +4,15 @@ import java.util.Map;
 
 import warzone.model.*;
 
+/**
+ * This class can print some help hints to players.
+ *
+ */
 public class HelpView {
 
+	/**
+	 * This method can print welcome page.
+	 */
     public static void printWelcome() {
     	System.out.println("");
     	System.out.println("        #    #   ##   #####  ######  ####  #    # ######"); 
@@ -18,7 +25,10 @@ public class HelpView {
     }
 
     
-    
+    /**
+     * This method will print current status of the game from the game context.
+     * @param p_gameContext the current game context
+     */
     public static void printStatus(GameContext p_gameContext) {
     	System.out.print(String.format("[Status] Game Phase:%s | Demo Mode:%s | Debug Mode:%s | ", 
     			p_gameContext.getGamePhase(), p_gameContext.getIsDemoMode(), p_gameContext.getIsDebug()));
@@ -26,10 +36,15 @@ public class HelpView {
     			p_gameContext.getPlayers().size(), p_gameContext.getContinents().size(), p_gameContext.getCountries().size(), p_gameContext.getMapFileName()));
     }
     
+    /**
+     * This method will print out the message how to use every command according to
+     * the current phase.
+     * @param p_gamePhase the current phase of the game.
+     */
     public static void printHelp(GamePhase p_gamePhase ) {
-    	System.out.println("Commands available for current game phase:");
+    	System.out.println("Commands available for current game phase: " + p_gamePhase);
     	switch(p_gamePhase) {
-	    	case MAPEDITING:
+	    	case MAPEDITOR:
 	    		System.out.println(""
 	    				+ " -  loadmap filename\n"
 	    				+ " -  editmap filename\n"
@@ -40,9 +55,7 @@ public class HelpView {
 	    				+ " -  editcountry -add countryID continentID -remove countryID\n"
 	    				+ " -  editneighbor -add countryID neighborcountryID -remove countryID neighborcountryID\n"
 	    				+ " -  startup \n"
-	    				+ " -  reboot \n"
-	    				+ " \n"
-	    				);
+	    				+ " -  reboot \n");
 
 	    		break;
 	    	case STARTUP:
@@ -53,18 +66,13 @@ public class HelpView {
 	    				+ " -  gameplayer -add playername -remove playername\n"
 	    				+ " -  assigncountries\n"
 	    				+ " -  play                      [will start the game engine and go to next phase.]\n"
-	    				+ " -  reboot \n"
-	    				+ " "
-	    				);
+	    				+ " -  mapeditor \n"
+	    				+ " -  reboot \n");
 	    		break;
-	    	case PLAYING:
-	    		break;
-	    	case FINISHED:
+	    	case PLAY:
 	    		System.out.println(""
-	    		+ " -  map \n"
-				+ " -  startup \n"
-				+ " -  reboot \n"
-				+ " ");
+	    				+ " You are in game PLAYING phase, you can only deploy armies. \n"
+	    				+ " -  deploy countryID num\n");
 	    		break;
     	}
     }

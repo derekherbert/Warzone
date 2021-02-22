@@ -6,103 +6,88 @@ import warzone.service.CommonTool;
 import warzone.service.MapService;
 import warzone.service.StartupService;
 
+/**
+ * startup controller is to manipulate the startup phase in game
+ * including add/remove players
+ */
 public class StartupController {
 
 	private StartupService d_startupService;
 	private GameContext d_gameContext;
 
+	/**
+	 * constructor with setting gamecontext and create the startupService
+	 * @param p_gameContext the game context
+	 */
 	public StartupController(GameContext p_gameContext) {
-		
 		d_gameContext = p_gameContext;
 		d_startupService = new StartupService(p_gameContext);
 	}
 	
-	
-	/**
-	 * Performs the action for user command: loadmap filename
-	 * 
-	 * Game starts by user selection of a user-saved map file, which loads the map as a connected directed graph
-	 * 
-	 * @param p_fileName
-	 * @return if load map success
-	 */
-	public boolean loadMap(String p_fileName) {
-		
-		return d_startupService.loadMap(p_fileName);
-	}
-	
-	public boolean addRawPlayer(String p_parameters) {
-		//parse [p_parameters]
-		if(p_parameters == null){			
-			GenericView.printError("Missing valid parameters.");
-			return false;
-		}
 
-		String l_playerName = "";
-		String[] l_parameters = CommonTool.conventToArray(p_parameters);
-		if(l_parameters.length == 1 ) {			
-			l_playerName = l_parameters[0];
-		}
-		if(l_playerName == ""){
-			GenericView.printError("Missing valid parameters.");
-			return false;
-		}
-
-		return addPlayer(l_playerName);	
-	}
-	
 	/**
 	 * Performs the action for user command: gameplayer -add playerName
 	 * 
-	 * @param name
-	 * @return
+	 * @param p_playerName player's name
+	 * @return true if add successfully, otherwise return false
 	 */
-	public boolean addPlayer(String name) {
-		
-		// TODO Auto-generated method stub
-		
-		return false;
-	}
-	
-	public boolean removeRawPlayer(String p_parameters) {
-		//parse [p_parameters]
-		if(p_parameters == null){			
-			GenericView.printError("Missing valid parameters.");
+	public boolean addPlayer(String p_playerName) {
+		if(p_playerName == null || p_playerName.trim().equals("")) {
+			GenericView.printWarning("Invalid player name.");
 			return false;
 		}
-
-		String l_playerName = "";
-		String[] l_parameters = CommonTool.conventToArray(p_parameters);
-		if(l_parameters.length == 1 ) {			
-			l_playerName = l_parameters[0];
+		//1. create a new player instance
+		Player l_player = new Player(p_playerName);
+		
+		//2. add player to PlayerService
+		boolean l_ok=d_startupService.addPlayer(l_player);
+		
+		//3. render to view
+		if(l_ok) {
+			GenericView.printSuccess( String.format("Player [%s] was added successfully.", l_player.getName()) );
+		}else {
+			GenericView.printError( String.format("Player [%s] was added failed.", l_player.getName()) );
 		}
-		if(l_playerName == ""){
-			GenericView.printError("Missing valid parameters.");
-			return false;
-		}
-
-		return removePlayer(l_playerName);	
+		return l_ok;
 	}
 	
 	/**
 	 * Performs the action for user command: gameplayer -remove playerName
 	 * 
-	 * @param name
-	 * @return
+	 * @param p_playerName player's name
+	 * @return true if remove successfully, otherwise return false
 	 */
-	public boolean removePlayer(String name) {
-		
-		// TODO Auto-generated method stub
-		
-		return false;
+	public boolean removePlayer(String p_playerName) {
+		if( d_startupService.removePlayer(p_playerName)) {
+			GenericView.printSuccess( String.format("Player [%s] was removed successfully.", p_playerName) );
+			return true;
+		}else {
+			GenericView.printWarning( String.format("Failed to remove Player [%s].", p_playerName ) );
+			return false;
+		}
 	}
+	
+	/**
+	 * Performs the action for user command: loadmap filename
+	 * 
+	 * Game starts by user selection of a user-saved map file,
+	 * the map should be a connected graph
+	 * 
+	 * @param p_fileName the file to load
+	 * @return true if load map successfully, otherwise return false
+	 */
+	public boolean loadMap(String p_fileName) {
+		
+		return d_startupService.loadMap(p_fileName);
+	}
+		
 	
 	/**
 	 * Performs the action for user command: assigncountries
 	 * 
 	 * After user creates all the players, all countries are randomly assigned to players. 
 	 * 
-	 * @return
+	 * @return true if assign the countries successfully, otherwise return false
 	 */
 	public boolean assignCountries() {
 		
