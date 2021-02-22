@@ -18,11 +18,22 @@ import warzone.view.GenericView;
 public class GameEngine {
 	private GameContext d_gameContext;	
 	private static GameEngine GAME_ENGINE;
-	
+
+	/**
+	 * private constructor
+	 * set the game context
+	 * @param p_gameContext the game context
+	 */
 	private GameEngine(GameContext p_gameContext) {
 		d_gameContext = p_gameContext;
 	}
-	
+
+	/**
+	 * return the game engine
+	 * if game engine is not created, then create a new game engine
+	 * @param p_gameContext the game context
+	 * @return the game engine
+	 */
 	public static GameEngine getGameEngine(GameContext p_gameContext) {
 		if( GAME_ENGINE == null)
 			GAME_ENGINE = new GameEngine(p_gameContext);

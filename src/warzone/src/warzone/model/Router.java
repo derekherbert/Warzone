@@ -44,6 +44,7 @@ public class Router {
 	public ControllerName getControllerName(){
 		return d_controllerName;
 	}
+
 	/**
 	 * This method will show the name of the action.
 	 * @return the name of the action
@@ -51,6 +52,7 @@ public class Router {
 	public String getActionName(){
 		return d_actionName;
 	}
+
 	/**
 	 * This method will show the parameters of the action.
 	 * @return the parameters of the action
@@ -58,8 +60,10 @@ public class Router {
 	public String getActionParameters(){
 		return d_actionParameters;
 	}
+
 	/**
 	 * This method can convert Router to String class.
+	 * @return the controller name and the actionname and its parameters
 	 */
 	public String toString() {
 		return String.format("%s | %s | %s" ,d_controllerName.toString() ,d_actionName, getActionParameters());

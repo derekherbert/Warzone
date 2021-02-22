@@ -66,8 +66,7 @@ public class GameContext {
 	}
 	
 	/**
-	 * clear the game context 
-	 * @return a new game context
+	 * clear the game context
 	 */
 	public static void clear(){
 		GAME_CONTEXT = new GameContext();		

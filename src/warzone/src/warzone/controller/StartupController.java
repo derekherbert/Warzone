@@ -6,13 +6,20 @@ import warzone.service.CommonTool;
 import warzone.service.MapService;
 import warzone.service.StartupService;
 
+/**
+ * startup controller is to manipulate the startup phase in game
+ * including add/remove players
+ */
 public class StartupController {
 
 	private StartupService d_startupService;
 	private GameContext d_gameContext;
 
+	/**
+	 * constructor with setting gamecontext and create the startupService
+	 * @param p_gameContext the game context
+	 */
 	public StartupController(GameContext p_gameContext) {
-		
 		d_gameContext = p_gameContext;
 		d_startupService = new StartupService(p_gameContext);
 	}
@@ -21,8 +28,8 @@ public class StartupController {
 	/**
 	 * Performs the action for user command: gameplayer -add playerName
 	 * 
-	 * @param name player's name
-	 * @return true if add success else false
+	 * @param p_playerName player's name
+	 * @return true if add successfully, otherwise return false
 	 */
 	public boolean addPlayer(String p_playerName) {
 		if(p_playerName == null || p_playerName.trim().equals("")) {
@@ -47,8 +54,8 @@ public class StartupController {
 	/**
 	 * Performs the action for user command: gameplayer -remove playerName
 	 * 
-	 * @param name player's name
-	 * @return true if remove success else false
+	 * @param p_playerName player's name
+	 * @return true if remove successfully, otherwise return false
 	 */
 	public boolean removePlayer(String p_playerName) {
 		if( d_startupService.removePlayer(p_playerName)) {
@@ -63,10 +70,11 @@ public class StartupController {
 	/**
 	 * Performs the action for user command: loadmap filename
 	 * 
-	 * Game starts by user selection of a user-saved map file, which loads the map as a connected directed graph
+	 * Game starts by user selection of a user-saved map file,
+	 * the map should be a connected graph
 	 * 
-	 * @param p_fileName
-	 * @return if load map success
+	 * @param p_fileName the file to load
+	 * @return true if load map successfully, otherwise return false
 	 */
 	public boolean loadMap(String p_fileName) {
 		
@@ -79,7 +87,7 @@ public class StartupController {
 	 * 
 	 * After user creates all the players, all countries are randomly assigned to players. 
 	 * 
-	 * @return
+	 * @return true if assign the countries successfully, otherwise return false
 	 */
 	public boolean assignCountries() {
 		
