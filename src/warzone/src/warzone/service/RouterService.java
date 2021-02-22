@@ -10,6 +10,10 @@ import warzone.controller.*;
 import warzone.model.*;
 import warzone.view.GenericView;
 
+/**
+ * This class can offer service related router to controllers.
+ *
+ */
 public class RouterService {
 		
 	private static RouterService ROUTER_SERVICE;
@@ -20,6 +24,12 @@ public class RouterService {
 		d_gameContext = p_gameContext;
 	}	
 	
+  /**
+	 * This method will return a routerService instance and create it if the instance
+	 * is null.
+   * 
+	 * @return the RouterService instance
+	 */
 	public static RouterService getRouterService(GameContext p_gameContext) {
 		if( ROUTER_SERVICE == null)
 			ROUTER_SERVICE = new RouterService(p_gameContext);
