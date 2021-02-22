@@ -77,9 +77,7 @@ public class StartupController {
 	 * @return true if load map successfully, otherwise return false
 	 */
 	public boolean loadMap(String p_fileName) {
-		if(d_startupService.loadMap(p_fileName))
-			d_gameContext.setGamePhase(GamePhase.STARTUP);
-		return true;
+		return d_startupService.loadMap(p_fileName);
 	}
 		
 	
