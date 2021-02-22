@@ -51,14 +51,10 @@ public class GameplayController {
 	 * 
 	 * Shows all countries and continents, armies on each country, ownership, 
 	 * and connectivity in a way that enables efficient game play
-	 *
-	 * @return the game context
 	 */
-	public GameContext showMap() {
+	public void showMap() {
 		
 		MapView.printMap(d_gameContext);
 		MapView.printMapWithArmies(d_gameContext.getContinents());
-
-		return null;
 	}
 }
