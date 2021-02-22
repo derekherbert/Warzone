@@ -20,6 +20,10 @@ public class RouterService {
 	
 	private GameContext d_gameContext;
 
+	/**
+	 * the constructor of it, only can be used inside this class.
+	 * @param p_gameContext the current game context
+	 */
 	private RouterService(GameContext p_gameContext) {
 		d_gameContext = p_gameContext;
 	}	

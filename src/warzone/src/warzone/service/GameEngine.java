@@ -60,6 +60,10 @@ public class GameEngine {
 		l_commandService.commandScanner(l_routerService);
 	}	
 	
+	/**	
+	 * This method will show whether the game can start.	
+	 * @return true if the game can start	
+	 */
 	public boolean isReadyToStart() {
 		if(this.d_gameContext == null || this.d_gameContext.getContinents().size() <1 
 				|| this.d_gameContext.getCountries().size() < 1 || this.d_gameContext.getPlayers().size() < 1 )
@@ -67,7 +71,10 @@ public class GameEngine {
 		else
 			return true;
 	}
-	
+	/**
+	 * change the current game phase
+	 * @param p_gamePhase the given game phase
+	 */
 	public void setGamePhase(GamePhase p_gamePhase) {
 		d_gameContext.setGamePhase(p_gamePhase);		
 	}

@@ -68,6 +68,9 @@ public class Player {
 	public Queue<Order> getOrders() {
 		return d_orders;
 	}
+	/**
+	 * clear the countries list for current player
+	 */
 	public void cleanConqueredCountries() {
 		d_conqueredCountries.clear();
 	}
