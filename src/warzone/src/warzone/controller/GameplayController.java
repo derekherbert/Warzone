@@ -14,7 +14,7 @@ public class GameplayController {
 
 	/**
 	 * constructor with setting gameContext and gameEngine
-	 * @param p_gameContext
+	 * @param p_gameContext the game context
 	 */
 	public GameplayController(GameContext p_gameContext) {
 		d_gameContext = p_gameContext;
@@ -51,6 +51,8 @@ public class GameplayController {
 	 * 
 	 * Shows all countries and continents, armies on each country, ownership, 
 	 * and connectivity in a way that enables efficient game play
+	 *
+	 * @return the game context
 	 */
 	public GameContext showMap() {
 		

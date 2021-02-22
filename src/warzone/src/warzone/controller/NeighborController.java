@@ -15,7 +15,7 @@ public class NeighborController {
 
 	/**
 	 * constructor with setting gamecontext and create a neighborService
-	 * @param p_gameContext
+	 * @param p_gameContext the game context
 	 */
 	public NeighborController(GameContext p_gameContext) {
 		d_gameContext = p_gameContext;

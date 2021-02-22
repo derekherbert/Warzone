@@ -22,11 +22,10 @@ public class ContinentController {
 	}
 	
 	/**
-	 * This methods can receive parameters from the Router, check the correctness of 
+	 * This methods can receive parameters from the Router, check the correctness of
 	 * commands and call the internal methods.
 	 * @param p_parameters parameters parsed by parser
 	 * @return the result of adding new continent
-	 * @see {@link #addContinent(int p_continentID, String p_continentName)}
 	 */
 	public boolean addContinent(String p_parameters) {
 		if(p_parameters == null) {
@@ -56,7 +55,7 @@ public class ContinentController {
 	 * add continent into map
 	 * @param p_continentID continent id
 	 * @param p_continentName continent name
-	 * @return
+	 * @return true if successfully add the continent, otherwise return false
 	 */
 	public boolean addContinent(int p_continentID, String p_continentName) {
 		//1. create a new contient instance

@@ -34,7 +34,7 @@ public class RouterService {
 	/**
 	 * This method will parse a single console commands entered by the user and call the corresponding controller by controller name
 	 * @param p_router the Router parsed from the command
-	 * @throws IOException 
+	 * @throws IOException exception from reading the commands
 	 */
 	public void route(Router p_router) throws IOException{
 		ControllerFactory l_controllerFactory = ControllerFactory.getControllerFactory();

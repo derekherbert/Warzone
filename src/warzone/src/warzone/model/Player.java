@@ -95,7 +95,7 @@ public class Player {
 
 	/**
 	 * This method can set the number of armies deployed by the current player.
-	 * @param p_armyNumber the number of armies
+	 * @param p_armiesToDeploy the number to deploy the army
 	 */
 	public void setArmiesToDeploy(int p_armiesToDeploy) {
 		this.d_armiesToDeploy = p_armiesToDeploy;
