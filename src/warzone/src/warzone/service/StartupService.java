@@ -36,8 +36,7 @@ public class StartupService {
 		Map<Integer,Country> l_countries=d_gameContext.getCountries();
 		if(p_player != null 
 				&& p_player.getName()!="" 
-				&& l_players.size()<5 
-				&& l_players.size()<l_countries.size()) {			
+				&& l_players.size()<= 5 ) {			
 			l_players.put(p_player.getName(), p_player);
 			return true;
 		}
