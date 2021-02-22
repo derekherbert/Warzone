@@ -29,7 +29,7 @@ public class MapController {
 	 */
 	public void showMap () {
 
-		MapView.printMap(d_gameContext.getContinents());
+		MapView.printMap(d_gameContext);
 	}
 	
 	/**
@@ -81,11 +81,15 @@ public class MapController {
 	 * and before saving (at least 3 types of incorrect maps). The validatemap command can be 
 	 * triggered any time during map editing. 
 	 */
-	public boolean validateMap () {
-		
-		// TODO Auto-generated method stub
-		
-		return false;
+	public boolean validateMap () {		
+		if(! d_mapService.validateMap(d_gameContext) ) {
+			GenericView.printError("It is not a connected map.");
+			return false;
+		}
+		else {
+			GenericView.printSuccess("Yeah! You got a connected map!");
+			return true;
+		}
 	}
-
+	
 }
