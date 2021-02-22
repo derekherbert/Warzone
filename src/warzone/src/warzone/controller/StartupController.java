@@ -47,10 +47,10 @@ public class StartupController {
 	 */
 	public boolean removePlayer(String p_playerName) {
 		if( d_startupService.removePlayer(p_playerName)) {
-			GenericView.printSuccess( String.format("Continent ID [%s] was removed successfully.", p_playerName) );
+			GenericView.printSuccess( String.format("Player [%s] was removed successfully.", p_playerName) );
 			return true;
 		}else {
-			GenericView.printWarning( String.format("Failed to remove Continent ID [%s].", p_playerName ) );
+			GenericView.printWarning( String.format("Failed to remove Player [%s].", p_playerName ) );
 			return false;
 		}
 	}
