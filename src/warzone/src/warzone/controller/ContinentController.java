@@ -43,7 +43,7 @@ public class ContinentController {
 			l_bonusReinforcements = CommonTool.parseInt(l_parameters[1]);
 		}
 		// if continent id or name is not correct, return error info
-		if(l_continentID == -1 || l_bonusReinforcements ==-1){
+		if(l_continentID == -1 || l_bonusReinforcements < 0){
 			GenericView.printError("Missing valid parameters.");
 			return false;
 		}
