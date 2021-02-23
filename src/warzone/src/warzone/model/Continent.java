@@ -11,7 +11,7 @@ public class Continent {
 	private int d_continentID;
 	private String d_continentName;
 	private int d_bonusReinforcements;
-	private Color d_color;
+	private String d_color;
 	private Map<Integer, Country> d_countries;
 
 	/**
@@ -33,7 +33,7 @@ public class Continent {
 	 * @param p_bonusReinforcements the bonus reinforcement of the continnet
 	 * @param p_color the color of the continent
 	 */
-	public Continent(int p_continentID, String p_continentName, int p_bonusReinforcements, Color p_color) {
+	public Continent(int p_continentID, String p_continentName, int p_bonusReinforcements, String p_color) {
 		
 		d_continentID = p_continentID;
 		d_continentName = p_continentName;
@@ -94,7 +94,7 @@ public class Continent {
 	 * get the color of the continent
 	 * @return the color
 	 */
-	public Color getColor() {
+	public String getColor() {
 		return d_color;
 	}
 
@@ -102,7 +102,7 @@ public class Continent {
 	 * get the color
 	 * @param p_color the color of the continent
 	 */
-	public void setColor(Color p_color) {
+	public void setColor(String p_color) {
 		this.d_color = p_color;
 	}
 

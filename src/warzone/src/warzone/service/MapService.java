@@ -218,7 +218,7 @@ public class MapService {
 					splitArray = line.split("\\s+");
 										
 					d_gameContext.getContinents().put(continentCtr, 
-							new Continent(continentCtr, splitArray[0], Integer.parseInt(splitArray[1]), Color.valueOf(splitArray[2].toUpperCase())));
+							new Continent(continentCtr, splitArray[0], Integer.parseInt(splitArray[1]), splitArray[2]));
 					
 					continentCtr++;
 				}

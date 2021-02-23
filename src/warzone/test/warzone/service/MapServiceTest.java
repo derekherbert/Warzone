@@ -61,8 +61,8 @@ public class MapServiceTest {
     public void validateMap1() {
 
         //set map into d_gamecontext
-        d_gameContext.getContinents().put(1,new Continent(1,"North_America", 3, Color.RED ));
-        d_gameContext.getContinents().put(2,new Continent(2,"South_America", 5, Color.BLUE ));
+        d_gameContext.getContinents().put(1,new Continent(1,"North_America", 3, "RED" ));
+        d_gameContext.getContinents().put(2,new Continent(2,"South_America", 5, "BLUE" ));
 
         CountryController _countryCtrl = new CountryController(d_gameContext);
         Country canada = new Country(1,"Canada", 343,435, d_gameContext.getContinents().get(1) );
@@ -117,7 +117,7 @@ public class MapServiceTest {
     public void validateMap2() {
 
         //add map info into d_gameContext
-        d_gameContext.getContinents().put(1,new Continent(1,"North_America", 3, Color.RED ));
+        d_gameContext.getContinents().put(1,new Continent(1,"North_America", 3, "RED" ));
 
         CountryController _countryCtrl = new CountryController(d_gameContext);
         Country canada = new Country(1,"Canada", 343,435, d_gameContext.getContinents().get(1) );
@@ -134,8 +134,8 @@ public class MapServiceTest {
     public void validateMap3() {
 
         //add map info into d_gameContext
-        d_gameContext.getContinents().put(1,new Continent(1,"North_America", 3, Color.RED ));
-        d_gameContext.getContinents().put(3,new Continent(2,"Asia", 5, Color.PINK));
+        d_gameContext.getContinents().put(1,new Continent(1,"North_America", 3, "RED" ));
+        d_gameContext.getContinents().put(3,new Continent(2,"Asia", 5, "PINK"));
 
         CountryController _countryCtrl = new CountryController(d_gameContext);
         Country canada = new Country(1,"Canada", 343,435, d_gameContext.getContinents().get(1) );
@@ -160,8 +160,8 @@ public class MapServiceTest {
     public void validateMap4() {
 
         //set map into d_gamecontext
-        d_gameContext.getContinents().put(1,new Continent(1,"North_America", 3, Color.RED ));
-        d_gameContext.getContinents().put(2,new Continent(2,"South_America", 5, Color.BLUE ));
+        d_gameContext.getContinents().put(1,new Continent(1,"North_America", 3, "RED" ));
+        d_gameContext.getContinents().put(2,new Continent(2,"South_America", 5, "BLUE" ));
 
         CountryController _countryCtrl = new CountryController(d_gameContext);
         Country canada = new Country(1,"Canada", 343,435, d_gameContext.getContinents().get(1) );
@@ -212,8 +212,8 @@ public class MapServiceTest {
     @Test
     public void validateContinentMap1() {
         //set map into d_gamecontext
-        d_gameContext.getContinents().put(1,new Continent(1,"North_America", 3, Color.RED ));
-        d_gameContext.getContinents().put(2,new Continent(2,"South_America", 5, Color.BLUE ));
+        d_gameContext.getContinents().put(1,new Continent(1,"North_America", 3, "RED" ));
+        d_gameContext.getContinents().put(2,new Continent(2,"South_America", 5, "BLUE" ));
 
         CountryController _countryCtrl = new CountryController(d_gameContext);
         Country canada = new Country(1,"Canada", 343,435, d_gameContext.getContinents().get(1) );
@@ -241,8 +241,8 @@ public class MapServiceTest {
     @Test
     public void validateContinentMap2() {
         //set map into d_gamecontext
-        d_gameContext.getContinents().put(1,new Continent(1,"North_America", 3, Color.RED ));
-        d_gameContext.getContinents().put(2,new Continent(2,"South_America", 5, Color.BLUE ));
+        d_gameContext.getContinents().put(1,new Continent(1,"North_America", 3, "RED" ));
+        d_gameContext.getContinents().put(2,new Continent(2,"South_America", 5, "BLUE" ));
 
         CountryController _countryCtrl = new CountryController(d_gameContext);
         Country canada = new Country(1,"Canada", 343,435, d_gameContext.getContinents().get(1) );
