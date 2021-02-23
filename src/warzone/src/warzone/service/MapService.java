@@ -29,7 +29,7 @@ public class MapService {
 
 	/**
 	 * save map to file
-	 * @param l_fileName file name
+	 * @param p_fullFileName file name
 	 * @return if success
 	 * @throws IOException if any io exception
 	 */
