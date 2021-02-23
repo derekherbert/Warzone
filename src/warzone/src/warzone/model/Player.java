@@ -218,7 +218,7 @@ public class Player {
 	 * the number of countries owned in each continent. If the number of countries owned in a continent matches the number of countries in that
 	 * continent, the player gets the bonus reinforcements added (for each applicable continent).
 	 * 
-	 * @param p_gameContext
+	 * @param p_gameContext game context
 	 */
 	public void assignReinforcements(GameContext p_gameContext) {		
 		

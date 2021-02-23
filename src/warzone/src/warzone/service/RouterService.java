@@ -31,7 +31,7 @@ public class RouterService {
 	/**
 	 * This method will return a routerService instance and create it if the instance
 	 * is null.
-	 * @p_gameContext the game context instance
+	 * @param p_gameContext the game context instance
 	 * @return the RouterService instance
 	 */
 	public static RouterService getRouterService(GameContext p_gameContext) {
