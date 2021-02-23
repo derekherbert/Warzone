@@ -54,7 +54,7 @@ public class ContinentController {
 	/**
 	 * add continent into map
 	 * @param p_continentID continent id
-	 * @param p_continentName continent name
+	 * @param p_bonusReinforcements bonusReinforcements
 	 * @return true if successfully add the continent, otherwise return false
 	 */
 	public boolean addContinent(int p_continentID, int p_bonusReinforcements) {
