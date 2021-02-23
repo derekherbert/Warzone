@@ -272,8 +272,9 @@ public class StartupService {
 	 */
 	public boolean assignCountries() {
 
-		//Make sure there are enough countries to distribute between all the players
-		if(d_gameContext.getPlayers().size() > d_gameContext.getCountries().size()) {			
+		//Make sure there are more than 1 player
+		//and there are enough countries to distribute between all the players
+		if( d_gameContext.getPlayers().size() < 2 || d_gameContext.getPlayers().size() > d_gameContext.getCountries().size() ) {
 			return false;
 		}
 		//reset the countries list and for each player.
