@@ -89,7 +89,7 @@ public class DeployOrder implements Order {
 	@Override
 	public boolean execute() {
 		//check
-		if(!this.d_country.getOwner().equals(this.d_player) ) {
+		if(this.d_country.getOwner()== null || !this.d_country.getOwner().equals(this.d_player) || this.d_armyNumber <0 ) {
 			return false;
 		} 
 		// if the remaining army is less than deploy number:
