@@ -46,7 +46,8 @@ issue_order
 startup
 loadmap simple.map
 validatemap
-gameplayer -add Player1 -add Player2  
+gameplayer -add Player1 -add Player2  -add Player3 -add Player4 
+gameplayer -remove Player1 
 assigncountries
 showmap
 play[5]

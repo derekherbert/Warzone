@@ -1,5 +1,7 @@
 package warzone.model;
 
+import java.util.Map;
+
 import warzone.view.GenericView;
 import warzone.view.MapView;
 
@@ -97,12 +99,11 @@ public class DeployOrder implements Order {
 		if( this.d_player.getArmiesToDeploy() <  this.d_armyNumber) {
 			this.d_armyNumber = this.d_player.getArmiesToDeploy();
 		}
-		GenericView.printSuccess(String.format("Succeed to deploy %s army to [%s] for player [%s]", this.getArmyNumber(), this.getCountry().getCountryName(), this.getPlayer().getName() ));
+		GenericView.printSuccess(String.format("Succeed to deploy [%s] army to [%s] for player [%s]", this.getArmyNumber(), this.getCountry().getCountryName(), this.getPlayer().getName() ));
 		//move army
 		this.d_country.setArmyNumber( this.d_country.getArmyNumber() +  this.d_armyNumber );
 		this.d_player.setArmiesToDeploy(this.d_player.getArmiesToDeploy() - this.d_armyNumber);
 		
-		MapView.printMapWithArmies(GameContext.getGameContext().getContinents());
 		return true;
 	}
 }
