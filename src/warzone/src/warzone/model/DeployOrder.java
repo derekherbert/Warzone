@@ -1,6 +1,7 @@
 package warzone.model;
 
 import warzone.view.GenericView;
+import warzone.view.MapView;
 
 /**
  * This class represents one deploy order of the gameplay
@@ -100,6 +101,8 @@ public class DeployOrder implements Order {
 		//move army
 		this.d_country.setArmyNumber( this.d_country.getArmyNumber() +  this.d_armyNumber );
 		this.d_player.setArmiesToDeploy(this.d_player.getArmiesToDeploy() - this.d_armyNumber);
+		
+		MapView.printMapWithArmies(GameContext.getGameContext().getContinents());
 		return true;
 	}
 }

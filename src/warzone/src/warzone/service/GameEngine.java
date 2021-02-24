@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 import warzone.model.*;
 import warzone.view.GenericView;
+import warzone.view.MapView;
 
 /**
  * Main game loop.
@@ -186,8 +187,9 @@ public class GameEngine {
 			d_gameContext.getPlayers().forEach((k, player) -> {
 				if(player.getIsAlive()) {
 					Order l_order = player.next_order();
-					if(l_order != null)
+					if(l_order != null) {
 						l_order.execute();
+					}
 				}				
 			});
 			l_roundIndex ++;			

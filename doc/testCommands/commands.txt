@@ -58,4 +58,11 @@ play[5]
 ---------- test map
 loadmap simple.map
 editmap simple.map
-savemap simple-1.map
+
+editcontinent -add 7 77
+editcontinent -add 7 77
+savemap test-2.map
+editcontinent -remove 7
+showmap
+savemap test-2.map
+
