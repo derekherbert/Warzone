@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import warzone.model.*;
 import warzone.view.GenericView;
+import warzone.view.MapView;
 
 /**
  * Main game loop.
@@ -62,10 +63,17 @@ public class GameEngine {
 	 */
 	public boolean isReadyToStart() {
 		if(this.d_gameContext == null || this.d_gameContext.getContinents().size() <1 
-				|| this.d_gameContext.getCountries().size() < 1 || this.d_gameContext.getPlayers().size() < 1 )
+				|| this.d_gameContext.getCountries().size() < 1 || this.d_gameContext.getPlayers().size() < 1
+				|| (this.d_gameContext.getCountries().size() < this.d_gameContext.getPlayers().size()) )
 			return false;
-		else
-			return true;
+		else {
+			for(Player p_player : this.d_gameContext.getPlayers().values() ) {
+				if(p_player.getConqueredCountries().size() == 0)
+					return false;
+			}
+			
+		}
+		return true;
 	}
 	/**
 	 * change the current game phase
@@ -181,8 +189,10 @@ public class GameEngine {
 			d_gameContext.getPlayers().forEach((l_k, l_player) -> {
 				if(l_player.getIsAlive()) {
 					Order l_order = l_player.next_order();
-					if(l_order != null)
+					if(l_order != null){
 						l_order.execute();
+						MapView.printMapWithArmies(d_gameContext.getContinents());
+					}
 				}				
 			});
 			l_roundIndex ++;			
