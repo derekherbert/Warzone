@@ -40,7 +40,7 @@ public class CommonController {
 	 * @return true if success
 	 */
 	public boolean help() {
-		HelpView.printHelp(d_gameContext.getGamePhase());
+		//HelpView.printHelp(d_gameContext.getGamePhase());
 		return true;
 	}
 	

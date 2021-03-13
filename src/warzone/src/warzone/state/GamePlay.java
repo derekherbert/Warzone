@@ -8,11 +8,12 @@ import warzone.view.*;
  *  for commands that are valid in this state, and for the others signifies  
  *  that the command is invalid. 
  */
-public class GamePlay extends Phase {
+public abstract class GamePlay extends Phase {
 
 	public GamePlay(GameEngine p_ge) {
 		super(p_ge);
 	}
+	abstract public void next();
 
 	 public void showMap() {
 		 //todo

@@ -20,6 +20,9 @@ public class IssueOrder extends GamePlay {
 	public void next() {
 		d_gameEngine.setPhase(new OrderExecution(d_gameEngine));
 	}
+	 public void issueOrder() {
+		 //todo:
+	 }
 	
 	 public void loadMap(String p_fileName){
 		 printInvalidCommandMessage();
@@ -37,8 +40,12 @@ public class IssueOrder extends GamePlay {
 		 printInvalidCommandMessage();
 	 }	
 	 
-	 public void play(){
-		 //todo
+	 public void reinforcement(){
+		 printInvalidCommandMessage();
+	 }	 
+
+	 public void executeOrder(){
+		 printInvalidCommandMessage();
 	 }	
 
 }

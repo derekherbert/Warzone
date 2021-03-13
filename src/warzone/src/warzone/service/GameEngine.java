@@ -7,8 +7,6 @@ import warzone.model.*;
 import warzone.state.Startup;
 import warzone.state.MapEditor;
 import warzone.state.Phase;
-import warzone.state.PlaySetup;
-import warzone.state.Preload;
 import warzone.view.GenericView;
 import warzone.view.HelpView;
 import warzone.view.MapView;

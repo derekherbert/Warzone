@@ -107,11 +107,17 @@ public class RouterService {
 			case "loadmap":
 				d_gamePhase.loadMap(p_router.getActionParameters());
 				break;
-			case "assigncountries":
-				d_gamePhase.assignCountries();
+			case "populatecountries":
+				d_gamePhase.populatecountries();
 				break;
-			case "play":
-				d_gamePhase.play();
+			case "reinforcement":
+				d_gamePhase.reinforcement();
+				break;
+			case "issueOrder":
+				d_gamePhase.issueOrder();
+				break;
+			case "executeOrder":
+				d_gamePhase.executeOrder();
 				break;
 		}		
 	}

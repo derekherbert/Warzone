@@ -37,7 +37,14 @@ public class Startup extends GamePlay {
 		 //todo;
 	 }	
 	 
-	 public void play(){
+	 public void reinforcement(){
+		 printInvalidCommandMessage();
+	 }	
+ 
+	public void issueOrder(){
+		 printInvalidCommandMessage();
+	 }	
+	public void executeOrder(){
 		 printInvalidCommandMessage();
 	 }	
 }

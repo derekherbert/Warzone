@@ -72,10 +72,10 @@ public class MapEditor extends Phase {
 	 public void loadMap(String p_fileName){
 		 printInvalidCommandMessage();
 	 }		
-	 public void assignCountries(){
+	 public void populatecountries(){
 		 printInvalidCommandMessage();
 	 }		
-	 public void play(){
+	 public void reinforcement(){
 		 printInvalidCommandMessage();
 	 }	
  

@@ -21,6 +21,10 @@ public class OrderExecution extends GamePlay {
 		d_gameEngine.setPhase(new Startup(d_gameEngine));
 	}
 	
+	public void executeOrder(){
+		//todo
+	 }	
+	
 	 public void loadMap(String p_fileName){
 		 printInvalidCommandMessage();
 	 }	
@@ -37,8 +41,11 @@ public class OrderExecution extends GamePlay {
 		 printInvalidCommandMessage();
 	 }	
 	 
-	 public void play(){
-		 //todo
+	 public void reinforcement(){
+		 printInvalidCommandMessage();
 	 }	
-
+ 
+	public void issueOrder(){
+		 printInvalidCommandMessage();
+	 }	
 }

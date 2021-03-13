@@ -21,6 +21,10 @@ public class Reinforcement extends GamePlay {
 		d_gameEngine.setPhase(new IssueOrder(d_gameEngine));
 	}
 	
+	public void reinforcement(){
+		 //todo:
+	 }	
+	
 	 public void loadMap(String p_fileName){
 		 printInvalidCommandMessage();
 	 }	
@@ -37,8 +41,13 @@ public class Reinforcement extends GamePlay {
 		 printInvalidCommandMessage();
 	 }	
 	 
-	 public void play(){
-		 //todo
+	 
+ 
+	public void issueOrder(){
+		 printInvalidCommandMessage();
+	 }	
+	public void executeOrder(){
+		 printInvalidCommandMessage();
 	 }	
 
 }

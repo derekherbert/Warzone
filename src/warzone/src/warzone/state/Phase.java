@@ -46,8 +46,11 @@ public abstract class Phase {
 	abstract public void addPlayer(String p_playerName);	
 	abstract public void removePlayer(String p_playerName);	
 	abstract public void loadMap(String p_fileName);	
-	abstract public void assignCountries();
-	abstract public void play();
+	abstract public void populatecountries();
+	
+	abstract public void reinforcement(); 
+	abstract public void issueOrder();
+	abstract public void executeOrder();
 	
 	
 
