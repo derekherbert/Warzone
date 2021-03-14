@@ -19,7 +19,7 @@ public class CommandService {
 
 	/**
 	 * The constructor of the class.
-	 * @param p_gameContext initiating the game context of the current object
+	 * @param p_gameEngine initiating the GameEngine of the current object
 	 */
 	private CommandService(GameEngine p_gameEngine) {
 		d_gameEngine = p_gameEngine;

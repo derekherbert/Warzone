@@ -24,7 +24,7 @@ public class RouterService {
 	private Phase d_gamePhase;
 	/**
 	 * the constructor of it, only can be used inside this class.
-	 * @param p_gameContext the current game context
+	 * @param p_gameEngine the current  Game Engine
 	 */
 	private RouterService(GameEngine p_gameEngine) {
 		d_gameContext = p_gameEngine.getGameContext();
@@ -35,7 +35,7 @@ public class RouterService {
 	/**
 	 * This method will return a routerService instance and create it if the instance
 	 * is null.
-	 * @param p_gameContext the game context instance
+	 * @param p_gameEngine the Game Engine instance
 	 * @return the RouterService instance
 	 */
 	public static RouterService getRouterService( GameEngine p_gameEngine) {

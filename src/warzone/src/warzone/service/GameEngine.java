@@ -63,10 +63,18 @@ public class GameEngine {
 	 */
 	private Phase d_gamePhase ;
 	
+	/**
+	 * get  State of the Game 
+	 * @return State of the Game 
+	 */
 	public Phase getPhase() {
 		return d_gamePhase;
 	}
 	
+	/**
+	 * get  State of the Game Context
+	 * @return State of the Game  Context
+	 */
 	public GameContext getGameContext() {
 		return d_gameContext;
 	}	

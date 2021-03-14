@@ -29,7 +29,7 @@ public class HelpView {
     
     /**
      * This method will print current status of the game from the game context.
-     * @param p_gameContext the current game context
+     * @param p_gameEngine the current Game Engine
      */
     public static void printStatus(GameEngine p_gameEngine) {
     	GameContext l_gameContext = p_gameEngine.getGameContext();
