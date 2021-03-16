@@ -12,6 +12,7 @@ public abstract class GamePlay extends Phase {
 
 	public GamePlay(GameEngine p_ge) {
 		super(p_ge);
+		this.d_gamePhase = GamePhase.GamePlay;
 	}
 	abstract public void next();
 

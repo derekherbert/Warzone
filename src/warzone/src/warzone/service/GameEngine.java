@@ -163,7 +163,7 @@ public class GameEngine {
 	 * @return true if the current state satisfy the end condition: 
 	 * 1. there is just one player left 2. the number of game turn is greater than 100.
 	 */
-	private boolean isGameEnded() {
+	public boolean isGameEnded() {
 		//check and update PlayerStatus		
 		//set p_isLoser = true, when the player does not have any country
 		int l_alivePlayers = 0;
@@ -181,13 +181,18 @@ public class GameEngine {
 	 * This method will assign each player the correct number of reinforcement armies 
 	 * according to the Warzone rules.
 	 */
-	private void assignReinforcements() {
+	public void assignReinforcements() {
+		if( isGameEnded()) {
+			//todo: call game over and change state
+		}
+		
 		d_gameContext.getPlayers().forEach((l_k, l_player) -> {
 			if(l_player.getIsAlive()) {
 				GenericView.println("Start to assign reinforcements for player ["+ l_player.getName() +"]");
 				l_player.assignReinforcements(d_gameContext);
 			}
 		});
+		
 	}
 	
 	/**
@@ -196,13 +201,23 @@ public class GameEngine {
 	 * players reinforcement pool. The game engine does this for all players in round-robin fashion until all the players 
 	 * have placed all their reinforcement armies on the map.
 	 */
-	private void issueOrders() {
-		d_gameContext.getPlayers().forEach((l_k, l_player) -> {
-			if(l_player.getIsAlive()) {
-				GenericView.println("Start to issue orders for player ["+ l_player.getName() +"]");
-				l_player.issue_order();
-			}
-		});			
+	public void issueOrders() {
+		if( isGameEnded()) {
+			//todo: call game over and change state
+		}		
+
+		int l_i = 1;
+		int l_maxOrderPerTurn = 5;
+		while(l_i <= l_maxOrderPerTurn) {
+			d_gameContext.getPlayers().forEach((l_k, l_player) -> {
+				if(l_player.getIsAlive()) {
+					GenericView.println("Start to issue orders for player ["+ l_player.getName() +"]");
+					l_player.issue_order();
+				}
+			});
+			l_i ++;
+		}
+
 	}
 	
 	
@@ -214,7 +229,11 @@ public class GameEngine {
 	 * <li>excute the orders from player's order list in round-robin fashion</li>
 	 * </ol>
 	 */
-	private void executeOrders() {		
+	public void executeOrders() {	
+		if( isGameEnded()) {
+			//todo: call game over and change state
+		}	
+		
 		//1. get the max number of the orders in a player.		
 		int l_maxOrderNumber = 0;	
 		for(Player l_player :d_gameContext.getPlayers().values() ){
@@ -228,6 +247,10 @@ public class GameEngine {
 		GenericView.println("Start to execute orders.");
 		int l_roundIndex = 1;
 		while(l_roundIndex <= l_maxOrderNumber ){
+			if( isGameEnded()) {
+				//todo: call game over and change state
+			}	
+			
 			GenericView.println("Start to execute round [" + l_roundIndex + "] of orders");
 			d_gameContext.getPlayers().forEach((l_k, l_player) -> {
 				if(l_player.getIsAlive()) {

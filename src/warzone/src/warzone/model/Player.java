@@ -163,6 +163,7 @@ public class Player {
 		String l_command = "";
 		int l_armyToIssue = this.getArmiesToDeploy();
 		int l_armyHasIssued = 0;
+		boolean hasCreatedOrder = false;
 		GameContext l_gameContext = GameContext.getGameContext();
 		
 		GenericView.println(String.format("You have [%s] Countries and [%s] armies", this.getConqueredCountries().size(), l_armyToIssue ));
@@ -171,7 +172,7 @@ public class Player {
 		}		
 		
 		do {
-			GenericView.println(String.format("Please input deploy command for player [%s] , there is [%s] army available", this.getName(), l_armyToIssue ));
+			GenericView.println(String.format("Please input command for player [%s] , there is [%s] army available", this.getName(), l_armyToIssue ));
 			DeployOrder l_deployOrder;
 
 			if(!l_gameContext.getIsDemoMode()) {
@@ -182,6 +183,7 @@ public class Player {
 				if(l_deployOrder != null && this.getConqueredCountries().containsKey(l_deployOrder.getCountry().getCountryID()) 
 					&&  l_deployOrder.getArmyNumber() <= l_armyToIssue	) {					
 					l_deployOrder.setPlayer(this);
+					hasCreatedOrder = true;
 					GenericView.printSuccess(String.format("Issue order of Deploying [%s] army to Country [%s-%s]", l_deployOrder.getArmyNumber() , l_deployOrder.getCountry().getCountryID(), l_deployOrder.getCountry().getCountryName() ));
 				}		
 			}
@@ -192,6 +194,7 @@ public class Player {
 				Country l_country = d_conqueredCountries.get(l_countryKey);
 				int l_armyNumber =  CommonTool.getRandomNumber(1, l_armyToIssue);
 				l_deployOrder = new DeployOrder(this, l_country, l_armyNumber );
+				hasCreatedOrder = true;
 				GenericView.printSuccess(String.format("Issue order of Deploying [%s] army to Country [%s]", l_armyNumber , l_country.getCountryName() ));
 			}
 			
@@ -204,7 +207,7 @@ public class Player {
 			else {
 				GenericView.printWarning("Incorrect command or army number, please check the countryID and the number of army");
 			}			
-		} while (l_armyToIssue > 0 );		
+		} while (hasCreatedOrder = false );		
 	}
 	
 	
