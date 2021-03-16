@@ -1,7 +1,6 @@
 package warzone.service;
 
 import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.jupiter.api.Test;
 
 import warzone.model.GameContext;
