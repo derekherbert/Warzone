@@ -147,6 +147,110 @@ public class Player {
 		return null;			
 	}
 
+	private Order conventOrder(String p_command) {
+		if(p_command == null)
+			return null;
+
+		p_command = p_command.trim().toLowerCase();
+
+		String [] l_commandInfos = CommonTool.conventToArray(p_command);
+		String l_orderName = "";
+		if(l_commandInfos[0] != null)
+			 l_orderName = l_commandInfos[0];
+		switch(l_orderName.toLowerCase()){
+			case "deploy":
+				if(l_commandInfos.length != 3) break;
+				int l_countryId = CommonTool.parseInt(l_commandInfos[1]);
+				int l_armyNumber = CommonTool.parseInt(l_commandInfos[2]);
+				Country l_country = this.getConqueredCountries().get(l_countryId);
+
+				if(l_country != null && l_armyNumber > 0 )
+					return new DeployOrder(l_country, l_armyNumber);
+				break;
+			case "advance":
+				break;
+			case "bomb":
+				break;
+			case "blockade":
+				break;
+			case "airlift":
+				break;
+			case "diplomacy":
+				break;
+		}
+		return null;
+	}
+
+	int l_armyToIssue = this.getArmiesToDeploy();
+	int l_armyHasIssued = 0;
+
+	/**
+	 * precheck for deploy order and set the player to the order
+	 * @param p_deployOrder the deploy order
+	 * @return true if the order is valid
+	 */
+	public boolean checkDeployOrder(DeployOrder p_deployOrder){
+		if (!this.getConqueredCountries().containsKey(p_deployOrder.getCountry().getCountryID()))
+			return false;
+		if (p_deployOrder.getArmyNumber() < 0)
+			return false;
+		if (p_deployOrder.getArmyNumber() > l_armyToIssue)
+			return false;
+
+		p_deployOrder.setPlayer(this);
+		return true;
+	}
+
+//	public void issueDeployOrder(){
+//		if( this.d_armiesToDeploy == 0 )
+//			return ;
+//
+//		String l_command = "";
+//		int l_armyToIssue = this.getArmiesToDeploy();
+//		int l_armyHasIssued = 0;
+//		GameContext l_gameContext = GameContext.getGameContext();
+//
+//		GenericView.println(String.format("You have [%s] Countries and [%s] armies", this.getConqueredCountries().size(), l_armyToIssue ));
+//		for(Country l_countryTemp : this.getConqueredCountries().values()) {
+//			GenericView.println(String.format("Country ID : [%s] , Name : [%s]", l_countryTemp.getCountryID(), l_countryTemp.getCountryName() ));
+//		}
+//
+//		do {
+//			GenericView.println(String.format("Please input deploy command for player [%s] , there is [%s] army available", this.getName(), l_armyToIssue ));
+//			DeployOrder l_deployOrder;
+//
+//			if(!l_gameContext.getIsDemoMode()) {
+//				//1. issue order from interaction
+//				l_command = d_keyboard.nextLine();
+//				//convent the commend to deploy order.
+//				l_deployOrder = conventDeployOrder(l_command);
+//				if(l_deployOrder != null && this.getConqueredCountries().containsKey(l_deployOrder.getCountry().getCountryID())
+//						&&  l_deployOrder.getArmyNumber() <= l_armyToIssue	) {
+//					l_deployOrder.setPlayer(this);
+//					GenericView.printSuccess(String.format("Issue order of Deploying [%s] army to Country [%s-%s]", l_deployOrder.getArmyNumber() , l_deployOrder.getCountry().getCountryID(), l_deployOrder.getCountry().getCountryName() ));
+//				}
+//			}
+//			else {
+//				//2. generate the command automatically.
+//				List<Integer> l_countryKeys = new ArrayList(d_conqueredCountries.keySet());
+//				Integer l_countryKey = l_countryKeys.get( CommonTool.getRandomNumber(0, (l_countryKeys.size() )) );
+//				Country l_country = d_conqueredCountries.get(l_countryKey);
+//				int l_armyNumber =  CommonTool.getRandomNumber(1, l_armyToIssue);
+//				l_deployOrder = new DeployOrder(this, l_country, l_armyNumber );
+//				GenericView.printSuccess(String.format("Issue order of Deploying [%s] army to Country [%s]", l_armyNumber , l_country.getCountryName() ));
+//			}
+//
+//			if(l_deployOrder != null && l_deployOrder.getArmyNumber() > 0 && l_deployOrder.getArmyNumber() <= l_armyToIssue ) {
+//				this.d_orders.add(l_deployOrder);
+//
+//				l_armyToIssue = l_armyToIssue - l_deployOrder.getArmyNumber();
+//				l_armyHasIssued = l_armyHasIssued + l_deployOrder.getArmyNumber();
+//			}
+//			else {
+//				GenericView.printWarning("Incorrect command or army number, please check the countryID and the number of army");
+//			}
+//		} while (l_armyToIssue > 0 );
+//	}
 
 	/**
 	 * The GameEngine class calls the issue_order() method of the Player. This method will wait for the following 
@@ -157,54 +261,51 @@ public class Player {
 	 * Issuing order command: deploy countryID num (until all reinforcements have been placed)
 	 */
 	public void issue_order() {
-		if( this.d_armiesToDeploy == 0 )
-			return ;
-
 		String l_command = "";
-		int l_armyToIssue = this.getArmiesToDeploy();
-		int l_armyHasIssued = 0;
+
 		GameContext l_gameContext = GameContext.getGameContext();
-		
+
+		//hint lines
 		GenericView.println(String.format("You have [%s] Countries and [%s] armies", this.getConqueredCountries().size(), l_armyToIssue ));
 		for(Country l_countryTemp : this.getConqueredCountries().values()) {
-			GenericView.println(String.format("Country ID : [%s] , Name : [%s]", l_countryTemp.getCountryID(), l_countryTemp.getCountryName() ));	
-		}		
-		
-		do {
-			GenericView.println(String.format("Please input deploy command for player [%s] , there is [%s] army available", this.getName(), l_armyToIssue ));
-			DeployOrder l_deployOrder;
+			GenericView.println(String.format("Country ID : [%s] , Name : [%s]", l_countryTemp.getCountryID(), l_countryTemp.getCountryName() ));
+		}
 
-			if(!l_gameContext.getIsDemoMode()) {
-				//1. issue order from interaction
-				l_command = d_keyboard.nextLine();				
-				//convent the commend to deploy order.
-				l_deployOrder = conventDeployOrder(l_command);
-				if(l_deployOrder != null && this.getConqueredCountries().containsKey(l_deployOrder.getCountry().getCountryID()) 
-					&&  l_deployOrder.getArmyNumber() <= l_armyToIssue	) {					
-					l_deployOrder.setPlayer(this);
-					GenericView.printSuccess(String.format("Issue order of Deploying [%s] army to Country [%s-%s]", l_deployOrder.getArmyNumber() , l_deployOrder.getCountry().getCountryID(), l_deployOrder.getCountry().getCountryName() ));
-				}		
+		Order l_order;
+
+		if (!l_gameContext.getIsDemoMode()) {
+			//1. issue order from interaction
+			l_command = d_keyboard.nextLine();
+
+			//convent the commend to deploy order.
+			l_order = conventOrder(l_command);
+			if (l_order != null) {
+				//if the order is a deploy order
+				if (l_order instanceof DeployOrder) {
+					DeployOrder l_deployOrder = (DeployOrder) l_order;
+					if (checkDeployOrder(l_deployOrder)) {
+						this.d_orders.add(l_deployOrder);
+						l_armyToIssue = l_armyToIssue - l_deployOrder.getArmyNumber();
+						l_armyHasIssued = l_armyHasIssued + l_deployOrder.getArmyNumber();
+						GenericView.printSuccess(String.format("Issue order of Deploying [%s] army to Country [%s-%s]", l_deployOrder.getArmyNumber() , l_deployOrder.getCountry().getCountryID(), l_deployOrder.getCountry().getCountryName() ));
+					}else{
+						GenericView.printWarning("Incorrect command or army number, please check the countryID and the number of army");
+					}
+				}
+				//if the order is a advance order
+				else if(l_order instanceof AdvanceOrder){
+					//TO DO
+				}
 			}
-			else {
-				//2. generate the command automatically.
-				List<Integer> l_countryKeys = new ArrayList(d_conqueredCountries.keySet());
-				Integer l_countryKey = l_countryKeys.get( CommonTool.getRandomNumber(0, (l_countryKeys.size() )) );			
-				Country l_country = d_conqueredCountries.get(l_countryKey);
-				int l_armyNumber =  CommonTool.getRandomNumber(1, l_armyToIssue);
-				l_deployOrder = new DeployOrder(this, l_country, l_armyNumber );
-				GenericView.printSuccess(String.format("Issue order of Deploying [%s] army to Country [%s]", l_armyNumber , l_country.getCountryName() ));
-			}
-			
-			if(l_deployOrder != null && l_deployOrder.getArmyNumber() > 0 && l_deployOrder.getArmyNumber() <= l_armyToIssue ) {
-				this.d_orders.add(l_deployOrder);
-				
-				l_armyToIssue = l_armyToIssue - l_deployOrder.getArmyNumber();
-				l_armyHasIssued = l_armyHasIssued + l_deployOrder.getArmyNumber();
-			}
-			else {
-				GenericView.printWarning("Incorrect command or army number, please check the countryID and the number of army");
-			}			
-		} while (l_armyToIssue > 0 );		
+		} else {
+			//2. generate the command automatically.
+			List<Integer> l_countryKeys = new ArrayList(d_conqueredCountries.keySet());
+			Integer l_countryKey = l_countryKeys.get(CommonTool.getRandomNumber(0, (l_countryKeys.size())));
+			Country l_country = d_conqueredCountries.get(l_countryKey);
+			int l_armyNumber = CommonTool.getRandomNumber(1, l_armyToIssue);
+//			l_deployOrder = new DeployOrder(this, l_country, l_armyNumber);
+//			GenericView.printSuccess(String.format("Issue order of Deploying [%s] army to Country [%s]", l_armyNumber, l_country.getCountryName()));
+		}
 	}
 	
 	
