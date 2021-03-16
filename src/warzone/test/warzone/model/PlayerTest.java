@@ -78,7 +78,7 @@ public class PlayerTest {
     	Order l_order = new DeployOrder(l_player, l_country , 5); 
     	
     	//act
-    	assertEquals(l_order.execute(), false);
+    	assertEquals(l_order.valid(), false);
     	
     	//assert
     	assertEquals(l_country.getArmyNumber(),0 );
@@ -100,7 +100,7 @@ public class PlayerTest {
     	Order l_order = new DeployOrder(l_player, l_country , -5); 
     	
     	//act
-    	assertEquals(l_order.execute(), false);
+    	assertEquals(l_order.valid(), false);
     	
     	//assert
     	assertEquals(l_country.getArmyNumber(),0 );
