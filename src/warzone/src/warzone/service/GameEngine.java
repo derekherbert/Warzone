@@ -29,6 +29,7 @@ public class GameEngine {
 		GameContext l_gameContext = GameContext.getGameContext();
 		GameEngine l_gameEngine = getGameEngine(l_gameContext);
 		l_gameEngine.setPhase(new MapEditor(l_gameEngine));
+		GameContext.getLogEntryBuffer().setPhase("map editor");
 		l_gameEngine.start();
 	}
 	

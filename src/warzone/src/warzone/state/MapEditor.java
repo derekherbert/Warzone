@@ -14,6 +14,7 @@ public class MapEditor extends Phase {
 	private ContinentService d_continentService;
 	private CountryService d_countryService;
 	private NeighborService d_neighborService;
+	private LogEntryBuffer d_logEntryBuffer;
 	
 	public MapEditor(GameEngine p_ge) {
 		super(p_ge);
@@ -21,6 +22,7 @@ public class MapEditor extends Phase {
 		d_continentService = new ContinentService(d_gameContext);
 		d_countryService  = new CountryService(d_gameContext);
 		d_neighborService = new NeighborService(d_gameContext);
+		d_logEntryBuffer = GameContext.getLogEntryBuffer();
 	}
 
 	/**
@@ -28,6 +30,7 @@ public class MapEditor extends Phase {
 	 */
 	public void next() {
 		d_gameEngine.setPhase(new Startup(d_gameEngine));
+		d_logEntryBuffer.setPhase("start up");
 	}
 	
 	/**
@@ -37,8 +40,12 @@ public class MapEditor extends Phase {
 	 * @return the result of adding new continent
 	 */
 	public void addContinent(String p_parameters) {
+		d_logEntryBuffer.setOrder("add continent " + p_parameters);
 		if(p_parameters == null) {
-			GenericView.printError("Missing valid parameters.");
+//			GenericView.printError("Missing valid parameters.");
+			d_logEntryBuffer.setMessage("Missing valid parameters.");
+			d_logEntryBuffer.setResult("ERROR");
+			d_logEntryBuffer.notify(d_logEntryBuffer);
 			return;
 		}
 
@@ -53,7 +60,10 @@ public class MapEditor extends Phase {
 		}
 		// if continent id or name is not correct, return error info
 		if(l_continentID == -1 || l_bonusReinforcements < 0){
-			GenericView.printError("Missing valid parameters.");
+//			GenericView.printError("Missing valid parameters.");
+			d_logEntryBuffer.setMessage(d_logEntryBuffer.getMessage() + " Missing valid parameters.");
+			d_logEntryBuffer.setResult("ERROR");
+			d_logEntryBuffer.notify(d_logEntryBuffer);
 			return;
 		}
 
@@ -67,7 +77,6 @@ public class MapEditor extends Phase {
 	 * @return true if successfully add the continent, otherwise return false
 	 */
 	public void addContinent(int p_continentID, int p_bonusReinforcements) {
-				
 		//1. create a new continent instance
 		Continent l_Continent = new Continent(p_continentID, "CONTINENT-"+p_continentID);
 		l_Continent.setBonusReinforcements(p_bonusReinforcements);
@@ -75,7 +84,11 @@ public class MapEditor extends Phase {
 		d_continentService.add(l_Continent);
 		
 		//3. render to view
-		GenericView.printSuccess( String.format("Continent [%s] was added successfully.", l_Continent.getContinentName()) );
+//		GenericView.printSuccess( String.format("Continent [%s] was added successfully.", l_Continent.getContinentName()) );
+		d_logEntryBuffer.setMessage(String.format("Continent [%s] was added successfully.", l_Continent.getContinentName()));
+		d_logEntryBuffer.setResult("SUCCESS");
+		d_logEntryBuffer.setTime();
+		d_logEntryBuffer.notify(d_logEntryBuffer);
 	}
 
 	/**
