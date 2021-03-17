@@ -92,7 +92,8 @@ public class DeployOrder implements Order {
 	public void execute() {
 		if(!valid()) return;
 		this.d_armyNumber = this.d_player.getArmiesToDeploy();
-		//print the order information
+		//print success information
+		GenericView.printSuccess("Success to deploy army.");
 		printOrder();
 		//move army
 		this.d_country.setArmyNumber( this.d_country.getArmyNumber() +  this.d_armyNumber );
