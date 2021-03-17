@@ -23,6 +23,7 @@ public class Player {
 	private int d_armyNumber = 0;//total number
 	private int d_armiesToDeploy = 0; 
 	private boolean d_isAlive = true;
+	private List<Card> d_cards;
 	
 	private Scanner d_keyboard = new Scanner(System.in);
 	
@@ -123,6 +124,10 @@ public class Player {
 		this.d_isAlive = p_isAlive;
 	}
 	
+	public List<Card> getCards() {
+		return d_cards;
+	}
+
 	/**
 	 * This method can convert command String into DeployOrder class.
 	 * @param p_command the command that should be converted
@@ -204,7 +209,79 @@ public class Player {
 			else {
 				GenericView.printWarning("Incorrect command or army number, please check the countryID and the number of army");
 			}			
-		} while (l_armyToIssue > 0 );		
+		} while (l_armyToIssue > 0 );	
+		
+		String[] l_commandArray;
+		
+		do {
+			
+			GenericView.println("Please perform an order or play a card. Type \"done\" when you have finished:");
+			
+			l_command = d_keyboard.nextLine();
+			l_commandArray = l_command.split("\\s+");
+			
+			switch(l_commandArray[0].toLowerCase()) {
+			
+				//advance countrynamefrom countynameto numarmies
+				case "advance" : { 
+
+					//TODO: Make sure the command is valid
+					
+					//this.d_orders.add(new AdvanceOrder(this, l_commandArray[1], l_commandArray[2], Integer.parseInt(l_commandArray[3]));
+					
+					break;
+				}
+				
+				//bomb countryID
+				case "bomb" : { 
+				
+					//TODO: Make sure the command is valid and player has the card. Remove the card from their list if they have it.
+					
+					//this.d_cards.add(new BombCard(this, Integer.parseInt(l_commandArray[1])));
+					
+					break;
+				}
+				
+				//blockade countryID
+				case "blockade" : { 
+					
+					//TODO: Make sure the command is valid and player has the card. Remove the card from their list if they have it.
+					
+					//this.d_cards.add(new BlockadeCard(this, Integer.parseInt(l_commandArray[1])));
+					
+					break;
+				}
+				
+				//airlift sourcecountryID targetcountryID numarmies
+				case "airlift" : {
+					
+					//TODO: Make sure the command is valid and player has the card. Remove the card from their list if they have it.
+					
+					//this.d_cards.add(new AirliftCard(this, Integer.parseInt(l_commandArray[1]), Integer.parseInt(l_commandArray[2]), Integer.parseInt(l_commandArray[3])));
+					
+					break;
+				}
+				
+				//negotiate playerID
+				case "negotiate" : {
+					
+					//TODO: Make sure the command is valid and player has the card. Remove the card from their list if they have it.
+					
+					//this.d_cards.add(new NegotiateCard(this, Integer.parseInt(l_commandArray[1])));
+					
+					break;
+				}
+				case "done" : {
+					break;
+				}
+				default : {
+					
+					GenericView.printError(l_commandArray[0].toLowerCase() + " is not a recognized order. Please enter a valid one.");
+					break;
+				}
+			}
+			
+		} while(!l_commandArray[0].equalsIgnoreCase("done"));
 	}
 	
 	
