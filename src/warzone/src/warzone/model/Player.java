@@ -23,6 +23,7 @@ public class Player {
 	private int d_armyNumber = 0;//total number
 	private int d_armiesToDeploy = 0; 
 	private boolean d_isAlive = true;
+	private boolean d_conqueredACountryThisTurn = false;
 	private List<Card> d_cards;
 	
 	private Scanner d_keyboard = new Scanner(System.in);
@@ -36,6 +37,7 @@ public class Player {
 		d_name = p_name;
 		d_conqueredCountries = new HashMap<Integer, Country>();
 		d_orders = new LinkedList<Order>();
+		d_cards = new ArrayList<Card>();
 	}
 	
 	/**
@@ -123,7 +125,15 @@ public class Player {
 	public void setIsAlive(boolean p_isAlive) {
 		this.d_isAlive = p_isAlive;
 	}
-	
+
+	public boolean getConqueredACountryThisTurn() {
+		return d_conqueredACountryThisTurn;
+	}
+
+	public void setConqueredACountryThisTurn(boolean p_conqueredACountryThisTurn) {
+		this.d_conqueredACountryThisTurn = p_conqueredACountryThisTurn;
+	}
+
 	public List<Card> getCards() {
 		return d_cards;
 	}
@@ -237,7 +247,7 @@ public class Player {
 				
 					//TODO: Make sure the command is valid and player has the card. Remove the card from their list if they have it.
 					
-					//this.d_cards.add(new BombCard(this, Integer.parseInt(l_commandArray[1])));
+					//this.d_orders.add(new BombCardOrder(this, Integer.parseInt(l_commandArray[1])));
 					
 					break;
 				}
@@ -247,7 +257,7 @@ public class Player {
 					
 					//TODO: Make sure the command is valid and player has the card. Remove the card from their list if they have it.
 					
-					//this.d_cards.add(new BlockadeCard(this, Integer.parseInt(l_commandArray[1])));
+					//this.d_orders.add(new BlockadeCardOrder(this, Integer.parseInt(l_commandArray[1])));
 					
 					break;
 				}
@@ -257,7 +267,7 @@ public class Player {
 					
 					//TODO: Make sure the command is valid and player has the card. Remove the card from their list if they have it.
 					
-					//this.d_cards.add(new AirliftCard(this, Integer.parseInt(l_commandArray[1]), Integer.parseInt(l_commandArray[2]), Integer.parseInt(l_commandArray[3])));
+					//this.d_orders.add(new AirliftCardOrder(this, Integer.parseInt(l_commandArray[1]), Integer.parseInt(l_commandArray[2]), Integer.parseInt(l_commandArray[3])));
 					
 					break;
 				}
@@ -267,7 +277,7 @@ public class Player {
 					
 					//TODO: Make sure the command is valid and player has the card. Remove the card from their list if they have it.
 					
-					//this.d_cards.add(new NegotiateCard(this, Integer.parseInt(l_commandArray[1])));
+					//this.d_orders.add(new NegotiateCardOrder(this, Integer.parseInt(l_commandArray[1])));
 					
 					break;
 				}
