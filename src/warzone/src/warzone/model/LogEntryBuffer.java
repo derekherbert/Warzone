@@ -15,6 +15,14 @@ public class LogEntryBuffer extends Observable{
 	/**
 	 * This method will set the time as current moment
 	 */
+	public LogEntryBuffer() {
+		this.d_message = "";
+	}
+	
+	public void clearMessage() {
+		this.d_message = "";
+	}
+	
 	public LogEntryBuffer setTime() {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		d_time = df.format(new Date());

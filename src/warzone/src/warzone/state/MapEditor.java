@@ -39,10 +39,11 @@ public class MapEditor extends Phase {
 	 * @return the result of adding new continent
 	 */
 	public void addContinent(String p_parameters) {
-		d_logEntryBuffer.setOrder("editconinent -add " + p_parameters).setPhase(d_gameEngine.getPhase());
+		d_logEntryBuffer.setTime().setOrder("editconinent -add " + p_parameters).setPhase(d_gameEngine.getPhase());
 		
 		if(p_parameters == null) {
-			d_logEntryBuffer.setTime().setResult("ERROR").setMessage("Missing valid parameters.").notify(d_logEntryBuffer);
+			d_logEntryBuffer.setResult("ERROR").setMessage(d_logEntryBuffer.getMessage() + " Missing valid parameters.").notify(d_logEntryBuffer);
+			d_logEntryBuffer.clearMessage();
 			return;
 		}
 
@@ -58,7 +59,8 @@ public class MapEditor extends Phase {
 		// if continent id or name is not correct, return error info
 		if(l_continentID == -1 || l_bonusReinforcements < 0){
 //			GenericView.printError("Missing valid parameters.");
-			d_logEntryBuffer.setTime().setResult("ERROR").setMessage("Missing valid parameters, " + d_logEntryBuffer.getMessage()).notify(d_logEntryBuffer);
+			d_logEntryBuffer.setResult("ERROR").setMessage(d_logEntryBuffer.getMessage() +  " Missing valid parameters.").notify(d_logEntryBuffer);
+			d_logEntryBuffer.clearMessage();
 			return;
 		}
 
@@ -79,7 +81,8 @@ public class MapEditor extends Phase {
 		d_continentService.add(l_Continent);
 		
 		//3. render to view
-		d_logEntryBuffer.setTime().setResult("SUCCESS").setMessage(String.format("Continent [%s] was added successfully.", l_Continent.getContinentName())).notify(d_logEntryBuffer);
+		d_logEntryBuffer.setResult("SUCCESS").setMessage(d_logEntryBuffer.getMessage() +  String.format("Continent [%s] was added successfully.", l_Continent.getContinentName())).notify(d_logEntryBuffer);
+		d_logEntryBuffer.clearMessage();
 	}
 
 	/**
@@ -88,15 +91,19 @@ public class MapEditor extends Phase {
 	 * @return if remove success
 	 */
 	public void removeContinent(String p_parameters) {
+		d_logEntryBuffer.setOrder("editconinent -remove " + p_parameters).setPhase(d_gameEngine.getPhase());
+		
 		//parse [p_parameters] to  [ l_continentID ]
 		if(p_parameters == null)
-		{			
-			GenericView.printError("Missing valid parameters.");
+		{
+			d_logEntryBuffer.setResult("ERROR").setMessage(d_logEntryBuffer.getMessage() +  " Missing valid parameters.").notify(d_logEntryBuffer);
+			d_logEntryBuffer.clearMessage();
 			return;
 		}
 		int l_continentID = CommonTool.parseInt(p_parameters);
 		if(l_continentID == -1 ){	
-			GenericView.printError("Missing valid parameters.");	
+			d_logEntryBuffer.setResult("ERROR").setMessage(d_logEntryBuffer.getMessage() +  " Missing valid parameters.").notify(d_logEntryBuffer);
+			d_logEntryBuffer.clearMessage();
 			return;
 		}
 		removeContinent(l_continentID);
@@ -109,11 +116,12 @@ public class MapEditor extends Phase {
 	 */
 	public void removeContinent(int p_continentID) {
 		if( d_continentService.remove(p_continentID)) {
-			GenericView.printSuccess( String.format("Continent ID [%s] was removed successfully.", p_continentID) );
+			d_logEntryBuffer.setResult("SUCCESS").setMessage(d_logEntryBuffer.getMessage() +  String.format("Continent ID [%s] was removed successfully.", p_continentID)).notify(d_logEntryBuffer);
 		}			
 		else {
-			GenericView.printWarning( String.format("Failed to remove Continent ID [%s].", p_continentID ) );
+			d_logEntryBuffer.setResult("WARNING").setMessage(d_logEntryBuffer.getMessage() +  String.format("Failed to remove Continent ID [%s].", p_continentID )).notify(d_logEntryBuffer);
 		}
+		d_logEntryBuffer.clearMessage();
 	}
 	
 	/**
@@ -124,9 +132,12 @@ public class MapEditor extends Phase {
 	 * @return true if successfully add country, otherwise return false
 	 */
 	public void addCountry (String p_parameters) {
+		d_logEntryBuffer.setOrder("editcountry -add " + p_parameters).setPhase(d_gameEngine.getPhase());
+		
 		//parse [p_parameters] to  [ l_continentID, String l_continentName]
-		if(p_parameters == null){			
-			GenericView.printError("Missing valid parameters.");
+		if(p_parameters == null){
+			d_logEntryBuffer.setResult("ERROR").setMessage(d_logEntryBuffer.getMessage() +  " Missing valid parameters.").notify(d_logEntryBuffer);
+			d_logEntryBuffer.clearMessage();
 			return;
 		}
 
@@ -139,7 +150,8 @@ public class MapEditor extends Phase {
 		}
 		// if country id or name is not correct, return error info
 		if(l_countryID == -1 || l_continentID == -1 ){
-			GenericView.printError("Missing valid parameters.");
+			d_logEntryBuffer.setResult("ERROR").setMessage(d_logEntryBuffer.getMessage() +  " Missing valid parameters.").notify(d_logEntryBuffer);
+			d_logEntryBuffer.clearMessage();
 			return;
 		}
 		else
@@ -154,16 +166,15 @@ public class MapEditor extends Phase {
 	 */
 	public void addCountry (int p_countryID, int p_continentID) {		
 		if( d_countryService.addCountryToContient(p_countryID, p_continentID) ) {
-			GenericView.printSuccess( String.format("Country ID [%s] was added to Continent [%s] successfully.", p_countryID, p_continentID) );
-			return;
+			d_logEntryBuffer.setResult("SUCCESS").setMessage(d_logEntryBuffer.getMessage() +  String.format("Country ID [%s] was added to Continent [%s] successfully.", p_countryID, p_continentID)).notify(d_logEntryBuffer);
 		}			
 		else {
 			if(d_countryService.isExisted(p_countryID))
-				GenericView.printWarning( String.format("Country [%s] was added, but failed to add Country ID [%s] to Continent [%s].", p_countryID , p_countryID , p_continentID) );	
+				d_logEntryBuffer.setResult("WARNING").setMessage(d_logEntryBuffer.getMessage() + String.format(" Country [%s] was added, but failed to add Country ID [%s] to Continent [%s].", p_countryID , p_countryID , p_continentID)).notify(d_logEntryBuffer);
 			else
-				GenericView.printWarning( String.format("Failed to add Country ID [%s] to Continent [%s].", p_countryID , p_continentID) );
-			return;
-		}	
+				d_logEntryBuffer.setResult("WARNING").setMessage(d_logEntryBuffer.getMessage() +  String.format("Failed to add Country ID [%s] to Continent [%s].", p_countryID , p_continentID)).notify(d_logEntryBuffer);
+		}
+		d_logEntryBuffer.clearMessage();
 	}
 	
 	/**
@@ -172,15 +183,19 @@ public class MapEditor extends Phase {
 	 * @return true if successfully remove the country, otherwise return false
 	 */
 	public void removeCountry(String p_parameters) {
+		d_logEntryBuffer.setOrder("editcountry -remove " + p_parameters).setPhase(d_gameEngine.getPhase());
+		
 		//parse [p_parameters] 
 		if(p_parameters == null) {
-			GenericView.printError("Missing valid parameters.");
+			d_logEntryBuffer.setResult("ERROR").setMessage(d_logEntryBuffer.getMessage() +  " Missing valid parameters.").notify(d_logEntryBuffer);
+			d_logEntryBuffer.clearMessage();
 			return;
 		}
 
 		int l_countryID = CommonTool.parseInt(p_parameters);		
 		if(l_countryID == -1 ){	
-			GenericView.printError("Missing valid parameters.");	
+			d_logEntryBuffer.setResult("ERROR").setMessage(d_logEntryBuffer.getMessage() +  " Missing valid parameters.").notify(d_logEntryBuffer);
+			d_logEntryBuffer.clearMessage();
 			return;	
 		}
 		
@@ -194,11 +209,12 @@ public class MapEditor extends Phase {
 	 */
 	public void removeCountry (int p_countryID) {
 		if( d_countryService.remove(p_countryID)) {
-			GenericView.printSuccess( String.format("Country ID [%s] was removed successfully.", p_countryID) );
+			d_logEntryBuffer.setResult("SUCCESS").setMessage(d_logEntryBuffer.getMessage() + String.format("Country ID [%s] was removed successfully.", p_countryID)).notify(d_logEntryBuffer);
 		}			
 		else {
-			GenericView.printWarning( String.format("Failed to remove Country ID [%s].", p_countryID ) );
-		}			
+			d_logEntryBuffer.setResult("WARNING").setMessage(d_logEntryBuffer.getMessage() + String.format("Failed to remove Country ID [%s].", p_countryID )).notify(d_logEntryBuffer);
+		}
+		d_logEntryBuffer.clearMessage();
 	}
 	
 	/**
@@ -209,9 +225,12 @@ public class MapEditor extends Phase {
 	 * @return true if successfully add neighbor, otherwise return false
 	 */
 	public void addNeighbor (String p_parameters) {
+		d_logEntryBuffer.setOrder("editneighbor -add " + p_parameters).setPhase(d_gameEngine.getPhase());
+		
 		//parse [p_parameters]
 		if(p_parameters == null){			
-			GenericView.printError("Missing valid parameters.");
+			d_logEntryBuffer.setResult("ERROR").setMessage(d_logEntryBuffer.getMessage() +  " Missing valid parameters.").notify(d_logEntryBuffer);
+			d_logEntryBuffer.clearMessage();
 			return;
 		}
 
@@ -224,7 +243,8 @@ public class MapEditor extends Phase {
 		}
 		// if country ids not correct, return error info
 		if(l_countryID == -1 || l_neighborCountryID == -1 ){
-			GenericView.printError("Missing valid parameters.");
+			d_logEntryBuffer.setResult("ERROR").setMessage(d_logEntryBuffer.getMessage() +  " Missing valid parameters.").notify(d_logEntryBuffer);
+			d_logEntryBuffer.clearMessage();
 			return;
 		}
 		addNeighbor(l_countryID, l_neighborCountryID);
@@ -239,11 +259,12 @@ public class MapEditor extends Phase {
 	public void addNeighbor (int p_countryID, int p_neighborCountryID) {
 
 		if( d_neighborService.add(p_countryID, p_neighborCountryID)) {
-			GenericView.printSuccess( String.format("Neighbor [%s] was added to Country [%s] successfully.", p_neighborCountryID, p_countryID) );
+			d_logEntryBuffer.setResult("SUCCESS").setMessage(d_logEntryBuffer.getMessage() +  String.format("Neighbor [%s] was added to Country [%s] successfully.", p_neighborCountryID, p_countryID)).notify(d_logEntryBuffer);
 		}			
 		else {
-			GenericView.printWarning( String.format("Failed to add Neighbor [%s] to Country [%s].", p_neighborCountryID, p_countryID) );
-		}	
+			d_logEntryBuffer.setResult("WARNING").setMessage(d_logEntryBuffer.getMessage() +  String.format("Failed to add Neighbor [%s] to Country [%s].", p_neighborCountryID, p_countryID)).notify(d_logEntryBuffer);
+		}
+		d_logEntryBuffer.clearMessage();
 	}	
 	
 	/**
@@ -254,9 +275,11 @@ public class MapEditor extends Phase {
 	 * @return true if successfully remove the relationship, otherwise return false
 	 */
 	public void removeNeighbor (String p_parameters) {
+		d_logEntryBuffer.setOrder("editneighbor -remove " + p_parameters).setPhase(d_gameEngine.getPhase());
+		
 		//parse [p_parameters]
 		if(p_parameters == null){			
-			GenericView.printError("Missing valid parameters.");
+			d_logEntryBuffer.setResult("ERROR").setMessage(d_logEntryBuffer.getMessage() +  " Missing valid parameters.").notify(d_logEntryBuffer);
 			return;
 		}
 
@@ -268,7 +291,7 @@ public class MapEditor extends Phase {
 		}
 		// if country ids not correct, return error info
 		if(l_countryID == -1 || l_neighborCountryID == -1 ){
-			GenericView.printError("Missing valid parameters.");
+			d_logEntryBuffer.setResult("ERROR").setMessage(d_logEntryBuffer.getMessage() +  " Missing valid parameters.").notify(d_logEntryBuffer);
 			return;
 		}
 		removeNeighbor(l_countryID, l_neighborCountryID);
@@ -283,11 +306,12 @@ public class MapEditor extends Phase {
 	public void removeNeighbor (int p_countryID, int p_neighborCountryID) {
 
 		if( d_neighborService.remove(p_countryID, p_neighborCountryID)) {
-			GenericView.printSuccess( String.format("Neighbor [%s] was removed from Country [%s] successfully.", p_neighborCountryID, p_countryID) );
+			d_logEntryBuffer.setResult("SUCCESS").setMessage(d_logEntryBuffer.getMessage() +  String.format("Neighbor [%s] was removed from Country [%s] successfully.", p_neighborCountryID, p_countryID)).notify(d_logEntryBuffer);
 		}			
 		else {
-			GenericView.printWarning( String.format("Failed to remove Neighbor [%s] to Country [%s].", p_neighborCountryID, p_countryID) );
-		}	
+			d_logEntryBuffer.setResult("WARNING").setMessage(d_logEntryBuffer.getMessage() +  String.format("Failed to remove Neighbor [%s] to Country [%s].", p_neighborCountryID, p_countryID)).notify(d_logEntryBuffer);
+		}
+		d_logEntryBuffer.clearMessage();
 	}
 	 
 	/**
@@ -296,7 +320,7 @@ public class MapEditor extends Phase {
 	 * Displays the map as text, showing all continents and countries and their respective neighbors.
 	 */
 	public void showMap () {
-
+		d_logEntryBuffer.setOrder("showmap").setPhase(d_gameEngine.getPhase()).setResult("SUCCESS").setMessage("print map successfully.").notify(d_logEntryBuffer);;
 		MapView.printMap(d_gameContext);
 	}
 	

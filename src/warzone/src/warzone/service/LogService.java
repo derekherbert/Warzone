@@ -38,7 +38,6 @@ public class LogService implements Observer{
 	private void write2LogFile(String p_content) {
 		FileWriter l_fw = null;
 		try {
-			File directory = new File("./");
 			File l_dir = new File(GameContext.getGameContext().getLogfolder());
 			if (!l_dir.isDirectory()) {
 				l_dir.mkdir();
