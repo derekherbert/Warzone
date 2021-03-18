@@ -243,7 +243,6 @@ public class Player {
 		boolean l_hasOrderGenerated = false;
 		int l_armyToIssue = this.getArmiesToDeploy();
 		int l_armyHasIssued = 0;
-		boolean l_hasCreatedOrder = false;
 		GameContext l_gameContext = GameContext.getGameContext();
 		
 		GenericView.println(String.format("You have [%s] Countries and [%s] armies", this.getConqueredCountries().size(), l_armyToIssue ));
@@ -292,11 +291,11 @@ public class Player {
 //				Country l_country = d_conqueredCountries.get(l_countryKey);
 //				int l_armyNumber =  CommonTool.getRandomNumber(1, l_armyToIssue);
 //				l_deployOrder = new DeployOrder(this, l_country, l_armyNumber );
-//				l_hasCreatedOrder = true;
+//				l_hasOrderGenerated = true;
 //				GenericView.printSuccess(String.format("Issue order of Deploying [%s] army to Country [%s]", l_armyNumber , l_country.getCountryName() ));
 			}
 					
-		} while (l_hasCreatedOrder = false );		
+		} while (l_hasOrderGenerated == false );		
 	}
 	
 	
