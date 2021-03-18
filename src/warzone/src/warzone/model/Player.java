@@ -24,6 +24,8 @@ public class Player {
 	private int d_armiesToDeploy = 0; 
 	private boolean d_isAlive = true;
 	private boolean d_hasFinishIssueOrder;
+	private boolean d_conqueredACountryThisTurn = false;
+	private List<Card> d_cards;
 	
 	private Scanner d_keyboard = new Scanner(System.in);
 	
@@ -36,6 +38,7 @@ public class Player {
 		d_name = p_name;
 		d_conqueredCountries = new HashMap<Integer, Country>();
 		d_orders = new LinkedList<Order>();
+		d_cards = new ArrayList<Card>();
 	}
 	
 	/**
@@ -133,10 +136,35 @@ public class Player {
 	}
 
 	/**
-	 * return whether the player has finished the order
+	 * get the value of HasFinisedIssueOrder
+	 * @return whether the player has finished the order
 	 */
 	public boolean getHasFinisedIssueOrder(){
 		return d_hasFinishIssueOrder;
+	}
+	
+	/**
+	 * get the value of conqueredACountryThisTurn
+	 * @return true if player has conquered a country this turn
+	 */
+	public boolean getConqueredACountryThisTurn() {
+		return d_conqueredACountryThisTurn;
+	}
+
+	/**
+	 * set if the player has conquered a country or not this turn 
+	 * @param p_conqueredACountryThisTurn
+	 */
+	public void setConqueredACountryThisTurn(boolean p_conqueredACountryThisTurn) {
+		this.d_conqueredACountryThisTurn = p_conqueredACountryThisTurn;
+	}
+	
+	/**
+	 * Cards the player has available to play
+	 * @return list of cards
+	 */
+	public List<Card> getCards() {
+		return d_cards;
 	}
 
 	/**
@@ -240,22 +268,24 @@ public class Player {
 
 		String l_command = "";
 		boolean l_hasOrderGenerated = false;
-
+		int l_armyToIssue = this.getArmiesToDeploy();
+		int l_armyHasIssued = 0;
 		GameContext l_gameContext = GameContext.getGameContext();
-
-		//hint lines
+		
 		GenericView.println(String.format("You have [%s] Countries and [%s] armies", this.getConqueredCountries().size(), l_armyToIssue ));
 		for(Country l_countryTemp : this.getConqueredCountries().values()) {
-			GenericView.println(String.format("Country ID : [%s] , Name : [%s]", l_countryTemp.getCountryID(), l_countryTemp.getCountryName() ));
-		}
-
-		Order l_order = null;
+			GenericView.println(String.format("Country ID : [%s] , Name : [%s]", l_countryTemp.getCountryID(), l_countryTemp.getCountryName() ));	
+		}	
 		
+		Order l_order = null;
 		do {
-			if (!l_gameContext.getIsDemoMode()) {
+			GenericView.println(String.format("Please input command for player [%s] , there is [%s] army available", this.getName(), l_armyToIssue ));
+			DeployOrder l_deployOrder;
 
+			if(!l_gameContext.getIsDemoMode()) {
 				//1. issue order from interaction
-				l_command = d_keyboard.nextLine();
+				l_command = d_keyboard.nextLine();				
+
 
 				//check if the issue order has finised
 				String [] l_commandInfos = CommonTool.conventToArray(l_command);
@@ -280,17 +310,19 @@ public class Player {
 					GenericView.printWarning("Incorrect command, please retry.");
 					l_hasOrderGenerated = false;
 				}
-			} else {
+			}
+			else {
 				//2. generate the command automatically.
 //				List<Integer> l_countryKeys = new ArrayList(d_conqueredCountries.keySet());
-//				Integer l_countryKey = l_countryKeys.get(CommonTool.getRandomNumber(0, (l_countryKeys.size())));
+//				Integer l_countryKey = l_countryKeys.get( CommonTool.getRandomNumber(0, (l_countryKeys.size() )) );			
 //				Country l_country = d_conqueredCountries.get(l_countryKey);
-//				int l_armyNumber = CommonTool.getRandomNumber(1, l_armyToIssue);
-//				l_deployOrder = new DeployOrder(this, l_country, l_armyNumber);
-//				GenericView.printSuccess(String.format("Issue order of Deploying [%s] army to Country [%s]", l_armyNumber, l_country.getCountryName()));
+//				int l_armyNumber =  CommonTool.getRandomNumber(1, l_armyToIssue);
+//				l_deployOrder = new DeployOrder(this, l_country, l_armyNumber );
+//				l_hasOrderGenerated = true;
+//				GenericView.printSuccess(String.format("Issue order of Deploying [%s] army to Country [%s]", l_armyNumber , l_country.getCountryName() ));
 			}
-
-		}while(!l_hasOrderGenerated);
+					
+		} while (l_hasOrderGenerated == false );		
 	}
 	
 	
