@@ -70,7 +70,6 @@ public abstract class Phase {
 	
 	/**
 	 * show help for each phase
-	 * @param p_phase
 	 */
 	public void help() {
 		HelpView.printHelp(this.d_gamePhase);
