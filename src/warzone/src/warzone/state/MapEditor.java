@@ -30,7 +30,6 @@ public class MapEditor extends Phase {
 	 */
 	public void next() {
 		d_gameEngine.setPhase(new Startup(d_gameEngine));
-		d_logEntryBuffer.setPhase("start up");
 	}
 	
 	/**
@@ -40,12 +39,10 @@ public class MapEditor extends Phase {
 	 * @return the result of adding new continent
 	 */
 	public void addContinent(String p_parameters) {
-		d_logEntryBuffer.setOrder("add continent " + p_parameters);
+		d_logEntryBuffer.setOrder("editconinent -add " + p_parameters).setPhase(d_gameEngine.getPhase());
+		
 		if(p_parameters == null) {
-//			GenericView.printError("Missing valid parameters.");
-			d_logEntryBuffer.setMessage("Missing valid parameters.");
-			d_logEntryBuffer.setResult("ERROR");
-			d_logEntryBuffer.notify(d_logEntryBuffer);
+			d_logEntryBuffer.setTime().setResult("ERROR").setMessage("Missing valid parameters.").notify(d_logEntryBuffer);
 			return;
 		}
 
@@ -61,9 +58,7 @@ public class MapEditor extends Phase {
 		// if continent id or name is not correct, return error info
 		if(l_continentID == -1 || l_bonusReinforcements < 0){
 //			GenericView.printError("Missing valid parameters.");
-			d_logEntryBuffer.setMessage(d_logEntryBuffer.getMessage() + " Missing valid parameters.");
-			d_logEntryBuffer.setResult("ERROR");
-			d_logEntryBuffer.notify(d_logEntryBuffer);
+			d_logEntryBuffer.setTime().setResult("ERROR").setMessage("Missing valid parameters, " + d_logEntryBuffer.getMessage()).notify(d_logEntryBuffer);
 			return;
 		}
 
@@ -84,11 +79,7 @@ public class MapEditor extends Phase {
 		d_continentService.add(l_Continent);
 		
 		//3. render to view
-//		GenericView.printSuccess( String.format("Continent [%s] was added successfully.", l_Continent.getContinentName()) );
-		d_logEntryBuffer.setMessage(String.format("Continent [%s] was added successfully.", l_Continent.getContinentName()));
-		d_logEntryBuffer.setResult("SUCCESS");
-		d_logEntryBuffer.setTime();
-		d_logEntryBuffer.notify(d_logEntryBuffer);
+		d_logEntryBuffer.setTime().setResult("SUCCESS").setMessage(String.format("Continent [%s] was added successfully.", l_Continent.getContinentName())).notify(d_logEntryBuffer);
 	}
 
 	/**

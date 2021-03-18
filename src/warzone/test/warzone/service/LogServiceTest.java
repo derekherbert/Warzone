@@ -11,13 +11,13 @@ public class LogServiceTest {
 	
 	@Test
 	public void testLog1() {
-		GameContext.getLogEntryBuffer().setPhase("map editor");
+		GameContext.getLogEntryBuffer().setPhase(new MapEditor(GameEngine.getGameEngine(GameContext.getGameContext())));
 		d_mapEditor.addContinent("1 2");
 	}
 	
 	@Test
 	public void testLog2() {
-		GameContext.getLogEntryBuffer().setPhase("map editor");
+		GameContext.getLogEntryBuffer().setPhase(new MapEditor(GameEngine.getGameEngine(GameContext.getGameContext())));
 		d_mapEditor.addContinent("sda 2");
 	}
 	
