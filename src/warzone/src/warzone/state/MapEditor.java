@@ -1,7 +1,18 @@
 package warzone.state;
 import warzone.service.*;
+
+import java.io.File;
+import java.util.Scanner;
+
+import warzone.controller.MapController;
 import warzone.model.*;
 import warzone.view.*;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *	ConcreteState of the State pattern. In this example, defines behavior 
@@ -15,7 +26,11 @@ public class MapEditor extends Phase {
 	private CountryService d_countryService;
 	private NeighborService d_neighborService;
 	private LogEntryBuffer d_logEntryBuffer;
-	
+
+	/**
+	 * Constructor for MapEditor
+	 * @param p_ge Game Engine
+	 */
 	public MapEditor(GameEngine p_ge) {
 		super(p_ge);
 		d_mapService = new MapService(d_gameContext);
@@ -52,7 +67,7 @@ public class MapEditor extends Phase {
 		// separate the parameter string
 		String[] l_parameters = CommonTool.conventToArray(p_parameters);
 		// check if parameter length is valid
-		if(l_parameters.length == 2 ) {			
+		if(l_parameters.length == 2 ) {
 			l_continentID = CommonTool.parseInt(l_parameters[0]);
 			l_bonusReinforcements = CommonTool.parseInt(l_parameters[1]);
 		}
@@ -64,7 +79,7 @@ public class MapEditor extends Phase {
 			return;
 		}
 
-		addContinent(l_continentID, l_bonusReinforcements);		
+		addContinent(l_continentID, l_bonusReinforcements);
 	}
 
 	/**
@@ -79,7 +94,7 @@ public class MapEditor extends Phase {
 		l_Continent.setBonusReinforcements(p_bonusReinforcements);
 		//2. add continent to ContinentService
 		d_continentService.add(l_Continent);
-		
+
 		//3. render to view
 		d_logEntryBuffer.setResult("SUCCESS").setMessage(d_logEntryBuffer.getMessage() +  String.format("Continent [%s] was added successfully.", l_Continent.getContinentName())).notify(d_logEntryBuffer);
 		d_logEntryBuffer.clearMessage();
@@ -123,7 +138,7 @@ public class MapEditor extends Phase {
 		}
 		d_logEntryBuffer.clearMessage();
 	}
-	
+
 	/**
 	 * add country to the map
 	 * This methods can receive parameters from the Router, check the correctness of
@@ -144,7 +159,7 @@ public class MapEditor extends Phase {
 		int l_countryID = -1, l_continentID = -1;
 		String[] l_parameters = CommonTool.conventToArray(p_parameters);
 		// check if parameter length is valid
-		if(l_parameters.length == 2 ) {			
+		if(l_parameters.length == 2 ) {
 			l_countryID = CommonTool.parseInt(l_parameters[0]);
 			l_continentID = CommonTool.parseInt(l_parameters[1]);
 		}
@@ -164,7 +179,7 @@ public class MapEditor extends Phase {
 	 * @param p_continentID the id of countinent add to
 	 * @return true if successfully added, otherwise return false
 	 */
-	public void addCountry (int p_countryID, int p_continentID) {		
+	public void addCountry (int p_countryID, int p_continentID) {
 		if( d_countryService.addCountryToContient(p_countryID, p_continentID) ) {
 			d_logEntryBuffer.setResult("SUCCESS").setMessage(d_logEntryBuffer.getMessage() +  String.format("Country ID [%s] was added to Continent [%s] successfully.", p_countryID, p_continentID)).notify(d_logEntryBuffer);
 		}			
@@ -176,7 +191,7 @@ public class MapEditor extends Phase {
 		}
 		d_logEntryBuffer.clearMessage();
 	}
-	
+
 	/**
 	 * remove the country from map
 	 * @param p_parameters parameters parsed by parser
@@ -198,10 +213,10 @@ public class MapEditor extends Phase {
 			d_logEntryBuffer.clearMessage();
 			return;	
 		}
-		
+
 		removeCountry(l_countryID);
-	}	
-	
+	}
+
 	/**
 	 * Performs the action for the user command: editcountry -remove countryID
 	 * @param p_countryID the id of the country to remove
@@ -216,7 +231,7 @@ public class MapEditor extends Phase {
 		}
 		d_logEntryBuffer.clearMessage();
 	}
-	
+
 	/**
 	 * Performs the action for the user command: editneighbor -add countryID neighborCountryID
 	 * This methods can receive parameters from the Router, check the correctness of
@@ -237,7 +252,7 @@ public class MapEditor extends Phase {
 		int l_countryID = -1, l_neighborCountryID = -1;
 		String[] l_parameters = CommonTool.conventToArray(p_parameters);
 		// check if parameter length is valid
-		if(l_parameters.length == 2 ) {			
+		if(l_parameters.length == 2 ) {
 			l_countryID = CommonTool.parseInt(l_parameters[0]);
 			l_neighborCountryID = CommonTool.parseInt(l_parameters[1]);
 		}
@@ -285,7 +300,7 @@ public class MapEditor extends Phase {
 
 		int l_countryID = -1, l_neighborCountryID = -1;
 		String[] l_parameters = CommonTool.conventToArray(p_parameters);
-		if(l_parameters.length == 2 ) {			
+		if(l_parameters.length == 2 ) {
 			l_countryID = CommonTool.parseInt(l_parameters[0]);
 			l_neighborCountryID = CommonTool.parseInt(l_parameters[1]);
 		}
@@ -323,16 +338,76 @@ public class MapEditor extends Phase {
 		d_logEntryBuffer.setOrder("showmap").setPhase(d_gameEngine.getPhase()).setResult("SUCCESS").setMessage("print map successfully.").notify(d_logEntryBuffer);;
 		MapView.printMap(d_gameContext);
 	}
-	
-	 public void saveMap (String p_fileName) {
-		 //todo
-	 }	
-	 public void editMap (String p_fileName) {
-		 //todo
-	 }		
-	 public void validateMap() {
-		 //todo
-	 }	
+
+	/**
+	 * Performs the action for the user command: savemap filename
+	 *
+	 * Save a map to a text file exactly as edited (using the "domination" game map format).
+	 * @param p_fileName the filename
+	 * @return true if successfully save the map, otherwise return false
+	 * @throws IOException the exception of saving files
+	 */
+	public boolean saveMap(String p_fileName) throws IOException {
+
+		// validate if the filename is legal
+		if(p_fileName == null || p_fileName.trim().isEmpty() || p_fileName.trim().length() > 20 ) {
+			GenericView.printError("InValid File Name, please type a valid file name, with length less than 20.");
+			return false;
+		}
+
+		if(! d_mapService.validateMap(d_gameContext) ) {
+			GenericView.printError("InValid map, please check the map.");
+			return false;
+		}
+
+		// call mapService to save the map and return the path
+		p_fileName = p_fileName.trim();
+		try{
+			if(d_mapService.saveMap(p_fileName)) {
+				GenericView.printSuccess("Map was saved in :" + this.d_gameContext.getMapfolder() + p_fileName );
+				return true;
+			}
+			else {
+				GenericView.printError("Exception occured when saving the map, please valid the file name or contact the Administrator.");
+				return false;
+			}
+		}
+		catch(Exception ex) {
+			GenericView.printError("Exception occured when saving the map. " + ex.toString());
+			return false;
+		}
+	}
+
+	/**
+	 * Performs the action for the user command: editmap filename
+	 *
+	 * Load a map from an existing "domination" map file,
+	 * or create a new map from scratch if the file does not exist
+	 * @param p_fileName the filename
+	 * @return true if successfully edit the map, otherwise return false
+	 */
+	public boolean editMap (String p_fileName) {
+		return d_mapService.editMap(p_fileName);
+	}
+
+	/**
+	 * Performs the action for the user command: validatemap
+	 *
+	 * Verification of map correctness. The map should be automatically validated upon loading
+	 * and before saving (at least 3 types of incorrect maps). The validatemap command can be
+	 * triggered any time during map editing.
+	 * @return true if it is a valid map, otherwise return false
+	 */
+	public boolean validateMap() {
+		if(! d_mapService.validateMap(d_gameContext) ) {
+			GenericView.printError("It is not a connected map.");
+			return false;
+		}
+		else {
+			GenericView.printSuccess("Yeah! You got a connected map!");
+			return true;
+		}
+	}
 
 	 public void addPlayer(String p_playerName) {
 		 printInvalidCommandMessage();
