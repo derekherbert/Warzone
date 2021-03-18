@@ -25,7 +25,6 @@ public class GameEngine {
 	 * This method is the entrance of the game. It will initiate the game context and use
 	 * command scanner to get the command of the player.
 	 * @param args the parameters for Java Virtual Machine
-	 * @throws IOException the exception of creating or deleting files
 	 */
 	public static void main(String args[]) {
 		GameContext l_gameContext = GameContext.getGameContext();

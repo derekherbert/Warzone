@@ -49,7 +49,6 @@ public class MapEditor extends Phase {
 	 * This methods can receive parameters from the Router, check the correctness of
 	 * commands and call the internal methods.
 	 * @param p_parameters parameters parsed by parser
-	 * @return the result of adding new continent
 	 */
 	public void addContinent(String p_parameters) {
 		if(p_parameters == null) {
@@ -79,7 +78,6 @@ public class MapEditor extends Phase {
 	 * add continent into map
 	 * @param p_continentID continent id
 	 * @param p_bonusReinforcements bonusReinforcements
-	 * @return true if successfully add the continent, otherwise return false
 	 */
 	public void addContinent(int p_continentID, int p_bonusReinforcements) {
 
@@ -96,7 +94,6 @@ public class MapEditor extends Phase {
 	/**
 	 * Performs the action for the user command: editcontinent -remove continentID
 	 * @param p_parameters id of continent
-	 * @return if remove success
 	 */
 	public void removeContinent(String p_parameters) {
 		//parse [p_parameters] to  [ l_continentID ]
@@ -116,7 +113,6 @@ public class MapEditor extends Phase {
 	/**
 	 * remove the continent from the map
 	 * @param p_continentID the continent id
-	 * @return true if successfully removed, otherwise return false
 	 */
 	public void removeContinent(int p_continentID) {
 		if( d_continentService.remove(p_continentID)) {
@@ -132,7 +128,6 @@ public class MapEditor extends Phase {
 	 * This methods can receive parameters from the Router, check the correctness of
 	 * commands and call the internal methods.
 	 * @param p_parameters parameters parsed by parser
-	 * @return true if successfully add country, otherwise return false
 	 */
 	public void addCountry (String p_parameters) {
 		//parse [p_parameters] to  [ l_continentID, String l_continentName]
@@ -161,7 +156,6 @@ public class MapEditor extends Phase {
 	 * Performs the action for the user command: editcountry -add countryID continentID
 	 * @param p_countryID the id of country to add
 	 * @param p_continentID the id of countinent add to
-	 * @return true if successfully added, otherwise return false
 	 */
 	public void addCountry (int p_countryID, int p_continentID) {
 		if( d_countryService.addCountryToContient(p_countryID, p_continentID) ) {
@@ -180,7 +174,6 @@ public class MapEditor extends Phase {
 	/**
 	 * remove the country from map
 	 * @param p_parameters parameters parsed by parser
-	 * @return true if successfully remove the country, otherwise return false
 	 */
 	public void removeCountry(String p_parameters) {
 		//parse [p_parameters]
@@ -201,7 +194,6 @@ public class MapEditor extends Phase {
 	/**
 	 * Performs the action for the user command: editcountry -remove countryID
 	 * @param p_countryID the id of the country to remove
-	 * @return true if successfully remove the country, otherwise return false
 	 */
 	public void removeCountry (int p_countryID) {
 		if( d_countryService.remove(p_countryID)) {
@@ -217,7 +209,6 @@ public class MapEditor extends Phase {
 	 * This methods can receive parameters from the Router, check the correctness of
 	 * commands and call the internal methods.
 	 * @param p_parameters parameters parsed by parser
-	 * @return true if successfully add neighbor, otherwise return false
 	 */
 	public void addNeighbor (String p_parameters) {
 		//parse [p_parameters]
@@ -245,7 +236,6 @@ public class MapEditor extends Phase {
 	 * add neighbor
 	 * @param p_countryID neighbor from country
 	 * @param p_neighborCountryID neighbor to country
-	 * @return true if successfully added, otherwise return false
 	 */
 	public void addNeighbor (int p_countryID, int p_neighborCountryID) {
 
@@ -262,7 +252,6 @@ public class MapEditor extends Phase {
 	 * This methods can receive parameters from the Router, check the correctness of
 	 * commands and call the internal methods.
 	 * @param p_parameters parameters parsed by parser
-	 * @return true if successfully remove the relationship, otherwise return false
 	 */
 	public void removeNeighbor (String p_parameters) {
 		//parse [p_parameters]
@@ -289,7 +278,6 @@ public class MapEditor extends Phase {
 	 * remove neighbor relationship
 	 * @param p_countryID the from country id
 	 * @param p_neighborCountryID the to country id
-	 * @return true if successfully remove the relationship, otherwise return false
 	 */
 	public void removeNeighbor (int p_countryID, int p_neighborCountryID) {
 
