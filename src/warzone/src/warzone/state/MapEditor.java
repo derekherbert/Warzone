@@ -36,6 +36,9 @@ public class MapEditor extends Phase {
 		d_continentService = new ContinentService(d_gameContext);
 		d_countryService  = new CountryService(d_gameContext);
 		d_neighborService = new NeighborService(d_gameContext);
+		
+
+		this.d_gamePhase = GamePhase.MAPEDITOR;
 	}
 
 	/**
