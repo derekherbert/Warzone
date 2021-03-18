@@ -143,7 +143,7 @@ public class Player {
 	 * @param p_command the command that should be converted
 	 * @return the converted command
 	 */
-	private DeployOrder conventDeployOrder(String p_command) {
+	private DeployOrder convertDeployOrder(String p_command) {
 		if(p_command == null)
 			return null;
 		
@@ -159,6 +159,52 @@ public class Player {
 				return new DeployOrder(l_country, l_armyNumber );
 			}
 		}
+		
+		//advance countrynamefrom countynameto numarmies
+		else if(l_commandInfos[0].equals("advance") && l_commandInfos.length == 4) {
+			
+			//TODO: Make sure the command is valid
+			
+			//this.d_orders.add(new AdvanceOrder(this, l_commandArray[1], l_commandArray[2], Integer.parseInt(l_commandArray[3]));
+		}
+		
+		//bomb countryID
+		else if(l_commandInfos[0].equals("bomb") && l_commandInfos.length == 2) {
+			
+			//TODO: Make sure the command is valid and player has the card. Remove the card from their list if they have it.
+			
+			//this.d_orders.add(new BombCardOrder(this, Integer.parseInt(l_commandArray[1])));
+		}
+		
+		//blockade countryID
+		else if(l_commandInfos[0].equals("blockade") && l_commandInfos.length == 2) {
+			
+			//TODO: Make sure the command is valid and player has the card. Remove the card from their list if they have it.
+			
+			//this.d_orders.add(new BlockadeCardOrder(this, Integer.parseInt(l_commandArray[1])));
+		}
+				
+		//airlift sourcecountryID targetcountryID numarmies
+		else if(l_commandInfos[0].equals("airlift") && l_commandInfos.length == 4) {
+			
+			//TODO: Make sure the command is valid and player has the card. Remove the card from their list if they have it.
+			
+			//this.d_orders.add(new AirliftCardOrder(this, Integer.parseInt(l_commandArray[1]), Integer.parseInt(l_commandArray[2]), Integer.parseInt(l_commandArray[3])));
+		}
+		
+		//negotiate playerID
+		else if(l_commandInfos[0].equals("negotiate") && l_commandInfos.length == 2) {
+			
+			//TODO: Make sure the command is valid and player has the card. Remove the card from their list if they have it.
+			
+			//this.d_orders.add(new NegotiateCardOrder(this, Integer.parseInt(l_commandArray[1])));
+		}
+		
+		else {
+				
+			GenericView.printError(l_commandInfos[0] + " is not a recognized order or the parameters did not match. Please enter a valid order.");
+		}
+		
 		return null;			
 	}
 
@@ -193,7 +239,7 @@ public class Player {
 				//1. issue order from interaction
 				l_command = d_keyboard.nextLine();				
 				//convent the commend to deploy order.
-				l_deployOrder = conventDeployOrder(l_command);
+				l_deployOrder = convertDeployOrder(l_command);
 				if(l_deployOrder != null && this.getConqueredCountries().containsKey(l_deployOrder.getCountry().getCountryID()) 
 					&&  l_deployOrder.getArmyNumber() <= l_armyToIssue	) {					
 					l_deployOrder.setPlayer(this);
@@ -223,73 +269,15 @@ public class Player {
 		
 		String[] l_commandArray;
 		
+		
+		
+		//REFACTOR ABOVE LOOP TO WORK WITH ALL ORDERS
 		do {
 			
 			GenericView.println("Please perform an order or play a card. Type \"done\" when you have finished:");
 			
 			l_command = d_keyboard.nextLine();
 			l_commandArray = l_command.split("\\s+");
-			
-			switch(l_commandArray[0].toLowerCase()) {
-			
-				//advance countrynamefrom countynameto numarmies
-				case "advance" : { 
-
-					//TODO: Make sure the command is valid
-					
-					//this.d_orders.add(new AdvanceOrder(this, l_commandArray[1], l_commandArray[2], Integer.parseInt(l_commandArray[3]));
-					
-					break;
-				}
-				
-				//bomb countryID
-				case "bomb" : { 
-				
-					//TODO: Make sure the command is valid and player has the card. Remove the card from their list if they have it.
-					
-					//this.d_orders.add(new BombCardOrder(this, Integer.parseInt(l_commandArray[1])));
-					
-					break;
-				}
-				
-				//blockade countryID
-				case "blockade" : { 
-					
-					//TODO: Make sure the command is valid and player has the card. Remove the card from their list if they have it.
-					
-					//this.d_orders.add(new BlockadeCardOrder(this, Integer.parseInt(l_commandArray[1])));
-					
-					break;
-				}
-				
-				//airlift sourcecountryID targetcountryID numarmies
-				case "airlift" : {
-					
-					//TODO: Make sure the command is valid and player has the card. Remove the card from their list if they have it.
-					
-					//this.d_orders.add(new AirliftCardOrder(this, Integer.parseInt(l_commandArray[1]), Integer.parseInt(l_commandArray[2]), Integer.parseInt(l_commandArray[3])));
-					
-					break;
-				}
-				
-				//negotiate playerID
-				case "negotiate" : {
-					
-					//TODO: Make sure the command is valid and player has the card. Remove the card from their list if they have it.
-					
-					//this.d_orders.add(new NegotiateCardOrder(this, Integer.parseInt(l_commandArray[1])));
-					
-					break;
-				}
-				case "done" : {
-					break;
-				}
-				default : {
-					
-					GenericView.printError(l_commandArray[0].toLowerCase() + " is not a recognized order. Please enter a valid one.");
-					break;
-				}
-			}
 			
 		} while(!l_commandArray[0].equalsIgnoreCase("done"));
 	}
