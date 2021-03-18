@@ -12,7 +12,7 @@ import warzone.model.Observer;
 
 public class LogService implements Observer{
 	/**
-	 * This methods will print log. The format will be [ time, phase, order, result ]
+	 * This method will print log message into console.
 	 */
 	@Override
 	public void update(Observable p_observable) {
@@ -35,6 +35,11 @@ public class LogService implements Observer{
 		}
 	}
 	
+	/**
+	 * This method will write the message into log file if the log function is configured
+	 * in the configuration file
+	 * @param p_content the content of the log message
+	 */
 	private void write2LogFile(String p_content) {
 		FileWriter l_fw = null;
 		try {
