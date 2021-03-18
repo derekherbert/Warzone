@@ -133,7 +133,8 @@ public class Player {
 	}
 
 	/**
-	 * return whether the player has finished the order
+	 * get the value of HasFinisedIssueOrder
+	 * @return whether the player has finished the order
 	 */
 	public boolean getHasFinisedIssueOrder(){
 		return d_hasFinishIssueOrder;
