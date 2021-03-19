@@ -216,7 +216,7 @@ public class Player {
 			case "blockade":
 				break;
 			case "airlift":
-				break;
+				return createAirliftOrder(l_commandInfos);
 			case "diplomacy":
 				break;
 		}
@@ -251,6 +251,20 @@ public class Player {
 		l_deployOrder.setPlayer(this);
 
 		return l_deployOrder;
+	}
+
+	public AirliftOrder createAirliftOrder(String[] p_commandInfos){
+		if(p_commandInfos.length != 4) return null;
+
+		//read the information of command
+		int l_countrySourceId = CommonTool.parseInt(p_commandInfos[1]);
+		int l_countryTargetId = CommonTool.parseInt(p_commandInfos[2]);
+		int l_armyNumber = CommonTool.parseInt(p_commandInfos[3]);
+
+		AirliftOrder l_airliftOrder = new AirliftOrder(l_countrySourceId, l_countryTargetId, l_armyNumber);
+		l_airliftOrder.setPlayer(this);
+
+		return l_airliftOrder;
 	}
 
 	/**
