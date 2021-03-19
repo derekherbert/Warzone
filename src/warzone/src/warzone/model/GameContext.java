@@ -22,7 +22,8 @@ public class GameContext {
 	private Map<String, Player> d_players;
 	private Map<Integer, Country> d_countries;
 	private Map<Integer, Continent> d_continents;
-
+	private LogService d_logService;
+	private Router d_currentRouter;
 	
 	private String d_mapFileName;
 	private String d_mapFilePic;
@@ -31,7 +32,24 @@ public class GameContext {
 	
 	private WarzoneProperties d_warzoneProperties;
 	
-	private static LogEntryBuffer LOG_ENTRY_BUFFER;
+	/**
+	 * get current running router
+	 * @return current running router
+	 */
+	public Router getCurrentRouter() {
+		return d_currentRouter;
+	}
+	
+	/**
+	 * set current running router
+	 * @param p_currentRouter current running router
+	 */
+	public void setCurrentRouter(Router p_currentRouter) {
+		d_currentRouter =  p_currentRouter;
+	}
+
+	
+	private LogEntryBuffer d_logEntryBuffer;
 	
 	/**
 	 * get map file cards
@@ -58,6 +76,7 @@ public class GameContext {
 		d_countries = new HashMap<Integer, Country>();
 		d_continents = new HashMap<Integer, Continent>();
 		d_warzoneProperties = WarzoneProperties.getWarzoneProperties();
+		d_logService = new LogService();
 	}		
 	
 	/**
@@ -77,12 +96,12 @@ public class GameContext {
 	 * it is null.
 	 * @return the logEntryBuffer instance
 	 */
-	public static LogEntryBuffer getLogEntryBuffer() {
-		if(LOG_ENTRY_BUFFER == null) {
-			LOG_ENTRY_BUFFER= new LogEntryBuffer();
-			LOG_ENTRY_BUFFER.attach(new LogService());
+	public LogEntryBuffer getLogEntryBuffer() {
+		if(d_logEntryBuffer == null) {
+			d_logEntryBuffer= new LogEntryBuffer(this);
+			d_logEntryBuffer.attach(d_logService);
 		}
-		return LOG_ENTRY_BUFFER;
+		return d_logEntryBuffer;
 	}
 	
 	/**

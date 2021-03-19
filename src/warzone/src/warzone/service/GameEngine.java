@@ -158,6 +158,8 @@ public class GameEngine {
 		issueOrders();
 		GenericView.println("Start to execute orders........");
 		executeOrders();
+		GenericView.println("Start to assign cards randomly........");
+		assignCards();
 	}
 	
 	/**
@@ -165,7 +167,7 @@ public class GameEngine {
 	 * @return true if the current state satisfy the end condition: 
 	 * 1. there is just one player left 2. the number of game turn is greater than 100.
 	 */
-	private boolean isGameEnded() {
+	public boolean isGameEnded() {
 		//check and update PlayerStatus		
 		//set p_isLoser = true, when the player does not have any country
 		int l_alivePlayers = 0;
@@ -183,13 +185,18 @@ public class GameEngine {
 	 * This method will assign each player the correct number of reinforcement armies 
 	 * according to the Warzone rules.
 	 */
-	private void assignReinforcements() {
+	public void assignReinforcements() {
+		if( isGameEnded()) {
+			//todo: call game over and change state
+		}
+		
 		d_gameContext.getPlayers().forEach((l_k, l_player) -> {
 			if(l_player.getIsAlive()) {
 				GenericView.println("Start to assign reinforcements for player ["+ l_player.getName() +"]");
 				l_player.assignReinforcements(d_gameContext);
 			}
 		});
+		
 	}
 	
 	/**
@@ -198,7 +205,11 @@ public class GameEngine {
 	 * players reinforcement pool. The game engine does this for all players in round-robin fashion until all the players 
 	 * have placed all their reinforcement armies on the map.
 	 */
-	private void issueOrders() {
+	public void issueOrders() {
+		if( isGameEnded()) {
+			//todo: call game over and change state
+		}		
+
 		//local list of player
 		List<Player> l_playersList = new ArrayList<>();
 		d_gameContext.getPlayers().forEach((l_k, l_player) -> {
@@ -228,7 +239,11 @@ public class GameEngine {
 	 * <li>excute the orders from player's order list in round-robin fashion</li>
 	 * </ol>
 	 */
-	private void executeOrders() {		
+	public void executeOrders() {	
+		if( isGameEnded()) {
+			//todo: call game over and change state
+		}	
+		
 		//1. get the max number of the orders in a player.		
 		int l_maxOrderNumber = 0;	
 		for(Player l_player :d_gameContext.getPlayers().values() ){
@@ -242,6 +257,10 @@ public class GameEngine {
 		GenericView.println("Start to execute orders.");
 		int l_roundIndex = 1;
 		while(l_roundIndex <= l_maxOrderNumber ){
+			if( isGameEnded()) {
+				//todo: call game over and change state
+			}	
+			
 			GenericView.println("Start to execute round [" + l_roundIndex + "] of orders");
 			d_gameContext.getPlayers().forEach((l_k, l_player) -> {
 				if(l_player.getIsAlive()) {
@@ -254,5 +273,43 @@ public class GameEngine {
 			});
 			l_roundIndex ++;			
 		}
-	}	 
+	}	
+	
+	/**
+	 * This method will assign a random card to each player that conquered a country this turn
+	 */
+	private void assignCards() {
+
+		d_gameContext.getPlayers().forEach((l_playerID, l_player) -> {
+
+			if(l_player.getConqueredACountryThisTurn()) {
+
+				Random l_randomNumberGenerator = new Random();
+				int l_randomNumber = l_randomNumberGenerator.nextInt(4);
+
+				if(l_randomNumber == 0) {
+
+					l_player.getCards().add(Card.BOMB);
+					GenericView.println(l_player.getName() + " was assigned a BOMB card.");
+				}
+				else if(l_randomNumber == 1) {
+
+					l_player.getCards().add(Card.BLOCKADE);
+					GenericView.println(l_player.getName() + " was assigned a BLOCKADE card.");
+				} 
+				else if(l_randomNumber == 2) {
+
+					l_player.getCards().add(Card.AIRLIFT);
+					GenericView.println(l_player.getName() + " was assigned an AIRLIFT card.");
+				}
+				else if(l_randomNumber == 3) {
+
+					l_player.getCards().add(Card.NEGOTIATE);
+					GenericView.println(l_player.getName() + " was assigned a NEGOTIATE card.");
+				}
+
+				l_player.setConqueredACountryThisTurn(false);
+			}
+		});
+	}
 }

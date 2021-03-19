@@ -63,7 +63,7 @@ public class RouterService {
 	 * @throws IOException exception from reading the commands
 	 */
 	public void route(Router p_router) throws IOException{
-
+		//todo: need to consider the controller name in the future
 		switch(p_router.getActionName().toLowerCase()) {
 			case "next":
 				d_gamePhase.next();
@@ -110,14 +110,17 @@ public class RouterService {
 			case "populatecountries":
 				d_gamePhase.populatecountries();
 				break;
-			case "reinforcement":
-				d_gamePhase.reinforcement();
-				break;
-			case "issueOrder":
-				d_gamePhase.issueOrder();
-				break;
-			case "executeOrder":
-				d_gamePhase.executeOrder();
+//			case "reinforcement":
+//				d_gamePhase.reinforcement();
+//				break;
+//			case "issueOrder":
+//				d_gamePhase.issueOrder();
+//				break;
+//			case "executeOrder":
+//				d_gamePhase.executeOrder();
+//				break;
+			case "help":
+				d_gamePhase.help();
 				break;
 		}		
 	}
@@ -131,6 +134,7 @@ public class RouterService {
 			p_routers.forEach((l_router) ->{
 				try {
 					GenericView.printDebug("Excuting router: " + l_router.toString() );
+					this.d_gameContext.setCurrentRouter(l_router);
 					route(l_router);
 				}
 				catch(Exception l_ex){
@@ -160,7 +164,7 @@ public class RouterService {
 		}
 			
 		GenericView.printDebug("parseCommand: start to work on command: " + p_command);
-		
+				
 		// remove prefix whitespace and convert the String to lower case 
 		p_command = p_command.toLowerCase().trim();
 				
@@ -226,7 +230,13 @@ public class RouterService {
 			//TODO add it in the property file
 			String l_actionArray = "-add,-remove";
 			if(l_actionArray.indexOf(l_action.getAction()) > -1) { 
-				l_routers.add(new Router(l_controllerName, l_action.getAction(), l_action.getParameters()));
+				Router l_router = new Router(l_controllerName, l_action.getAction(), l_action.getParameters());
+				l_router.setCommand( String.format("%s %s %s", 
+						p_commandArray[0], 
+						(p_commandArray.length > 1)? p_commandArray[1]:"", 
+						(p_commandArray.length > 2)? p_commandArray[2]:"" ) );
+				
+				l_routers.add(l_router);
 				GenericView.printDebug("Add an action to a router");
 			}
 			else {
@@ -305,7 +315,10 @@ public class RouterService {
 				break;
 			//TODO other routers for simple commands
 		}
-		
+		l_router.setCommand( String.format("%s %s %s", 
+				p_commandArray[0], 
+				(p_commandArray.length > 1)? p_commandArray[1]:"", 
+				(p_commandArray.length > 2)? p_commandArray[2]:"" ) );
 		return l_router;
 	}
 
