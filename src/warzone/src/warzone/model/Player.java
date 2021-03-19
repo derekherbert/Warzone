@@ -253,6 +253,11 @@ public class Player {
 		return l_deployOrder;
 	}
 
+	/**
+	 * create the airlift order by command
+	 * @param p_commandInfos command info
+	 * @return the airlift order
+	 */
 	public AirliftOrder createAirliftOrder(String[] p_commandInfos){
 		if(p_commandInfos.length != 4) return null;
 
