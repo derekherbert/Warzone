@@ -230,11 +230,12 @@ public class RouterService {
 			//TODO add it in the property file
 			String l_actionArray = "-add,-remove";
 			if(l_actionArray.indexOf(l_action.getAction()) > -1) { 
-				Router l_router = new Router(l_controllerName, l_action.getAction(), l_action.getParameters());
-				l_router.setCommand( String.format("%s %s %s", 
-						p_commandArray[0], 
-						(p_commandArray.length > 1)? p_commandArray[1]:"", 
-						(p_commandArray.length > 2)? p_commandArray[2]:"" ) );
+				String l_command = Arrays.toString(p_commandArray).replace(",", " ");
+//				String l_command =  String.format("%s %s %s", 
+//						p_commandArray[0], 
+//						(p_commandArray.length > 1)? p_commandArray[1]:"", 
+//						(p_commandArray.length > 2)? p_commandArray[2]:"" ) ;
+				Router l_router = new Router(l_controllerName, l_action.getAction(), l_action.getParameters(),l_command);
 				
 				l_routers.add(l_router);
 				GenericView.printDebug("Add an action to a router");
@@ -259,44 +260,49 @@ public class RouterService {
 		// create the router according to the command
 		Router l_router = null;
 		// the first element of commandArray is command
+		String l_command = Arrays.toString(p_commandArray).replace(",", " ");
+//		String l_command = String.format("%s %s %s", 
+//					p_commandArray[0], 
+//					(p_commandArray.length > 1)? p_commandArray[1]:"", 
+//					(p_commandArray.length > 2)? p_commandArray[2]:"" );
 		switch (p_commandArray[0]) {
 			case "reboot":
 			case "startup":
 			case "mapeditor":
-				l_router = new Router(ControllerName.COMMON, "changephase",p_commandArray[0]);
+				l_router = new Router(ControllerName.COMMON, "changephase",p_commandArray[0],l_command);
 				break;
 			case  "help":
-				l_router = new Router(ControllerName.COMMON, "help");
+				l_router = new Router(ControllerName.COMMON, "help", l_command);
 				break;		
 			case  "showmap":
-					l_router = new Router(ControllerName.MAP, "showmap");
+					l_router = new Router(ControllerName.MAP, "showmap", l_command);
 				break;
 			case  "validatemap":
-				l_router =  new Router(ControllerName.MAP, "validatemap");
+				l_router =  new Router(ControllerName.MAP, "validatemap", l_command);
 				break;
 			case  "play":
-				l_router =  new Router(ControllerName.GAMEPLAY, "play");
+				l_router =  new Router(ControllerName.GAMEPLAY, "play", l_command);
 				break;				
 			case  "assigncountries":
-				l_router =  new Router(ControllerName.STARTUP, "assigncountries");
+				l_router =  new Router(ControllerName.STARTUP, "assigncountries", l_command);
 				break;
 			case  "savemap":
 				if (p_commandArray.length == 1) {
-					return createErrorRouter(ErrorType.MISSING_PARAMETER.toString());
+					return createErrorRouter(ErrorType.MISSING_PARAMETER.toString(), l_command);
 				}
-				if(p_commandArray.length == 2 ) {
-					l_router =  new Router(ControllerName.MAP, "savemap", p_commandArray[1]);
+				else if(p_commandArray.length == 2 ) {
+					l_router =  new Router(ControllerName.MAP, "savemap", p_commandArray[1], l_command);
 				}
 				else {
-					return createErrorRouter(ErrorType.TOO_MUCH_PARAMETERS.toString());
+					return createErrorRouter(ErrorType.TOO_MUCH_PARAMETERS.toString(), l_command);
 				}
 				break;
 			case  "editmap":
 				if (p_commandArray.length == 1) {
-					return createErrorRouter(ErrorType.MISSING_PARAMETER.toString());
+					return createErrorRouter(ErrorType.MISSING_PARAMETER.toString(), l_command);
 				}
 				if(p_commandArray.length == 2 ) {
-					l_router =  new Router(ControllerName.MAP, "editmap", p_commandArray[1]);
+					l_router =  new Router(ControllerName.MAP, "editmap", p_commandArray[1], l_command);
 				}
 				else {
 					return createErrorRouter(ErrorType.TOO_MUCH_PARAMETERS.toString());
@@ -307,7 +313,7 @@ public class RouterService {
 					return createErrorRouter(ErrorType.MISSING_PARAMETER.toString());
 				}
 				if(p_commandArray.length == 2 ) {
-					l_router =  new Router(ControllerName.STARTUP, "loadmap", p_commandArray[1]);
+					l_router =  new Router(ControllerName.STARTUP, "loadmap", p_commandArray[1], l_command);
 				}
 				else {
 					return createErrorRouter(ErrorType.TOO_MUCH_PARAMETERS.toString());
@@ -315,10 +321,6 @@ public class RouterService {
 				break;
 			//TODO other routers for simple commands
 		}
-		l_router.setCommand( String.format("%s %s %s", 
-				p_commandArray[0], 
-				(p_commandArray.length > 1)? p_commandArray[1]:"", 
-				(p_commandArray.length > 2)? p_commandArray[2]:"" ) );
 		return l_router;
 	}
 
@@ -362,7 +364,19 @@ public class RouterService {
 	 * @param p_errorType the error type of the command
 	 * @return Router representing error
 	 */
-	private Router createErrorRouter(String p_errorType){
-		return new Router(ControllerName.ERROR, p_errorType);
+	private Router createErrorRouter(String p_errorType) {
+		return new Router(ControllerName.ERROR, p_errorType, "");
 	}
+	
+	/**
+	 * This method will create the error controller by its error type.
+	 * @param p_errorType the error type of the command
+	 * @param p_command the command for this action
+	 * @return Router representing error
+	 */
+	private Router createErrorRouter(String p_errorType, String p_command) {
+		return new Router(ControllerName.ERROR, p_errorType,p_command);
+	}
+	
+	
 }
