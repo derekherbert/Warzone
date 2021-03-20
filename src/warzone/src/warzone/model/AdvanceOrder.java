@@ -108,68 +108,55 @@ public class AdvanceOrder implements Order {
 	@Override
 	public void execute() {
 		
-		//Check if fromCountry is owned by the current player
-		if(!d_fromCountry.getOwner().equals(d_player)) {
-			
-			GenericView.printWarning("Could not perform the advance order moving " + d_numberOfArmies + " armies from " + 
-					d_fromCountry.getCountryName() + " to " + d_toCountry.getCountryName() + " because " + d_player.getName() + " does not own " + d_fromCountry + ".");
-			return;
-		}
+		if(valid()) {
 		
-		//Check if fromCountry and toCountry are neighbors
-		if(d_fromCountry.getNeighbors().get(d_toCountry.getCountryID()) == null) {
-			
-			GenericView.printWarning("Could not perform the advance order moving " + d_numberOfArmies + " armies from " + 
-					d_fromCountry.getCountryName() + " to " + d_toCountry.getCountryName() + " because they are not neighbors.");
-			return;
-		}
-		
-		//Make sure that there are enough armies to advance
-		if(d_fromCountry.getArmyNumber() < d_numberOfArmies) {
-			
-			d_numberOfArmies = d_fromCountry.getArmyNumber();
-		}
-		
-		//If toCountry is owned by current player -> advance armies
-		if(d_toCountry.getOwner().equals(d_player)) {
-		
-			//Move the armies
-			d_fromCountry.setArmyNumber(d_fromCountry.getArmyNumber() - d_numberOfArmies);
-			d_toCountry.setArmyNumber(d_toCountry.getArmyNumber() + d_numberOfArmies);
-		}
-		//Else toCountry is owned by opponent -> attack
-		else {
-
-			Random l_randomNumberGenerator = new Random();
-			
-			for(int i = 0; i < d_numberOfArmies; i++) {
+			//Make sure that there are enough armies to advance
+			if(d_fromCountry.getArmyNumber() < d_numberOfArmies) {
 				
-				if(d_toCountry.getArmyNumber() == 0) {
-					
-					changeCountryOwnership(d_toCountry, d_fromCountry, d_numberOfArmies);
-					return;
-				}
-				
-				//Attacking army has a 60% chance of killing a defending army
-				if((l_randomNumberGenerator.nextInt(10) + 1) <= 6) { //random int between 1 and 10 (inclusive)
-					
-					//Kill defending army
-					d_toCountry.setArmyNumber(d_toCountry.getArmyNumber() - 1);
-				}
-				
-				//Defending army has a 70% chance of killing a defending army
-				if((l_randomNumberGenerator.nextInt(10) + 1) <= 7) { //random int between 1 and 10 (inclusive)
-					
-					//Kill attacking army
-					d_fromCountry.setArmyNumber(d_fromCountry.getArmyNumber() - 1);
-					d_numberOfArmies--;
-					i--;
-				}
+				d_numberOfArmies = d_fromCountry.getArmyNumber();
 			}
 			
-			if(d_toCountry.getArmyNumber() == 0 && d_numberOfArmies > 0) {
+			//If toCountry is owned by current player -> advance armies
+			if(d_toCountry.getOwner().equals(d_player)) {
+			
+				//Move the armies
+				d_fromCountry.setArmyNumber(d_fromCountry.getArmyNumber() - d_numberOfArmies);
+				d_toCountry.setArmyNumber(d_toCountry.getArmyNumber() + d_numberOfArmies);
+			}
+			//Else toCountry is owned by opponent -> attack
+			else {
+	
+				Random l_randomNumberGenerator = new Random();
 				
-				changeCountryOwnership(d_toCountry, d_fromCountry, d_numberOfArmies);
+				for(int i = 0; i < d_numberOfArmies; i++) {
+					
+					if(d_toCountry.getArmyNumber() == 0) {
+						
+						changeCountryOwnership(d_toCountry, d_fromCountry, d_numberOfArmies);
+						return;
+					}
+					
+					//Attacking army has a 60% chance of killing a defending army
+					if((l_randomNumberGenerator.nextInt(10) + 1) <= 6) { //random int between 1 and 10 (inclusive)
+						
+						//Kill defending army
+						d_toCountry.setArmyNumber(d_toCountry.getArmyNumber() - 1);
+					}
+					
+					//Defending army has a 70% chance of killing a defending army
+					if((l_randomNumberGenerator.nextInt(10) + 1) <= 7) { //random int between 1 and 10 (inclusive)
+						
+						//Kill attacking army
+						d_fromCountry.setArmyNumber(d_fromCountry.getArmyNumber() - 1);
+						d_numberOfArmies--;
+						i--;
+					}
+				}
+				
+				if(d_toCountry.getArmyNumber() == 0 && d_numberOfArmies > 0) {
+					
+					changeCountryOwnership(d_toCountry, d_fromCountry, d_numberOfArmies);
+				}
 			}
 		}
 	}
@@ -213,7 +200,28 @@ public class AdvanceOrder implements Order {
      */
     @Override
     public boolean valid(){
-        return false;
+        
+    	boolean l_isValid = true;
+    	
+    	//Check if fromCountry is owned by the current player
+		if(!d_fromCountry.getOwner().equals(d_player)) {
+			
+			GenericView.printWarning("Could not perform the advance order moving " + d_numberOfArmies + " armies from " + 
+					d_fromCountry.getCountryName() + " to " + d_toCountry.getCountryName() + " because " + d_player.getName() + " does not own " + d_fromCountry + ".");
+			
+			l_isValid =  false;
+		}
+		
+		//Check if fromCountry and toCountry are neighbors
+		if(d_fromCountry.getNeighbors().get(d_toCountry.getCountryID()) == null) {
+			
+			GenericView.printWarning("Could not perform the advance order moving " + d_numberOfArmies + " armies from " + 
+					d_fromCountry.getCountryName() + " to " + d_toCountry.getCountryName() + " because they are not neighbors.");
+			
+			l_isValid =  false;
+		}
+		
+    	return l_isValid;
     }
 
     /**
@@ -221,6 +229,7 @@ public class AdvanceOrder implements Order {
      */
     @Override
     public void printOrder(){
-
+    	
+    	GenericView.println("Advance Order created: " + d_player.getName() + " is sending " + d_numberOfArmies + " armies from " + d_fromCountry.getCountryName() + " to " + d_toCountry.getCountryName());
     }
 }
