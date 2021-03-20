@@ -47,7 +47,7 @@ public class BlockadeOrder implements Order {
 		if(d_targetCountry!=null) {
 			return true;
 		}else {
-			GenericView.printError("Blockade order valid:target country not belong to current player!");
+			GenericView.printError("Blockade order invalid:target country not belong to current player!");
 			return false;
 		}
 	}
@@ -57,7 +57,7 @@ public class BlockadeOrder implements Order {
      */
 	@Override
 	public void printOrder() {
-		GenericView.println("Airlift order issued by player " + this.d_player.getName());
+		GenericView.println("Blockade order issued by player " + this.d_player.getName());
 		GenericView.println("Blockade " + this.d_targetCountry.getCountryName());
 	}
 
