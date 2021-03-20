@@ -1,5 +1,8 @@
 package warzone.state;
 import warzone.service.*;
+
+import java.io.IOException;
+
 import warzone.model.*;
 import warzone.view.*;
 
@@ -27,8 +30,14 @@ public abstract class Phase {
 	 */
 	GameEngine d_gameEngine;
 	
+	protected GamePhase d_gamePhase;
+	
 	protected GameContext d_gameContext;	
 
+	/**
+	 * Constructor for Phase
+	 * @param p_ge Game Engine
+	 */
 	Phase(GameEngine p_ge) {
 		d_gameEngine = p_ge;
 		d_gameContext = p_ge.getGameContext();
@@ -36,11 +45,33 @@ public abstract class Phase {
 	abstract public void addContinent(String p_parameters);
 	abstract public void removeContinent(String p_parameters);	
 	abstract public void addCountry (String p_parameters);
-	abstract public void removeCountry(String p_parameters);	
-	abstract public void showMap();		
-	abstract public void saveMap (String p_fileName);
-	abstract public void editMap (String p_fileName);	
-	abstract public void validateMap();	
+	abstract public void removeCountry(String p_parameters);
+
+	/**
+	 * show map
+	 */
+	abstract public void showMap();
+
+	/**
+	 * save map
+	 * @param p_fileName file name
+	 * @return true if success. otherwise return false
+	 * @throws IOException io exception
+	 */
+	abstract public boolean saveMap (String p_fileName) throws IOException;
+
+	/**
+	 * edit map
+	 * @param p_fileName file name
+	 * @return true if success. otherwise return false
+	 */
+	abstract public boolean editMap (String p_fileName);
+
+	/**
+	 * validate map
+	 * @return true if success. otherwise return false
+	 */
+	abstract public boolean validateMap();
 	abstract public void addNeighbor (String p_parameters);	
 	abstract public void removeNeighbor (String p_parameters);	
 	abstract public void addPlayer(String p_playerName);	
@@ -48,9 +79,11 @@ public abstract class Phase {
 	abstract public void loadMap(String p_fileName);	
 	abstract public void populatecountries();
 	
-	abstract public void reinforcement(); 
-	abstract public void issueOrder();
-	abstract public void executeOrder();
+//	abstract public void reinforcement(); 
+//	abstract public void issueOrder();
+//	abstract public void executeOrder();
+	
+
 	
 	
 
@@ -63,4 +96,20 @@ public abstract class Phase {
 	public void printInvalidCommandMessage() {
 		System.out.println("Invalid command in state " + this.getClass().getSimpleName() );
 	}
+	
+	/**
+	 * show help for each phase
+	 */
+	public void help() {
+		HelpView.printHelp(this.d_gamePhase);
+	}
+	
+	/**
+	 * get current gamephase
+	 * @return current gamephase
+	 */
+	public GamePhase getGamePhase() {
+		return this.d_gamePhase;
+	}
+
 }
