@@ -4,8 +4,15 @@ package warzone.model;
 /**
  * This class represents one advance order of the gameplay
  */
-public class AdvanceOrder implements Order{
+public class AdvanceOrder extends Order{
 
+	
+    AdvanceOrder() {
+		this.d_orderType = OrderType.ADVANCE;
+		this.d_gameContext = GameContext.getGameContext();  
+    }
+
+	
     /**
      * Override of excute
      */
@@ -20,7 +27,15 @@ public class AdvanceOrder implements Order{
      */
     @Override
     public boolean valid(){
-        return false;
+		//check if DIPLOMACY 
+		if(d_orderType == OrderType.ADVANCE || d_orderType == OrderType.AIRLIFT || d_orderType == OrderType.BOMB  ) {
+			//todo: need to have 2 player's reference: self and target;
+			//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			this.d_gameContext.isDiplomacyInCurrentTurn(null, null);
+			
+		}
+		
+        return true;
     }
 
     /**

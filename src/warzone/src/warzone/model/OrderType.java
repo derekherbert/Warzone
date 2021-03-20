@@ -6,7 +6,10 @@ package warzone.model;
  *
  */
 public enum OrderType {
-	DEPLOYMENT,
+	DEPLOY,
 	ADVANCE,
-	SPECIAL
+	DIPLOMACY,
+	AIRLIFT,
+	BLOCKADE,
+	BOMB
 }
