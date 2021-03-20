@@ -8,7 +8,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
+import sun.tools.tree.ThisExpression;
 import warzone.service.CommonTool;
+import warzone.service.GameEngine;
 import warzone.view.GenericView;
 
 /**
@@ -265,7 +267,21 @@ public class Player {
 		int l_countrySourceId = CommonTool.parseInt(p_commandInfos[1]);
 		int l_countryTargetId = CommonTool.parseInt(p_commandInfos[2]);
 		int l_armyNumber = CommonTool.parseInt(p_commandInfos[3]);
-
+		//check if the player has a airlift card
+		if(!this.getCards().contains(Card.AIRLIFT)){
+			GenericView.printError("Player " + this.getName() + " does not have a airlift card");
+			return null;
+		}
+		//check if country exist
+		if(!GameContext.getGameContext().getCountries().containsKey(l_countryTargetId) || !GameContext.getGameContext().getCountries().containsKey(l_countrySourceId)){
+			GenericView.printError("Does not exist the sorce/target country");
+			return null;
+		}
+		//check if army number is more than 0
+		if(l_armyNumber <= 0){
+			GenericView.printError("The number of airlift army shoud more than 0.");
+			return null;
+		}
 		AirliftOrder l_airliftOrder = new AirliftOrder(l_countrySourceId, l_countryTargetId, l_armyNumber);
 		l_airliftOrder.setPlayer(this);
 
