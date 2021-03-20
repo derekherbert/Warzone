@@ -212,7 +212,7 @@ public class Player {
 			case "advance":
 				break;
 			case "bomb":
-				break;
+				return createBombOrder(l_commandInfos);
 			case "blockade":
 				break;
 			case "airlift":
@@ -251,6 +251,23 @@ public class Player {
 		l_deployOrder.setPlayer(this);
 
 		return l_deployOrder;
+	}
+	
+	/**
+	 * create the bomb order by command
+	 * @param p_commandInfos command info
+	 * @return the bomb order
+	 */
+	public BombOrder createBombOrder(String[] p_commandInfos){
+		if(p_commandInfos.length != 2) return null;
+
+		//read the information of command
+		int l_targetCountryId = CommonTool.parseInt(p_commandInfos[1]);
+
+		BombOrder l_bombOrder = new BombOrder(l_targetCountryId);
+		l_bombOrder.setPlayer(this);
+
+		return l_bombOrder;
 	}
 
 	/**

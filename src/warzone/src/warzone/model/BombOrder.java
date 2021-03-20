@@ -4,6 +4,7 @@ import warzone.view.GenericView;
 
 public class BombOrder implements Order{
 	private int d_targetCountryId;
+	private int d_previousArmyNum;
 	private Country d_targetCountry;
 	private Player d_player;
 	
@@ -30,7 +31,8 @@ public class BombOrder implements Order{
 	@Override
 	public void execute() {
         if(!valid()) return;
-        d_targetCountry.setArmyNumber(d_targetCountry.getArmyNumber() / 2); 
+        d_previousArmyNum = d_targetCountry.getArmyNumber();
+        d_targetCountry.setArmyNumber( d_previousArmyNum/ 2); 
         GenericView.printSuccess("Successfully to bomb the target country.");
         printOrder();
 	}
@@ -66,7 +68,7 @@ public class BombOrder implements Order{
 	@Override
 	public void printOrder() {
         GenericView.println("Bomb order issued by player " + this.d_player.getName());
-        GenericView.println("destryed the armies in " + d_targetCountry.getCountryID() + " to " + d_targetCountry.getArmyNumber() + ".");
+        GenericView.println("destryed the armies in [COUNTRY-" + d_targetCountry.getCountryID() + "] " + "from " + d_previousArmyNum + " to " + d_targetCountry.getArmyNumber() + ".");
 	}
 
 }
