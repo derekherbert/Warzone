@@ -21,7 +21,7 @@ import org.junit.Test;
 public class PlayerTest {
 	
 	/**
-	 * check whether failed if the target country belongs to the owner
+	 * check whether successes
 	 */
 	@Test
 	public void WillBombOrder() {

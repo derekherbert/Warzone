@@ -2,12 +2,21 @@ package warzone.model;
 
 import warzone.view.GenericView;
 
+/**
+ * This class represents the bomb card in the game.
+ * @author zexin
+ *
+ */
 public class BombOrder implements Order{
 	private int d_targetCountryId;
 	private int d_previousArmyNum;
 	private Country d_targetCountry;
 	private Player d_player;
 	
+	/**
+	 * This method is the constructor of the class.
+	 * @param p_targetCountryId the target country id
+	 */
 	public BombOrder(int p_targetCountryId) {
 		this.d_targetCountryId = p_targetCountryId;
 	}
@@ -28,6 +37,9 @@ public class BombOrder implements Order{
         return  d_player;
     }
 
+    /**
+     * This method will execute the current order.
+     */
 	@Override
 	public void execute() {
         if(!valid()) return;
@@ -37,6 +49,10 @@ public class BombOrder implements Order{
         printOrder();
 	}
 
+	/**
+	 * This method is responsible to check the validity of the current order.
+	 * @return false if the current order is invalid
+	 */
 	@Override
 	public boolean valid() {
         //check if the player has a bomb card
@@ -65,6 +81,9 @@ public class BombOrder implements Order{
         return true;
 	}
 
+	/**
+	 * This method will print the result of the current order.
+	 */
 	@Override
 	public void printOrder() {
         GenericView.println("Bomb order issued by player " + this.d_player.getName());
