@@ -269,7 +269,7 @@ public class Player {
 
 		return l_bombOrder;
 	}
-
+	/*
 	 * create the advance order by command
 	 * @param p_commandInfos command infor
 	 * @return the deploy order if success, otherwise return null
