@@ -57,7 +57,7 @@ public class HelpView {
 	    				+ " -  editcontinent -add continentID continentvalue -remove continentID\n"
 	    				+ " -  editcountry -add countryID continentID -remove countryID\n"
 	    				+ " -  editneighbor -add countryID neighborcountryID -remove countryID neighborcountryID\n"
-	    				+ " -  startup \n"
+						+ " -  next    [will go to next phase]\n"
 	    				+ " -  reboot \n");
 
 	    		break;
@@ -65,24 +65,37 @@ public class HelpView {
 	    		System.out.println(""
 	    				+ " -  loadmap filename\n"
 	    				+ " -  showmap\n"
-	    				+ " -  validatemap\n"	    				
 	    				+ " -  gameplayer -add playername -remove playername\n"
 	    				+ " -  assigncountries\n"
-	    				+ " -  play                      [will start the game engine and go to next phase.]\n"
-	    				+ " -  mapeditor \n"
+						+ " -  next\n"
 	    				+ " -  reboot \n");
 	    		break;
-	    	case "PLAY":
+			case "REINFORCEMENT":
+				System.out.println(""
+						+ " -  next\n"
+						+ " -  showmap\n"
+						+ " -  reboot \n");
+				break;
+	    	case "ISSUEORDER":
 	    		System.out.println(""
-	    				+ " You are in game PLAYING phase, you can deploy armies. \n"
-	    				+ " -  deploy countryID num\n"
-	    				+ " \n"
+	    				+ " You are in game ISSUR_ORDER phase, you can issue orders. \n"
+						+ " -  play   [start to issue order]\n"
+						+ " -  deploy countryID num\n"
+	    				+ " -  advance countrynamefrom countynameto numarmies\n"
+						+ " -  bomb countryID\n"
+						+ " -  blockade countryID\n"
+						+ " -  airlift sourcecountryID targetcountryID numarmies\n"
+						+ " -  negotiate playerID\n"
 	    				+ " -  showmap \n"
-	    				+ " -  mapeditor \n"
-	    				+ " -  play \n"
-	    				+ " -  startup \n"	    				);
+						+ " -  done   [finish order]\n");
 	    		break;
-	    		//todo: add other info
+			case "ORDEREXECUTION":
+				System.out.println(""
+						+ " You are in game ORDER_EXECUTION phase, you can issue orders. \n"
+						+ " -  next   [will go to next phase]\n"
+						+ " -  play   [start to execute order]\n"
+						+ " -  showmap \n");
+				break;
     	}
     	System.out.println(String.format("*****************************************    HELP IN PHASE [ %s ]  *********************************",  p_gamePhase));    	
     }
