@@ -28,7 +28,9 @@ public class Player {
 	private boolean d_conqueredACountryThisTurn = false;
 	private List<Card> d_cards;
 	GameContext d_gameContext;
-	
+	int d_armyHasIssued = 0;
+
+
 	private Scanner d_keyboard = new Scanner(System.in);
 	
 	/**
@@ -194,7 +196,6 @@ public class Player {
 		return null;			
 	}
 
-	int l_armyHasIssued = 0;
 	/**
 	 * convert command into order
 	 * @param p_command command line
@@ -245,7 +246,7 @@ public class Player {
 		//check if the command is valid
 		if (l_country == null || !this.getConqueredCountries().containsKey(l_country.getCountryID()))
 			return null;
-		if (l_armyNumber < 0 || l_armyNumber > d_armiesToDeploy - l_armyHasIssued)
+		if (l_armyNumber < 0 || l_armyNumber > d_armiesToDeploy - d_armyHasIssued)
 			return null;
 
 		//create the deploy order
@@ -402,7 +403,7 @@ public class Player {
 
 		String l_command = "";
 		boolean l_hasOrderGenerated = false;
-		int l_armyToIssue = this.getArmiesToDeploy() - l_armyHasIssued;
+		int l_armyToIssue = this.getArmiesToDeploy() - d_armyHasIssued;
 		GameContext l_gameContext = GameContext.getGameContext();
 		GameEngine l_gameEngine = GameEngine.getGameEngine(l_gameContext);
 		 
@@ -442,7 +443,7 @@ public class Player {
 
 					//if the order is a deploy order
 					if (l_order instanceof DeployOrder) {
-						l_armyHasIssued = l_armyHasIssued + ((DeployOrder)l_order).getArmyNumber();
+						d_armyHasIssued = d_armyHasIssued + ((DeployOrder)l_order).getArmyNumber();
 					}
 				} else {
 					GenericView.printWarning("Incorrect command, please retry.");
@@ -482,7 +483,9 @@ public class Player {
 	 * continent, the player gets the bonus reinforcements added (for each applicable continent).
 	 */
 	public void assignReinforcements() {		
-		
+
+		//clear local deploy army number
+		d_armyHasIssued = 0;
 		//Set the armiesToDeploy to the minimum value
 		this.setArmiesToDeploy(WarzoneProperties.getWarzoneProperties().getMinimumReinforcementsEachRound()); 
 		

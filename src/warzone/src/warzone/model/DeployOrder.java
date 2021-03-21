@@ -93,7 +93,6 @@ public class DeployOrder extends Order {
 	@Override
 	public void execute() {
 		if(!valid()) return;
-		this.d_armyNumber = this.d_player.getArmiesToDeploy();
 		//print success information
 		GenericView.printSuccess("Success to deploy army.");
 		printOrder();
@@ -110,7 +109,7 @@ public class DeployOrder extends Order {
 	public boolean valid(){
 		if(this.d_country.getOwner()== null || !this.d_country.getOwner().equals(this.d_player) || this.d_armyNumber <0 )
 			return false;
-		if (this.d_player.getArmiesToDeploy() >  this.d_armyNumber)
+		if (this.d_player.getArmiesToDeploy() <  this.d_armyNumber)
 			return false;
 
 		return true;
