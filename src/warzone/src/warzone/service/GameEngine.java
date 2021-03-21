@@ -8,7 +8,9 @@ import java.util.List;
 import warzone.model.*;
 import warzone.state.Startup;
 import warzone.state.MapEditor;
+import warzone.state.OrderExecution;
 import warzone.state.Phase;
+import warzone.state.Reinforcement;
 import warzone.view.GenericView;
 import warzone.view.HelpView;
 import warzone.view.MapView;
@@ -214,7 +216,8 @@ public class GameEngine {
 		List<Player> l_playersList = new ArrayList<>();
 		d_gameContext.getPlayers().forEach((l_k, l_player) -> {
 			l_player.setHasFinisedIssueOrder(false);
-			l_playersList.add(l_player);
+			if(l_player.getIsAlive())
+				l_playersList.add(l_player);
 		});
 
 		while(l_playersList.size() > 0){
@@ -228,6 +231,12 @@ public class GameEngine {
 					l_playersList.remove(l_player);
 			}
 		}
+		
+		GenericView.println("Finish issue orders for this turn");
+		
+		//call the order execution
+		this.setPhase(new OrderExecution(this));
+
 	}
 	
 	
@@ -275,6 +284,8 @@ public class GameEngine {
 			});
 			l_roundIndex ++;			
 		}
+		
+		GenericView.println("Finish execution orders for this turn");
 	}	
 	
 	/**

@@ -5,10 +5,6 @@ import static org.junit.Assert.*;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
-
-import warzone.controller.CountryController;
-import warzone.controller.MapController;
-import warzone.controller.NeighborController;
 import warzone.model.*;
 
 import static org.junit.Assert.*;

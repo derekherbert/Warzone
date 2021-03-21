@@ -39,7 +39,7 @@ public class OrderExecution extends GamePlay {
 		 printInvalidCommandMessage();
 	 }	
 	
-	 public void populatecountries(){
+	 public void assigncountries(){
 		 printInvalidCommandMessage();
 	 }	
 	 

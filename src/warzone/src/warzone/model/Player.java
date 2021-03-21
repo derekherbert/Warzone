@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Queue;
 
 import warzone.service.CommonTool;
+import warzone.service.GameEngine;
 import warzone.view.GenericView;
 
 /**
@@ -405,6 +406,8 @@ public class Player {
 		int l_armyToIssue = this.getArmiesToDeploy();
 		int l_armyHasIssued = 0;
 		GameContext l_gameContext = GameContext.getGameContext();
+		GameEngine l_gameEngine = GameEngine.getGameEngine(l_gameContext);
+		 
 		
 		GenericView.println(String.format("You have [%s] Countries and [%s] armies", this.getConqueredCountries().size(), l_armyToIssue ));
 		for(Country l_countryTemp : this.getConqueredCountries().values()) {
@@ -417,8 +420,14 @@ public class Player {
 
 			if(!l_gameContext.getIsDemoMode()) {
 				//1. issue order from interaction
-				l_command = d_keyboard.nextLine();				
+				l_command = d_keyboard.nextLine().trim().toLowerCase();				
 
+				if(l_command.equals("help")) {
+					l_gameEngine.getPhase().help();
+				}
+				else if( l_command.equals("showmap") ) {
+					l_gameEngine.getPhase().showMap();
+				}
 
 				//check if the issue order has finised
 				String [] l_commandInfos = CommonTool.conventToArray(l_command);

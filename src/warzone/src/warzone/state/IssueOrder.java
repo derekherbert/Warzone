@@ -36,7 +36,7 @@ public class IssueOrder extends GamePlay {
 		 printInvalidCommandMessage();
 	 }	
 	
-	 public void populatecountries(){
+	 public void assigncountries(){
 		 printInvalidCommandMessage();
 	 }	
 	 
