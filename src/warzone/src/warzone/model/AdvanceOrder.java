@@ -26,7 +26,7 @@ public class AdvanceOrder extends Order{
 		d_fromCountry = p_fromCountry;
 		d_toCountry = p_toCountry;
 		d_numberOfArmies = p_numberOfArmies;
-    this.d_orderType = OrderType.ADVANCE;
+		this.d_orderType = OrderType.ADVANCE;
 		this.d_gameContext = GameContext.getGameContext();  
 	}
 	
@@ -179,10 +179,13 @@ public class AdvanceOrder extends Order{
 				
 				//Try removing the conquered country from the defender's list
 				if(l_player.getConqueredCountries().remove(p_toCountry.getCountryID()) != null) {
-					
+
+					//change the owner of the country
+					p_toCountry.setOwner(this.getPlayer());
+
 					//Add conquered country to attacker's list
 					this.getPlayer().getConqueredCountries().put(p_toCountry.getCountryID(), p_toCountry);
-					
+
 					//Update army counts
 					p_fromCountry.setArmyNumber(p_fromCountry.getArmyNumber() - p_numberOfArmies);
 					p_toCountry.setArmyNumber(p_numberOfArmies);
