@@ -30,7 +30,7 @@ public class GameContext {
 	private String d_mapFilePic;
 	private String d_mapFileMap;
 	private String d_mapFileCards;
-	private List<DiplomacyOrder> d_diplomacyOrdersInCurrentTurn;
+	private List<NegotiateOrder> d_negotiateOrdersInCurrentTurn;
 	
 	private WarzoneProperties d_warzoneProperties;
 	
@@ -45,7 +45,7 @@ public class GameContext {
 	public boolean isDiplomacyInCurrentTurn(Player p_playerA,Player p_playerB) {
 		if(p_playerA == null || p_playerB == null)
 			return false;
-		for(DiplomacyOrder l_orderTemp : d_diplomacyOrdersInCurrentTurn) {
+		for(NegotiateOrder l_orderTemp : d_negotiateOrdersInCurrentTurn) {
 			if((l_orderTemp.getPlayer() == p_playerA ||  l_orderTemp.getTargetPlayer() == p_playerB  )
 					&& (l_orderTemp.getPlayer() == p_playerB ||  l_orderTemp.getTargetPlayer() == p_playerA  ) )
 				return true;
@@ -58,15 +58,15 @@ public class GameContext {
 	 * rest Diplomacy Order List when a new turn is started
 	 */
 	public void resetDiplomacyOrderList() {
-		d_diplomacyOrdersInCurrentTurn = new ArrayList<DiplomacyOrder>();
+		d_negotiateOrdersInCurrentTurn = new ArrayList<NegotiateOrder>();
 	}
 	
 	/**
 	 *  add Diplomacy Order To List for current turn
 	 * @param p_diplomacyOrder given Diplomacy Order
 	 */
-	public void addDiplomacyOrderToList(DiplomacyOrder p_diplomacyOrder) {
-		d_diplomacyOrdersInCurrentTurn.add(p_diplomacyOrder);
+	public void addDiplomacyOrderToList(NegotiateOrder p_diplomacyOrder) {
+		d_negotiateOrdersInCurrentTurn.add(p_diplomacyOrder);
 	}
 	
 	
@@ -115,7 +115,7 @@ public class GameContext {
 		d_continents = new HashMap<Integer, Continent>();
 		d_warzoneProperties = WarzoneProperties.getWarzoneProperties();
 		d_logService = new LogService();
-		d_diplomacyOrdersInCurrentTurn = new ArrayList<DiplomacyOrder>();
+		d_negotiateOrdersInCurrentTurn = new ArrayList<NegotiateOrder>();
 	}		
 	
 	/**
@@ -158,7 +158,7 @@ public class GameContext {
 		d_countries = new HashMap<Integer, Country>();
 		d_continents = new HashMap<Integer, Continent>();
 		d_warzoneProperties = WarzoneProperties.getWarzoneProperties();
-		d_diplomacyOrdersInCurrentTurn = new ArrayList<DiplomacyOrder>();
+		d_negotiateOrdersInCurrentTurn = new ArrayList<NegotiateOrder>();
 		d_mapFileName = "";
 		d_mapFilePic = "";
 		d_mapFileMap = "";

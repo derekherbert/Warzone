@@ -8,16 +8,16 @@ import warzone.view.MapView;
 /**
  * This class represents one deploy order of the gameplay
  */
-public class DiplomacyOrder extends Order {
+public class NegotiateOrder extends Order {
 
 	private Player d_player;
 	private Player d_targetPlayer;
 	
 
-	public DiplomacyOrder(Player p_player,Player p_targetPlayer) {
+	public NegotiateOrder(Player p_player,Player p_targetPlayer) {
 		d_targetPlayer = p_targetPlayer;
 		d_player = p_player;
-		this.d_orderType = OrderType.DIPLOMACY;
+		this.d_orderType = OrderType.NEGOTIATE;
 		this.d_gameContext = GameContext.getGameContext(); 
 	}
 
@@ -74,6 +74,15 @@ public class DiplomacyOrder extends Order {
 	 */
 	@Override
 	public void printOrder(){
-		GenericView.println(String.format("Diplomacy order for player %s and player %s ",  this.d_player.getName(), this.d_targetPlayer.getName()));		
+		GenericView.println(this.toString());		
 	}
+	
+	/**
+	 * override of print the order
+	 */
+	@Override
+	public String toString(){
+		return String.format("Diplomacy order for player %s and player %s ",  this.d_player.getName(), this.d_targetPlayer.getName());		
+	}
+	
 }

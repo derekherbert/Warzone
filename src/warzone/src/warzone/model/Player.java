@@ -279,14 +279,22 @@ public class Player {
 	 * @param p_commandInfos given command array
 	 * @return Diplomacy Order if the command is valid
 	 */
-	public DiplomacyOrder createDiplomacyOrder(String[] p_commandInfos){
+	public NegotiateOrder createDiplomacyOrder(String[] p_commandInfos){
 		if(p_commandInfos.length != 2 || p_commandInfos[1]==null || p_commandInfos[1].toString() =="" ) 
 			return null;
+		
+		//check if a card available?
+        if(!this.getCards().contains(Card.NEGOTIATE)){
+            GenericView.printError("Player " + this.getName() + " does not have a NEGOTIATE card");
+            return null;
+        }
 
 		//read the information of command
 		Player l_targetPlayer = d_gameContext.getPlayers().get(p_commandInfos[1].toString());
 		if(l_targetPlayer != null  && l_targetPlayer.getIsAlive()) {
-			DiplomacyOrder l_diplomacyOrder = new DiplomacyOrder(this, l_targetPlayer);
+			NegotiateOrder l_diplomacyOrder = new NegotiateOrder(this, l_targetPlayer);
+			//remove one of NEGOTIATE the card 
+			this.d_cards.remove(Card.NEGOTIATE);
 			return l_diplomacyOrder;
 		}
 
@@ -321,7 +329,6 @@ public class Player {
 		Order l_order = null;
 		do {
 			GenericView.println(String.format("Please input command for player [%s] , there is [%s] army available", this.getName(), l_armyToIssue ));
-			DeployOrder l_deployOrder;
 
 			if(!l_gameContext.getIsDemoMode()) {
 				//1. issue order from interaction
