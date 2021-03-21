@@ -8,13 +8,6 @@ import warzone.view.GenericView;
  */
 public class AdvanceOrder extends Order{
 
-    /**
-     * Override of excute
-     */
-    @Override
-    public void execute() {
-
-
 	private Country d_fromCountry;
 	private Country d_toCountry;
 	private int d_numberOfArmies;
