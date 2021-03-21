@@ -89,7 +89,8 @@ public abstract class Phase {
 
 	// go to next phase
 	abstract public void next();
-	
+
+	abstract public void play();
 	/**
 	 *  Common method to all States. 
 	 */

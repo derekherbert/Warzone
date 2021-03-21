@@ -47,7 +47,9 @@ public abstract class GamePlay extends Phase {
 	 public void removeNeighbor (String p_parameters) {
 		 printInvalidCommandMessage();
 	 }
-
+	public void play(){
+		printInvalidCommandMessage();
+	}
 	/**
 	 * print invalid message and return false
 	 * @param p_fileName the filename

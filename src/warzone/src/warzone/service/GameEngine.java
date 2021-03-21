@@ -6,11 +6,7 @@ import java.util.*;
 import java.util.List;
 
 import warzone.model.*;
-import warzone.state.Startup;
-import warzone.state.MapEditor;
-import warzone.state.OrderExecution;
-import warzone.state.Phase;
-import warzone.state.Reinforcement;
+import warzone.state.*;
 import warzone.view.GenericView;
 import warzone.view.HelpView;
 import warzone.view.MapView;
@@ -153,7 +149,8 @@ public class GameEngine {
 	 * This method represent one turn for each player. It contains three steps: 
 	 * 1. assigning reinforcements 2. issuing orders 3.executing orders
 	 */
-	private void startTurn() {	
+	private void startTurn() {
+		setPhase(new IssueOrder(this));
 		GenericView.println("Start to assign reinforcements........");
 		assignReinforcements();
 		GenericView.println("Start to issue orders........");
@@ -219,17 +216,20 @@ public class GameEngine {
 			if(l_player.getIsAlive())
 				l_playersList.add(l_player);
 		});
-
-		while(l_playersList.size() > 0){
-			for(Player l_player : l_playersList){
-				if(l_player.getIsAlive()) {
-					GenericView.println("Start to issue orders for player ["+ l_player.getName() +"]");
-					l_player.issue_order();
+		List<Player> l_finishPlayerlist = new ArrayList<>();
+		if(l_playersList.size() > 0) {
+			do{
+				l_finishPlayerlist.clear();
+				for (Player l_player : l_playersList) {
+					if (l_player.getIsAlive()) {
+						GenericView.println("Start to issue orders for player [" + l_player.getName() + "]");
+						l_player.issue_order();
+					}
+					//if player finished, add to the list
+					if (l_player.getHasFinisedIssueOrder())
+						l_finishPlayerlist.add(l_player);
 				}
-				//if player finished, remove from the list
-				if(l_player.getHasFinisedIssueOrder())
-					l_playersList.remove(l_player);
-			}
+			}while (l_finishPlayerlist.size() != l_playersList.size());
 		}
 		
 		GenericView.println("Finish issue orders for this turn");
@@ -291,7 +291,7 @@ public class GameEngine {
 	/**
 	 * This method will assign a random card to each player that conquered a country this turn
 	 */
-	private void assignCards() {
+	public void assignCards() {
 
 		d_gameContext.getPlayers().forEach((l_playerID, l_player) -> {
 

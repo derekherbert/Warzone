@@ -378,20 +378,20 @@ public class MapEditor extends Phase {
 			return true;
 		}
 	}
-
-	 public void addPlayer(String p_playerName) {
+	public void play(){
+		printInvalidCommandMessage();
+	}
+	public void addPlayer(String p_playerName) { printInvalidCommandMessage(); }
+	public void removePlayer(String p_playerName){
 		 printInvalidCommandMessage();
 	 }	
-	 public void removePlayer(String p_playerName){
-		 printInvalidCommandMessage();
-	 }	
-	 public void loadMap(String p_fileName){
+	public void loadMap(String p_fileName){
 		 printInvalidCommandMessage();
 	 }		
-	 public void assigncountries(){
+	public void assigncountries(){
 		 printInvalidCommandMessage();
 	 }		
-	 public void reinforcement(){
+	public void reinforcement(){
 		 printInvalidCommandMessage();
 	 }	
  

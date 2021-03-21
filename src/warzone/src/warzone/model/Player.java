@@ -193,7 +193,8 @@ public class Player {
 		}
 		return null;			
 	}
-	
+
+	int l_armyHasIssued = 0;
 	/**
 	 * convert command into order
 	 * @param p_command command line
@@ -226,8 +227,6 @@ public class Player {
 		return null;
 	}
 
-	int l_armyToIssue = this.getArmiesToDeploy();
-	int l_armyHasIssued = 0;
 
 	/**
 	 * create the deploy order by command
@@ -246,7 +245,7 @@ public class Player {
 		//check if the command is valid
 		if (l_country == null || !this.getConqueredCountries().containsKey(l_country.getCountryID()))
 			return null;
-		if (l_armyNumber < 0 || l_armyNumber > l_armyToIssue)
+		if (l_armyNumber < 0 || l_armyNumber > d_armiesToDeploy - l_armyHasIssued)
 			return null;
 
 		//create the deploy order
@@ -403,8 +402,7 @@ public class Player {
 
 		String l_command = "";
 		boolean l_hasOrderGenerated = false;
-		int l_armyToIssue = this.getArmiesToDeploy();
-		int l_armyHasIssued = 0;
+		int l_armyToIssue = this.getArmiesToDeploy() - l_armyHasIssued;
 		GameContext l_gameContext = GameContext.getGameContext();
 		GameEngine l_gameEngine = GameEngine.getGameEngine(l_gameContext);
 		 
@@ -428,14 +426,13 @@ public class Player {
 				else if( l_command.equals("showmap") ) {
 					l_gameEngine.getPhase().showMap();
 				}
-
 				//check if the issue order has finised
-				String [] l_commandInfos = CommonTool.conventToArray(l_command);
-				if(l_commandInfos[0].trim().toLowerCase().equals("done")){
+				else if(l_command.equals("done")){
 					d_hasFinishIssueOrder = true;
 					return;
 				}
 
+				String [] l_commandInfos = CommonTool.conventToArray(l_command);
 				//convent the commend to deploy order.
 				l_order = conventOrder(l_command);
 				if (l_order != null) {
@@ -445,7 +442,6 @@ public class Player {
 
 					//if the order is a deploy order
 					if (l_order instanceof DeployOrder) {
-						l_armyToIssue = l_armyToIssue - ((DeployOrder)l_order).getArmyNumber();
 						l_armyHasIssued = l_armyHasIssued + ((DeployOrder)l_order).getArmyNumber();
 					}
 				} else {
@@ -484,8 +480,6 @@ public class Player {
 	 * per round if a player owns all the countries within it. This method loops through all the conquered countries, tracking counters of
 	 * the number of countries owned in each continent. If the number of countries owned in a continent matches the number of countries in that
 	 * continent, the player gets the bonus reinforcements added (for each applicable continent).
-	 * 
-	 * @param p_gameContext game context
 	 */
 	public void assignReinforcements() {		
 		

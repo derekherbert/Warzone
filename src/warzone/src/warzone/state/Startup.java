@@ -104,7 +104,8 @@ public class Startup extends GamePlay {
 			GenericView.printSuccess("Succeed to assign all the countries to players");
 		}
 	}
-  
+
+	public void play(){ printInvalidCommandMessage();}
 	public void reinforcement(){
 		printInvalidCommandMessage();
 	}

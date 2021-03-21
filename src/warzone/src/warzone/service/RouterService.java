@@ -123,9 +123,9 @@ public class RouterService {
 				case "showmap":
 					d_gamePhase.showMap();
 					break;
-//				case "play":
-//					l_gameplayController.play();
-//					break;
+				case "play":
+					d_gamePhase.play();
+					break;
 			}
 			break;
 		case STARTUP:
@@ -199,7 +199,7 @@ public class RouterService {
 		String l_firstWord = "," + l_commandArray[0] + ",";
 		// TODO move these commands into the properties file
 		String l_complexCommand = ",editcontinent,editcountry,editneighbor,gameplayer,";
-		String l_simpleCommand = ",loadmap,editmap,savemap,assigncountries,validatemap,showmap,help,next,reboot,startup,mapeditor,";
+		String l_simpleCommand = ",loadmap,editmap,savemap,assigncountries,validatemap,showmap,help,play,next,reboot,startup,mapeditor,";
 		 if(l_simpleCommand.indexOf(l_firstWord) > -1) {
 				//simple command with only one router
 				GenericView.printDebug("parseCommand: start to work on simple command: " + p_command);

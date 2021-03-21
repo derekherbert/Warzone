@@ -42,7 +42,9 @@ public class Reinforcement extends GamePlay {
 	 }	
 	 
 	 
- 
+ 	public void play(){
+	 printInvalidCommandMessage();
+ }
 	public void issueOrder(){
 		 printInvalidCommandMessage();
 	 }	

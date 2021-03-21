@@ -191,7 +191,6 @@ public class PlayerTest {
 		Country l_country = new Country(1,"C1",0,0,null);
 		l_country.setOwner(l_player);
 		l_player.getConqueredCountries().put(l_country.getCountryID(), l_country);
-		l_player.l_armyToIssue = 5;
 		l_player.l_armyHasIssued = 0;
 
 		//act
