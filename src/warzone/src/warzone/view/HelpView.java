@@ -34,7 +34,7 @@ public class HelpView {
     public static void printStatus(GameEngine p_gameEngine) {
     	GameContext l_gameContext = p_gameEngine.getGameContext();
     	System.out.print(String.format("[Status] Game Phase:%s | Demo Mode:%s | Debug Mode:%s | ", 
-    			p_gameEngine.getPhase(), l_gameContext.getIsDemoMode(), l_gameContext.getIsDebug()));
+    			p_gameEngine.getPhase().getGamePhase(), l_gameContext.getIsDemoMode(), l_gameContext.getIsDebug()));
     	System.out.println(String.format("Player:%s | Continent:%s | Country:%s",
     			l_gameContext.getPlayers().size(), l_gameContext.getContinents().size(), l_gameContext.getCountries().size(), l_gameContext.getMapFileName()));
     }

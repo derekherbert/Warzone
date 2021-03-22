@@ -67,6 +67,9 @@ public class RouterService {
 				case "help":
 					d_gamePhase.help();
 					break;	
+				case "qamode":
+					d_gameEngine.qaMode(p_router.getActionParameters());
+					break;						
 				case "next":
 					d_gamePhase.next();
 					break;
@@ -199,7 +202,7 @@ public class RouterService {
 		String l_firstWord = "," + l_commandArray[0] + ",";
 		// TODO move these commands into the properties file
 		String l_complexCommand = ",editcontinent,editcountry,editneighbor,gameplayer,";
-		String l_simpleCommand = ",loadmap,editmap,savemap,assigncountries,validatemap,showmap,help,play,next,reboot,startup,mapeditor,";
+		String l_simpleCommand = ",loadmap,editmap,savemap,assigncountries,validatemap,showmap,help,qamode,play,next,reboot,startup,mapeditor,";
 		 if(l_simpleCommand.indexOf(l_firstWord) > -1) {
 				//simple command with only one router
 				GenericView.printDebug("parseCommand: start to work on simple command: " + p_command);
@@ -298,6 +301,9 @@ public class RouterService {
 				break;
 			case  "help":
 				l_router = new Router(ControllerName.COMMON, "help", l_command);
+				break;	
+			case  "qamode":
+				l_router = new Router(ControllerName.COMMON, "qamode", l_command);
 				break;	
 			case  "next":
 				l_router = new Router(ControllerName.COMMON, "next", l_command);

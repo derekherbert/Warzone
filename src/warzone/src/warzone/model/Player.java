@@ -219,7 +219,7 @@ public class Player {
 			case "bomb":
 				return createBombOrder(l_commandInfos);
 			case "blockade":
-				break;
+				return createBlockadeOrder(l_commandInfos);
 			case "airlift":
 				return createAirliftOrder(l_commandInfos);
 			case "diplomacy":
@@ -246,7 +246,7 @@ public class Player {
 		//check if the command is valid
 		if (l_country == null || !this.getConqueredCountries().containsKey(l_country.getCountryID()))
 			return null;
-		if (l_armyNumber < 0 || l_armyNumber > d_armiesToDeploy - d_armyHasIssued)
+		if (l_armyNumber <= 0 || l_armyNumber > (d_armiesToDeploy - d_armyHasIssued))
 			return null;
 
 		//create the deploy order
@@ -263,15 +263,57 @@ public class Player {
 	 */
 	public BombOrder createBombOrder(String[] p_commandInfos){
 		if(p_commandInfos.length != 2) return null;
-
+		
+		//check if a card available?
+        if(!this.d_cards.contains(Card.BOMB)){
+            GenericView.printError("Player " + this.getName() + " does not have a BOMB card");
+            return null;
+        }
+        
 		//read the information of command
 		int l_targetCountryId = CommonTool.parseInt(p_commandInfos[1]);
-
-		BombOrder l_bombOrder = new BombOrder(l_targetCountryId);
-		l_bombOrder.setPlayer(this);
-
-		return l_bombOrder;
+		Country l_targetCountry;
+		if(l_targetCountryId>0) {
+			l_targetCountry = this.d_gameContext.getCountries().get(l_targetCountryId);
+			if(l_targetCountry != null) {
+				BombOrder l_order = new BombOrder(this, l_targetCountry);
+				//remove one of NEGOTIATE the card 
+				this.d_cards.remove(Card.BOMB);
+				return l_order;
+			}
+		}
+		return null;
 	}
+	
+	/**
+	 * create the Blockade Order by command
+	 * @param p_commandInfos command info
+	 * @return the Blockade order
+	 */
+	public BlockadeOrder createBlockadeOrder(String[] p_commandInfos){
+		if(p_commandInfos.length != 2) return null;
+
+		//check if a card available?
+        if(!this.d_cards.contains(Card.BLOCKADE)){
+            GenericView.printError("Player " + this.getName() + " does not have a BLOCKADE card");
+            return null;
+        }
+        
+		//read the information of command
+		int l_targetCountryId = CommonTool.parseInt(p_commandInfos[1]);
+		Country l_targetCountry;
+		if(l_targetCountryId>0) {
+			l_targetCountry = this.d_gameContext.getCountries().get(l_targetCountryId);
+			if(l_targetCountry != null) {
+				BlockadeOrder l_order = new BlockadeOrder(this, l_targetCountry);
+				//remove one of BLOCKADE the card 
+				this.d_cards.remove(Card.BLOCKADE);
+				return l_order;
+			}
+		}
+		return null;
+	}	
+	
 	/*
 	 * create the advance order by command
 	 * @param p_commandInfos command infor
@@ -279,8 +321,7 @@ public class Player {
 	 */
 	public AdvanceOrder createAdvanceOrder(String[] p_commandInfos){
 
-		if(p_commandInfos.length != 4) {
-			
+		if(p_commandInfos.length != 4) {			
 			GenericView.printError("Incorrect number of parameters. The command should be as follows: advance countryfromname countrytoname numarmies");
 			return null;
 		}
@@ -292,34 +333,34 @@ public class Player {
 		boolean l_isValidCommand = true;
 
 		//check if the command is valid
-		if (l_fromCountry == null) {
-			
+		if (l_fromCountry == null) {			
 			GenericView.printError("Country " + p_commandInfos[1] + " was not found. Please check your spelling.");
 			l_isValidCommand = false;
 		}
-		if (l_toCountry == null) {
-			
+		if (l_toCountry == null) {			
 			GenericView.printError("Country " + p_commandInfos[2] + " was not found. Please check your spelling.");
 			l_isValidCommand = false;
 		}
 		
-		if(l_isValidCommand) {
-			
+		if(l_isValidCommand) {			
 			//create the deploy order
 			return new AdvanceOrder(this, l_fromCountry, l_toCountry, l_numArmies);
 		}
 		return null;
 	}
 	
+	/**
+	 *  find country according to given name
+	 * @param p_countryName given country Name
+	 * @return country
+	 */
 	private Country findCountryByName(String p_countryName) {
 		
-		Map<Integer, Country> l_countries = GameContext.getGameContext().getCountries();
+		Map<Integer, Country> l_countries = this.d_gameContext.getCountries();
 		List<Integer> l_countryIDs = new ArrayList<Integer>(l_countries.keySet());
 		
-		for(Integer l_countryID : l_countryIDs) {
-			
-			if(l_countries.get(l_countryID).getCountryName().equalsIgnoreCase(p_countryName.trim())) {
-				
+		for(Integer l_countryID : l_countryIDs) {			
+			if(l_countries.get(l_countryID).getCountryName().equalsIgnoreCase(p_countryName.trim())) {				
 				return l_countries.get(l_countryID);
 			}
 		}
@@ -335,18 +376,20 @@ public class Player {
 	public AirliftOrder createAirliftOrder(String[] p_commandInfos){
 		if(p_commandInfos.length != 4) return null;
 
-		//read the information of command
-		int l_countrySourceId = CommonTool.parseInt(p_commandInfos[1]);
-		int l_countryTargetId = CommonTool.parseInt(p_commandInfos[2]);
-		int l_armyNumber = CommonTool.parseInt(p_commandInfos[3]);
 		//check if the player has a airlift card
-		if(!this.getCards().contains(Card.AIRLIFT)){
-			GenericView.printError("Player " + this.getName() + " does not have a airlift card");
+		if(!this.d_cards.contains(Card.AIRLIFT)){
+			GenericView.printError("Player " + this.getName() + " does not have a AIRLIFT card");
 			return null;
 		}
+		
+		//read the information of command
+		int l_armyNumber = CommonTool.parseInt(p_commandInfos[3]);
+		Country l_fromCountry = this.d_gameContext.getCountries().get(CommonTool.parseInt(p_commandInfos[1]));
+		Country l_toCountry = this.d_gameContext.getCountries().get(CommonTool.parseInt(p_commandInfos[2]));
+		
 		//check if country exist
-		if(!GameContext.getGameContext().getCountries().containsKey(l_countryTargetId) || !GameContext.getGameContext().getCountries().containsKey(l_countrySourceId)){
-			GenericView.printError("Does not exist the sorce/target country");
+		if(l_fromCountry == null || l_toCountry == null){
+			GenericView.printError("The sorce or target country is not existed.");
 			return null;
 		}
 		//check if army number is more than 0
@@ -354,10 +397,10 @@ public class Player {
 			GenericView.printError("The number of airlift army shoud more than 0.");
 			return null;
 		}
-		AirliftOrder l_airliftOrder = new AirliftOrder(l_countrySourceId, l_countryTargetId, l_armyNumber);
-		l_airliftOrder.setPlayer(this);
-
-		return l_airliftOrder;
+		AirliftOrder l_order = new AirliftOrder(this, l_fromCountry, l_toCountry, l_armyNumber);
+		//remove one of AIRLIFT the card 
+		this.d_cards.remove(Card.AIRLIFT);
+		return l_order;
 	}
 	
 	/**
@@ -370,7 +413,7 @@ public class Player {
 			return null;
 		
 		//check if a card available?
-        if(!this.getCards().contains(Card.NEGOTIATE)){
+        if(!this.d_cards.contains(Card.NEGOTIATE)){
             GenericView.printError("Player " + this.getName() + " does not have a NEGOTIATE card");
             return null;
         }
@@ -403,33 +446,40 @@ public class Player {
 
 		String l_command = "";
 		boolean l_hasOrderGenerated = false;
-		int l_armyToIssue = this.getArmiesToDeploy() - d_armyHasIssued;
-		GameContext l_gameContext = GameContext.getGameContext();
-		GameEngine l_gameEngine = GameEngine.getGameEngine(l_gameContext);
-		 
-		
-		GenericView.println(String.format("You have [%s] Countries and [%s] armies", this.getConqueredCountries().size(), l_armyToIssue ));
-		for(Country l_countryTemp : this.getConqueredCountries().values()) {
-			GenericView.println(String.format("Country ID : [%s] , Name : [%s]", l_countryTemp.getCountryID(), l_countryTemp.getCountryName() ));	
-		}	
+		int l_armyToIssue = this.d_armiesToDeploy - d_armyHasIssued;
+		GameEngine l_gameEngine = GameEngine.getGameEngine(d_gameContext);
 		
 		Order l_order = null;
 		do {
-			GenericView.println(String.format("Please input command for player [%s] , there is [%s] army available", this.getName(), l_armyToIssue ));
+			GenericView.println(String.format("----- Player [%s] has [%s] Countries ", this.getName(), this.getConqueredCountries().size() ));
+			for(Country l_countryTemp : this.getConqueredCountries().values()) {
+				GenericView.println(String.format("Country ID : [%s] , Name : [%s]", l_countryTemp.getCountryID(), l_countryTemp.getCountryName() ));	
+			}
+			
+			//render available cards 
+			renderAvailableCards();
+			
+			//render current issued order 
+			renderIssuedOrders();
+			
+			GenericView.println(String.format("Please input command for player [%s] , there is [%s] army available for deployment", this.getName(), l_armyToIssue ));
 
-			if(!l_gameContext.getIsDemoMode()) {
+			if(!d_gameContext.getIsDemoMode()) {
 				//1. issue order from interaction
 				l_command = d_keyboard.nextLine().trim().toLowerCase();				
 
 				if(l_command.equals("help")) {
 					l_gameEngine.getPhase().help();
+					continue;
 				}
 				else if( l_command.equals("showmap") ) {
 					l_gameEngine.getPhase().showMap();
+					continue;
 				}
-				//check if the issue order has finised
+				//check if the issue order has finished
 				else if(l_command.equals("done")){
 					d_hasFinishIssueOrder = true;
+					GenericView.println(String.format("---------- Finish issuing order for player [%s] in this turn.", this.getName()));
 					return;
 				}
 
@@ -463,6 +513,25 @@ public class Player {
 					
 		} while (l_hasOrderGenerated == false );		
 	}
+	/**
+	 * render the issued orders 
+	 */
+	private void renderIssuedOrders()	{
+		GenericView.println(String.format("----- Player [%s] has issued [%s] orders:", this.getName() ,d_orders.size() ) );
+		for (Order l_order: d_orders) {
+			GenericView.println(l_order.toString());
+        }
+	}
+	/**
+	 * render the avaliable cards 
+	 */
+	private void renderAvailableCards()	{
+		GenericView.println(String.format("----- Player [%s] has [%s] cards available:", this.getName() , this.d_cards.size() ) );
+		for (Card l_card: d_cards) {
+			GenericView.println(l_card.toString());
+        }
+	}	
+	
 	
 	
 	/**
