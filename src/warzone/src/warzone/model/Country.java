@@ -16,6 +16,15 @@ public class Country {
 	private int d_armyNumber = 0;
 	private Map<Integer, Country> d_neighbors;
 	private Continent d_continent;
+	private State d_state=State.NEUTRAL;
+	
+	/**
+	 * State of country
+	 */
+	public enum State{
+		CONQUERED,
+		NEUTRAL
+	}
 
 	/**
 	 * constructor
@@ -93,6 +102,12 @@ public class Country {
 	 */
 	public void setOwner(Player p_owner) {
 		this.d_owner = p_owner;
+		//modify state of this country
+		if(p_owner==null) {
+			this.d_state=State.NEUTRAL;
+		}else {
+			this.d_state=State.CONQUERED;
+		}
 	}
 
 	/**
@@ -183,5 +198,21 @@ public class Country {
 		}
 		else
 			return false;
+	}
+	
+	/**
+	 * set the state of the country
+	 * @param p_state the state of the country
+	 */
+	public void setState(State p_state) {
+		d_state=p_state;
+	}
+	
+	/**
+	 * get the state of the country
+	 * @return the state
+	 */
+	public State getState() {
+		return d_state;
 	}
 }
