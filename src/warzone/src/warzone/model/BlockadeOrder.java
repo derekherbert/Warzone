@@ -62,6 +62,13 @@ public class BlockadeOrder extends Order {
 	public boolean valid() {
 		if(d_targetCountry ==null) {			
 			GenericView.printError("target country should not be null.");
+
+		if(!d_player.getIsAlive()) {
+			GenericView.printError("Player "+d_player.getName()+" is dead!");
+			return false;
+		}
+		if(d_targetCountry.getOwner() != this.d_player) {
+			GenericView.printError("Blockade order invalid:target country not belong to current player!");
 			return false;
 		}
 		

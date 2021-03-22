@@ -269,23 +269,47 @@ public class Player {
             GenericView.printError("Player " + this.getName() + " does not have a BOMB card");
             return null;
         }
-        
+            
 		//read the information of command
-		int l_targetCountryId = CommonTool.parseInt(p_commandInfos[1]);
-		Country l_targetCountry;
-		if(l_targetCountryId>0) {
+		int l_targetCountryId = CommonTool.parseInt(p_commandInfos[1]);		
+
+    Country l_targetCountry;
+		if(l_targetCountryId>0) 
 			l_targetCountry = this.d_gameContext.getCountries().get(l_targetCountryId);
-			if(l_targetCountry != null) {
-				BombOrder l_order = new BombOrder(this, l_targetCountry);
-				//remove one of NEGOTIATE the card 
-				this.d_cards.remove(Card.BOMB);
-				return l_order;
-			}
+      
+		//check if country exist
+		if(!GameContext.getGameContext().getCountries().containsKey(l_targetCountryId)){
+			GenericView.printError("The target country does not exist");
+			return null;
 		}
-		return null;
+        //check whether the target country belongs to the player
+        if(this.getConqueredCountries().containsKey(l_targetCountryId)){
+            GenericView.printError("The player cannot destroy armies in his own country.");
+            return null;
+        }
+        //check whether the target country is adjacent to one of the countries that belong to the player
+        boolean l_isAdjacent = false;
+        for (Integer l_conqueredCountryId : this.getConqueredCountries().keySet()) {
+        	if (this.getConqueredCountries().get(l_conqueredCountryId).getNeighbors().containsKey(l_targetCountryId)) {
+        		l_isAdjacent = true;
+        		break;
+        	}
+        }
+        if (!l_isAdjacent) {
+        	GenericView.printError("The target country is not adjacent to one of the countries that belong to the player.");
+        	return null;
+        }
+        
+		BombOrder l_bombOrder = new BombOrder(this, l_targetCountry);
+
+    		//remove one of NEGOTIATE the card 
+				this.d_cards.remove(Card.BOMB);
+
+		return l_bombOrder;
 	}
-	
-	/**
+
+
+/**
 	 * create the Blockade Order by command
 	 * @param p_commandInfos command info
 	 * @return the Blockade order
@@ -313,7 +337,7 @@ public class Player {
 		}
 		return null;
 	}	
-	
+
 	/*
 	 * create the advance order by command
 	 * @param p_commandInfos command infor
@@ -401,6 +425,33 @@ public class Player {
 		//remove one of AIRLIFT the card 
 		this.d_cards.remove(Card.AIRLIFT);
 		return l_order;
+	}
+	
+	/**
+	 * create the blockade order by command
+	 * @param p_commandInfos command info
+	 * @return the blockade order
+	 */
+	public BlockadeOrder createBlockadeOrder(String[] p_commandInfos) {
+		if(p_commandInfos.length != 2) return null;
+		int l_targetCountryId=CommonTool.parseInt(p_commandInfos[1]);
+		
+		//check if the player has a blockade card
+		if(!this.getCards().contains(Card.BLOCKADE)){
+			GenericView.printError("Player " + this.getName() + " does not have a blockade card");
+			return null;
+		}
+		//check if country exist
+		if(!GameContext.getGameContext().getCountries().containsKey(l_targetCountryId)){
+			GenericView.printError("Does not exist the target country");
+			return null;
+		}
+		//check if the player conquered the target country
+		if(!this.d_conqueredCountries.containsKey(l_targetCountryId)) {
+			GenericView.printError("Target country not belong to current player!");
+			return null;
+		}
+		return new BlockadeOrder(this, l_targetCountryId);
 	}
 	
 	/**
