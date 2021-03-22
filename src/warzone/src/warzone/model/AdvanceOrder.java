@@ -130,44 +130,39 @@ public class AdvanceOrder extends Order{
 		}
 		//Else toCountry is owned by opponent -> attack
 		else {
-
-			Random l_randomNumberGenerator = new Random();
-			
-			for(int i = 0; i < d_numberOfArmies; i++) {
-				
-				if(d_toCountry.getArmyNumber() == 0) {
-					
+			do {
+				// check if successfully conquer a country
+				if(d_toCountry.getArmyNumber() == 0 && d_numberOfArmies >0) {
 					changeCountryOwnership(d_toCountry, d_fromCountry, d_numberOfArmies);
 					return;
 				}
-				
-				//Attacking army has a 60% chance of killing a defending army
-				if((l_randomNumberGenerator.nextInt(10) + 1) <= 6) { //random int between 1 and 10 (inclusive)
-					
-					//Kill defending army
-					d_toCountry.setArmyNumber(d_toCountry.getArmyNumber() - 1);
-				}
-				
-				//Defending army has a 70% chance of killing a defending army
-				if((l_randomNumberGenerator.nextInt(10) + 1) <= 7) { //random int between 1 and 10 (inclusive)
-					
-					//Kill attacking army
-					d_fromCountry.setArmyNumber(d_fromCountry.getArmyNumber() - 1);
-					d_numberOfArmies--;
-					i--;
-				}
-			}
-			
-			if(d_toCountry.getArmyNumber() == 0 && d_numberOfArmies > 0) {
-				
-				changeCountryOwnership(d_toCountry, d_fromCountry, d_numberOfArmies);
-			}
+				//a single attack between two army units
+				singleAttack();
+			}while( d_numberOfArmies > 0);
 		}
-		
 		//print success information
 		GenericView.printSuccess("Success to execute order:" + toString());
 	}
-	
+
+	/**
+	 * a single attack between two army units
+	 */
+	private void singleAttack(){
+
+		//Attacking army has a 60% chance of killing a defending army
+		if(Math.random() * 10 <= 6) {
+			//Kill defending army
+			d_toCountry.setArmyNumber(d_toCountry.getArmyNumber() - 1);
+		}
+
+		//Defending army has a 70% chance of killing a defending army
+		if(Math.random() * 10 <= 7) {
+			//Kill attacking army
+			d_fromCountry.setArmyNumber(d_fromCountry.getArmyNumber() - 1);
+			d_numberOfArmies--;
+		}
+	}
+
 	/**
 	 * When an attacker conquers a defender's country, this method performs the exchange of the countries and armies. 
 	 * 
