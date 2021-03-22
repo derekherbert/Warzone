@@ -12,6 +12,7 @@ import warzone.controller.MapController;
 import warzone.model.Continent;
 import warzone.model.Country;
 import warzone.model.GameContext;
+import warzone.model.LogEntryBuffer;
 import warzone.model.Player;
 import warzone.view.GenericView;
 
@@ -22,6 +23,7 @@ import warzone.view.GenericView;
 public class StartupService {
 
 	private GameContext d_gameContext;
+	private LogEntryBuffer d_logEntryBuffer;
 
 	/**
 	 * This constructor can initiate the game context of current instance.
@@ -29,6 +31,7 @@ public class StartupService {
 	 */
 	public StartupService(GameContext p_gameContext) {
 		d_gameContext = p_gameContext;
+		d_logEntryBuffer = d_gameContext.getLogEntryBuffer();
 	}
 	
 	/**
@@ -85,8 +88,7 @@ public class StartupService {
 			l_mapDirectory = l_properties.getProperty("gameMapDirectory");
 			
 		} catch (IOException ex) {
-				
-			GenericView.printError("Error loading properties file.");
+			d_logEntryBuffer.logAction("ERROR", "Error loading properties file.");
 			return false;
 		}
 		
@@ -101,7 +103,7 @@ public class StartupService {
 
 			//Specified file name does not exist (new map)
 			if(!l_mapFile.exists() || l_mapFile.isDirectory()) {
-				GenericView.printError("The following map file is invalid, please select another one: " + p_fileName);
+				d_logEntryBuffer.logAction("ERROR", "The following map file is invalid, please select another one: " + p_fileName);
 				return false;
 			}
 			
@@ -256,15 +258,14 @@ public class StartupService {
 			
 			//Validate the map
 			if(!(new MapController(d_gameContext).validateMap())) {
-				
-				GenericView.printError("The map file selected failed validation: " + p_fileName);
+				d_logEntryBuffer.logAction("ERROR", "The map file selected failed validation: " + p_fileName);
 				return false;
 			}
-			
-			GenericView.printSuccess("Map succesfully loaded: " + p_fileName);
+
+			d_logEntryBuffer.logAction("SUCCESS", "Map succesfully loaded: " + p_fileName);
 		    
 		} catch (Exception e) {
-			GenericView.printError("An error occured reading the map file: " + p_fileName);
+			d_logEntryBuffer.logAction("ERROR", "An error occured reading the map file: " + p_fileName);
 			return false;
 		}
 		

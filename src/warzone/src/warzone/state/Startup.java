@@ -21,10 +21,12 @@ import warzone.view.*;
 public class Startup extends GamePlay {
 	
 	private StartupService d_startupService;
+	private LogEntryBuffer d_logEntryBuffer;
 
 	public Startup(GameEngine p_ge) {
 		super(p_ge);
 		d_startupService=new StartupService(d_gameContext);
+		d_logEntryBuffer = d_gameContext.getLogEntryBuffer();
 		this.d_gamePhase = GamePhase.STARTUP;
 	}
 
@@ -58,7 +60,7 @@ public class Startup extends GamePlay {
 	 */
 	public void addPlayer(String p_playerName) {
 		if(p_playerName == null || p_playerName.trim().equals("")) {
-			GenericView.printWarning("Invalid player name.");
+			d_logEntryBuffer.logAction("ERROR", "Invalid player name.");
 			return;
 		}
 		//1. create a new player instance
@@ -69,9 +71,9 @@ public class Startup extends GamePlay {
 		
 		//3. render to view
 		if(l_ok) {
-			GenericView.printSuccess( String.format("Player [%s] was added successfully.", l_player.getName()) );
+			d_logEntryBuffer.logAction("SUCCESS", String.format("Player [%s] was added successfully.", l_player.getName()));
 		}else {
-			GenericView.printError( String.format("Player [%s] was added failed.", l_player.getName()) );
+			d_logEntryBuffer.logAction("ERROR", String.format("Player [%s] was added failed.", l_player.getName()));
 		}
 	}
 
@@ -82,9 +84,9 @@ public class Startup extends GamePlay {
 	 */
 	public void removePlayer(String p_playerName){
 		if( d_startupService.removePlayer(p_playerName)) {
-			GenericView.printSuccess( String.format("Player [%s] was removed successfully.", p_playerName) );
+			d_logEntryBuffer.logAction("SUCCESS",  String.format("Player [%s] was removed successfully.", p_playerName));
 		}else {
-			GenericView.printWarning( String.format("Failed to remove Player [%s].", p_playerName ) );
+			d_logEntryBuffer.logAction("ERROR",  String.format("Failed to remove Player [%s].", p_playerName ));
 		}
 	}
 
@@ -96,10 +98,10 @@ public class Startup extends GamePlay {
 	public void populatecountries(){
 		boolean result = d_startupService.assignCountries();
 		if(result == false) {
-			GenericView.printError("Must have more than 2 players, and map have at least the same number of countries as players ");
+			d_logEntryBuffer.logAction("ERROR",  "Must have more than 2 players, and map have at least the same number of countries as players ");
 		}
 		else {
-			GenericView.printSuccess("Succeed to assign all the countries to players");
+			d_logEntryBuffer.logAction("SUCCESS",  "Succeed to assign all the countries to players");
 		}
 	}
   
