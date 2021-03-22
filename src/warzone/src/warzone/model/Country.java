@@ -23,7 +23,8 @@ public class Country {
 	 */
 	public enum State{
 		CONQUERED,
-		NEUTRAL
+		NEUTRAL,
+		FREE
 	}
 
 	/**
@@ -104,7 +105,11 @@ public class Country {
 		this.d_owner = p_owner;
 		//modify state of this country
 		if(p_owner==null) {
-			this.d_state=State.NEUTRAL;
+			if(d_armyNumber>0) {
+				this.d_state=State.NEUTRAL;	
+			}else {
+				this.d_state=State.FREE;
+			}
 		}else {
 			this.d_state=State.CONQUERED;
 		}
