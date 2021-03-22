@@ -273,9 +273,8 @@ public class Player {
 		//read the information of command
 		int l_targetCountryId = CommonTool.parseInt(p_commandInfos[1]);		
 
-    Country l_targetCountry;
-		if(l_targetCountryId>0) 
-			l_targetCountry = this.d_gameContext.getCountries().get(l_targetCountryId);
+		Country l_targetCountry;
+		l_targetCountry = this.d_gameContext.getCountries().get(l_targetCountryId);
       
 		//check if country exist
 		if(!GameContext.getGameContext().getCountries().containsKey(l_targetCountryId)){
