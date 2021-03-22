@@ -332,6 +332,14 @@ public class GameEngine {
 	}
 	
 	/**
+	 * reboot the game
+	 */
+	public void reboot() {
+		d_gameContext.reset();
+		setPhase( new MapEditor(this));
+	}
+	
+	/**
 	 * 1)reset the context
 	 * 2) read commands from a file and run it sequencially
 	 * @param p_fileName given file name
@@ -343,8 +351,7 @@ public class GameEngine {
 			p_fileName = "default.txt";
 		}
 
-		d_gameContext.reset();
-		setPhase( new MapEditor(this));
+		reboot();
 		
 		//read file
 		String l_mapDirectory = WarzoneProperties.getWarzoneProperties().getGameMapDirectory();

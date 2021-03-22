@@ -69,6 +69,9 @@ public class RouterService {
 					break;	
 				case "qamode":
 					d_gameEngine.qaMode(p_router.getActionParameters());
+					break;	
+				case "reboot":
+					d_gameEngine.reboot();
 					break;						
 				case "next":
 					d_gamePhase.next();
@@ -295,6 +298,8 @@ public class RouterService {
 //					(p_commandArray.length > 2)? p_commandArray[2]:"" );
 		switch (p_commandArray[0]) {
 			case "reboot":
+				l_router = new Router(ControllerName.COMMON, "reboot", l_command);
+				break;	
 			case "startup":
 			case "mapeditor":
 				l_router = new Router(ControllerName.COMMON, "changephase",p_commandArray[0],l_command);
