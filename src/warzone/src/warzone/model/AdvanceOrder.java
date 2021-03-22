@@ -155,7 +155,7 @@ public class AdvanceOrder extends Order{
 			d_toCountry.setArmyNumber(d_toCountry.getArmyNumber() - 1);
 		}
 
-		//Defending army has a 70% chance of killing a defending army
+		//Defending army has a 70% chance of killing a attacking army
 		if(Math.random() * 10 <= 7) {
 			//Kill attacking army
 			d_fromCountry.setArmyNumber(d_fromCountry.getArmyNumber() - 1);
@@ -171,32 +171,15 @@ public class AdvanceOrder extends Order{
 	 * @param p_numberOfArmies
 	 */
 	private void changeCountryOwnership(Country p_toCountry, Country p_fromCountry, int p_numberOfArmies) {
-		
-		//Loop through each player to find who owns p_toCountry
-		GameContext.getGameContext().getPlayers().forEach(
-				
-			(l_playerName, l_player) -> {
-				
-				//Try removing the conquered country from the defender's list
-				if(l_player.getConqueredCountries().remove(p_toCountry.getCountryID()) != null) {
 
-					//change the owner of the country
-					p_toCountry.setOwner(this.getPlayer());
-
-					//Add conquered country to attacker's list
-					this.getPlayer().getConqueredCountries().put(p_toCountry.getCountryID(), p_toCountry);
-
-					//Update army counts
-					p_fromCountry.setArmyNumber(p_fromCountry.getArmyNumber() - p_numberOfArmies);
-					p_toCountry.setArmyNumber(p_numberOfArmies);
-					
-					//Set this variable to true to allow the player to collect a card at the end of the turn
-					this.getPlayer().setConqueredACountryThisTurn(true);
-					
-					return;
-				}
-			}
-		);		
+		//change the owner of the country
+		p_toCountry.setOwner(this.getPlayer());
+		//Update army counts
+		p_fromCountry.setArmyNumber(p_fromCountry.getArmyNumber() - p_numberOfArmies);
+		p_toCountry.setArmyNumber(p_toCountry.getArmyNumber() + p_numberOfArmies);
+		//Set this variable to true to allow the player to collect a card at the end of the turn
+		this.getPlayer().setConqueredACountryThisTurn(true);
+		return;
 	}
 	
 	/**
