@@ -92,6 +92,10 @@ public class BlockadeOrderTest {
 		assertNotEquals(l_order, null);
 	}
 
+	/**
+	 * should be fail for blockade a country which not belong to me
+	 */
+	@Test
 	public void testValid() {
 		Player l_player=new Player("player1");
 		Country l_country=new Country(1,"country1");
