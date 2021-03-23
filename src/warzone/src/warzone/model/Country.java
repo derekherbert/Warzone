@@ -1,6 +1,5 @@
 package warzone.model;
 
-import com.sun.istack.internal.Nullable;
 import warzone.view.GenericView;
 
 import java.util.HashMap;
@@ -207,7 +206,7 @@ public class Country {
 	 * @param p_countryState country state
 	 * @param p_player player, can be null
 	 */
-	public void setCountryState(CountryState p_countryState, @Nullable Player p_player){
+	public void setCountryState(CountryState p_countryState, Player p_player){
 		switch (p_countryState){
 			case Initial:
 				this.d_countryState = p_countryState;
