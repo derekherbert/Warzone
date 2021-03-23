@@ -122,7 +122,7 @@ public class AdvanceOrder extends Order{
 		}
 		
 		//If toCountry is owned by current player -> advance armies
-		if(d_toCountry.getOwner().equals(d_player)) {
+		if(d_toCountry.getOwner() != null && d_toCountry.getOwner().equals(d_player)) {
 		
 			//Move the armies
 			d_fromCountry.setArmyNumber(d_fromCountry.getArmyNumber() - d_numberOfArmies);
