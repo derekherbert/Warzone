@@ -3,8 +3,6 @@ import warzone.service.*;
 
 import java.io.File;
 import java.util.Scanner;
-
-import warzone.controller.MapController;
 import warzone.model.*;
 import warzone.view.*;
 
@@ -325,8 +323,8 @@ public class MapEditor extends Phase {
 			d_logEntryBuffer.logAction("ERROR", "InValid File Name, please type a valid file name, with length less than 20.");
 			return false;
 		}
-
-		if(! d_mapService.validateMap(d_gameContext) ) {
+		
+		if(! d_mapService.validateMap() ) {
 			d_logEntryBuffer.logAction("ERROR", "InValid map, please check the map.");
 			return false;
 		}
@@ -370,7 +368,7 @@ public class MapEditor extends Phase {
 	 * @return true if it is a valid map, otherwise return false
 	 */
 	public boolean validateMap() {
-		if(! d_mapService.validateMap(d_gameContext) ) {
+		if(! d_mapService.validateMap() ) {
 			d_logEntryBuffer.logAction("ERROR", "It is not a connected map.");
 			return false;
 		}
@@ -379,20 +377,20 @@ public class MapEditor extends Phase {
 			return true;
 		}
 	}
-
-	 public void addPlayer(String p_playerName) {
+	public void play(){
+		printInvalidCommandMessage();
+	}
+	public void addPlayer(String p_playerName) { printInvalidCommandMessage(); }
+	public void removePlayer(String p_playerName){
 		 printInvalidCommandMessage();
 	 }	
-	 public void removePlayer(String p_playerName){
-		 printInvalidCommandMessage();
-	 }	
-	 public void loadMap(String p_fileName){
+	public void loadMap(String p_fileName){
 		 printInvalidCommandMessage();
 	 }		
-	 public void populatecountries(){
+	public void assigncountries(){
 		 printInvalidCommandMessage();
 	 }		
-	 public void reinforcement(){
+	public void reinforcement(){
 		 printInvalidCommandMessage();
 	 }	
  
