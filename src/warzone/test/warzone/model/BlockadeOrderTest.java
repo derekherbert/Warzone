@@ -13,12 +13,6 @@ import org.junit.Test;
  */
 public class BlockadeOrderTest {
 	
-	/*
-	Player l_player;
-	Country l_country;
-	BlockadeOrder l_order;
-
-	 * */
 	/**
 	 * This method tests a valid order
 	 */
