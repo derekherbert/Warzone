@@ -15,6 +15,7 @@ import java.util.*;
 public class MapService {
 
 	private GameContext d_gameContext;
+	private LogEntryBuffer d_logEntryBuffer;
 
 	/**
 	 * constructor
@@ -22,6 +23,7 @@ public class MapService {
 	 */
 	public MapService(GameContext p_gameContext) {
 		d_gameContext = p_gameContext;
+		d_logEntryBuffer = p_gameContext.getLogEntryBuffer();
 	}
 
 	/**
@@ -111,8 +113,7 @@ public class MapService {
 
 			//Specified file name does not exist (new map)
 			if(!l_mapFile.exists() || l_mapFile.isDirectory()) {
-
-				GenericView.printSuccess("Creating a new map: " + p_fileName);
+				d_logEntryBuffer.logAction("SUCCESS", "Creating a new map: " + p_fileName);
 				return true;
 			}
 			
@@ -245,10 +246,10 @@ public class MapService {
 			//close reading the file
 			l_scanner.close();
 			
-			GenericView.printSuccess("Map succesfully loaded: " + p_fileName);
+			d_logEntryBuffer.logAction("SUCCESS", "Map succesfully loaded: " + p_fileName);
 		    
 		} catch (Exception e) {
-			GenericView.printError("An error occured reading the map file: " + p_fileName);
+			d_logEntryBuffer.logAction("ERROR", "An error occured reading the map file: " + p_fileName);
 			return false;
 		}
 		
@@ -300,13 +301,13 @@ public class MapService {
 		// condition1: check if more than one country
 		int l_countryCount = d_gameContext.getCountries().size();
 		if ( l_countryCount <= 1 ) {
-			GenericView.printError("The map should contain more than one country.");
+			d_logEntryBuffer.logAction("ERROR", "The map should contain more than one country.");
 			return false;
 		}
  		// condition2: check if each country belongs to one continent
 		for (Country l_countryTemp : d_gameContext.getCountries().values()){
 			if(l_countryTemp.getContinent() == null) {
-				GenericView.printError("Each country should belong to one continent.");
+				d_logEntryBuffer.logAction("ERROR", "Each country should belong to one continent.");
 				return false;
 			}
 
@@ -314,13 +315,13 @@ public class MapService {
 		// condition3: check if more than one continent
 		Map<Integer, Continent> l_continent = d_gameContext.getContinents();
 		if ( l_continent.size() <= 1 ) {
-			GenericView.printError("The map should contain at least one continent.");
+			d_logEntryBuffer.logAction("ERROR", "The map should contain at least one continent.");
 			return false;
 		}
 		// condition4: check if each continent has one country
 		for( Continent l_continentTemp : l_continent.values()) {
 			if(l_continentTemp.getCountries().size() < 1) {
-				GenericView.printError("Each countinent should have at least a country.");
+				d_logEntryBuffer.logAction("ERROR", "Each countinent should have at least a country.");
 				return false;
 			}
 		}
@@ -404,7 +405,7 @@ public class MapService {
 		}
 
 		if (!ifConnected(p_continent.getCountries().size(), l_countryList)) {
-			GenericView.printError("The continent " + p_continent.getContinentName() + " is not a connected graph");
+			d_logEntryBuffer.logAction("ERROR", "The continent " + p_continent.getContinentName() + " is not a connected graph");
 			return false;
 		} else
 			GenericView.printDebug("continents " + p_continent.getContinentName() + " is connected");
