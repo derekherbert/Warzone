@@ -3,6 +3,7 @@ package warzone.model;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -12,6 +13,12 @@ import org.junit.Test;
  */
 public class BlockadeOrderTest {
 	
+	/*
+	Player l_player;
+	Country l_country;
+	BlockadeOrder l_order;
+
+	 * */
 	/**
 	 * This method tests a valid order
 	 */
@@ -19,7 +26,7 @@ public class BlockadeOrderTest {
 	public void validOrder() {
 		Player l_player=new Player("player1");
 		Country l_country=new Country(0,"country1");
-		BlockadeOrder l_order=new BlockadeOrder(l_player, 0);
+		BlockadeOrder l_order=new BlockadeOrder(l_player, l_country);
 		assert(l_order.valid()==false);
 		l_country.setOwner(l_player);
 		l_player.getConqueredCountries().put(l_country.getCountryID(), l_country);
@@ -35,7 +42,7 @@ public class BlockadeOrderTest {
 	public void invalidOrderIfTargetCountryNotBelongToPlayer() {
 		Player l_player=new Player("player1");
 		Country l_country=new Country(0,"country1");
-		BlockadeOrder l_order=new BlockadeOrder(l_player, 0);
+		BlockadeOrder l_order=new BlockadeOrder(l_player, l_country);
 		assertFalse(l_order.valid());
 	}
 	
@@ -46,7 +53,7 @@ public class BlockadeOrderTest {
 	public void invalidOrderIfPlayerDead() {
 		Player l_player=new Player("player1");
 		Country l_country=new Country(0,"country1");
-		BlockadeOrder l_order=new BlockadeOrder(l_player, 0);
+		BlockadeOrder l_order=new BlockadeOrder(l_player, l_country);
 		l_country.setOwner(l_player);
 		l_player.getConqueredCountries().put(l_country.getCountryID(), l_country);
 		assert(l_order.valid());
@@ -62,7 +69,7 @@ public class BlockadeOrderTest {
 		Player l_player=new Player("player1");
 		Country l_country=new Country(0,"country1");
 		l_country.setArmyNumber(4);
-		BlockadeOrder l_order=new BlockadeOrder(l_player, 0);
+		BlockadeOrder l_order=new BlockadeOrder(l_player, l_country);
 		l_country.setOwner(l_player);
 		l_player.getConqueredCountries().put(l_country.getCountryID(), l_country);
 		l_order.execute();
@@ -84,4 +91,72 @@ public class BlockadeOrderTest {
 		Order l_order = l_player.conventOrder("blockade 1");
 		assertNotEquals(l_order, null);
 	}
+
+	/**
+	 * should be fail for blockade a country which not belong to me
+	 */
+	@Test
+	public void testValid() {
+		Player l_player=new Player("player1");
+		Country l_country=new Country(1,"country1");
+		
+		//act
+		Order l_order=new BlockadeOrder(l_player, l_country);
+		
+		//assert
+		assertFalse(l_order.valid());
+  }  
+	
+	/**
+	 * This method tests the valid method of BlockadeOrder class
+	 */
+	@Test
+	public void willFailedWhenNullCountry() {
+		Player l_player=new Player("player1");
+		
+		//act
+		Order l_order=new BlockadeOrder(l_player, null);
+		
+		//assert
+		assertFalse(l_order.valid());
+	}
+	
+	/**
+	 * This method tests the valid method of BlockadeOrder class
+	 */
+	@Test
+	public void willTrueWhenTargetCountryIsTheSameOwner() {
+		Player l_player=new Player("player1");
+		Country l_country=new Country(1,"country1");
+		l_country.setOwner(l_player);
+		
+		//act
+		Order l_order=new BlockadeOrder(l_player, l_country);
+		
+		//assert
+		assertTrue(l_order.valid());
+	}
+	
+	/**
+	 * This method tests the valid method of BlockadeOrder class
+	 */
+	@Test
+	public void willFailWhenTargetCountryIsDiplomacyInCurrentTurn() {
+		Player l_player=new Player("player1");
+		Player l_player2=new Player("player2");
+		Country l_country=new Country(1,"country2");
+		l_country.setOwner(l_player2);
+		
+		GameContext l_gameContext = GameContext.getGameContext();
+		NegotiateOrder l_negotiateOrder = new NegotiateOrder(l_player, l_player2 );
+		l_gameContext.addDiplomacyOrderToList(l_negotiateOrder);
+		
+		
+		//act
+		Order l_order=new BlockadeOrder(l_player, l_country);
+		
+		//assert
+		assertFalse(l_order.valid());
+	}
+	
 }

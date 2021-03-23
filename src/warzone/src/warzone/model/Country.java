@@ -102,6 +102,8 @@ public class Country {
 	 * @param p_owner the Player who owns the country
 	 */
 	public void setOwner(Player p_owner) {
+		if (d_owner != null)
+			d_owner.getConqueredCountries().remove(this.getCountryID(), this);
 		this.d_owner = p_owner;
 		//modify state of this country
 		if(p_owner==null) {
@@ -113,6 +115,8 @@ public class Country {
 		}else {
 			this.d_state=State.CONQUERED;
 		}
+		if(p_owner != null)
+			p_owner.getConqueredCountries().put(this.getCountryID(), this);
 	}
 
 	/**
