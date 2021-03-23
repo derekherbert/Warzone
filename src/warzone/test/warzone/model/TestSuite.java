@@ -16,7 +16,7 @@ import org.junit.runners.Suite;
 //	DeployOrderTest.class,
 //	GameContextTest.class,
 //	ObservableTest.class,
-	PlayerTest.class,
+//	PlayerTest.class,
 //	RouterTest.class,
 	WarzonePropertiesTest.class
 	})
