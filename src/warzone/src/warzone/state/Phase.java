@@ -29,9 +29,14 @@ public abstract class Phase {
 	 *  the GameEngine to transition between states. 
 	 */
 	protected GameEngine d_gameEngine;
+	/**
+	 *  currenet phase
+	 */
+	protected GamePhase d_gamePhase = GamePhase.MAPEDITOR;
 	
-	protected GamePhase d_gamePhase;
-	
+	/**
+	 * current Game Context
+	 */
 	protected GameContext d_gameContext;	
 
 	/**
@@ -166,22 +171,6 @@ public abstract class Phase {
 	public void help() {
 		HelpView.printHelp(this.d_gamePhase);
 	}
-
-//	/**
-//	 * get phase of the current engine
-//	 * @return phase of the current engine
-//	 */
-//	public Phase getPhase() {
-//		return this.d_gameEngine.getPhase();
-//	}
-	
-//	/**
-//	 * show help for each phase
-//	 */
-//	public void reboot() {
-//		this.
-//		GenericView.printSuccess("The Game has been reoot.");
-//	}
 	
 	/**
 	 * print out the error

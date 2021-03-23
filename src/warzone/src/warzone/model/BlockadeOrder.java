@@ -40,6 +40,7 @@ public class BlockadeOrder extends Order {
 	public void execute() {
         if(!valid()) {
         	GenericView.printWarning("Fail to execute order:" + toString());
+        	this.logExecution("Fail","The context does not satisfy the order" );
         	return;
         }
         
@@ -52,6 +53,7 @@ public class BlockadeOrder extends Order {
 		
 		//print success information
 		GenericView.printSuccess("Success to execute order:" + toString());
+		this.logExecution("Success", this.toString() );
 	}
 
     /**

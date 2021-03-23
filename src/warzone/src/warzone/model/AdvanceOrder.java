@@ -112,6 +112,7 @@ public class AdvanceOrder extends Order{
 		
 		if(!valid()){
 			GenericView.printWarning("Fail to execute order:" + toString());
+			this.logExecution("Fail","The context does not satisfy the order" );
 			return;
 		}
 	
@@ -134,7 +135,7 @@ public class AdvanceOrder extends Order{
 				// check if successfully conquer a country
 				if(d_toCountry.getArmyNumber() == 0 && d_numberOfArmies >0) {
 					changeCountryOwnership(d_toCountry, d_fromCountry, d_numberOfArmies);
-					return;
+					break;
 				}
 				//a single attack between two army units
 				singleAttack();
@@ -142,6 +143,7 @@ public class AdvanceOrder extends Order{
 		}
 		//print success information
 		GenericView.printSuccess("Success to execute order:" + toString());
+		this.logExecution("Success", this.toString() );
 	}
 
 	/**
