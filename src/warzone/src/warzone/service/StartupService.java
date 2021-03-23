@@ -10,10 +10,6 @@ import java.util.Properties;
 import java.util.Scanner;
 
 import warzone.model.*;
-<<<<<<< HEAD
-=======
-import warzone.view.GenericView;
->>>>>>> branch 'feature/1002-add-log4each-command-and-order' of https://github.com/derekherbert/Warzone.git
 
 /**
  * This class will provide controllers with service associating with starup
