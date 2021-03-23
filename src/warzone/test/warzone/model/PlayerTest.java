@@ -28,8 +28,8 @@ public class PlayerTest {
 		Country l_country2 = new Country(2,"C2",0,0,null);
 		l_country1.setArmyNumber(5);
 		l_country2.setArmyNumber(3);
-		l_country1.setOwner(l_player1);
-		l_country2.setOwner(l_player2);
+		l_country1.setCountryState(CountryState.Occupied, l_player1);
+		l_country2.setCountryState(CountryState.Occupied, l_player2);
 		l_player1.getConqueredCountries().put(l_country1.getCountryID(), l_country1);
 		l_player2.getConqueredCountries().put(l_country2.getCountryID(), l_country2);
 		l_country1.getNeighbors().put(2, l_country2);
@@ -58,8 +58,8 @@ public class PlayerTest {
 		GameContext.getGameContext().getCountries().put(2, l_country2);
 		l_country1.setArmyNumber(5);
 		l_country2.setArmyNumber(3);
-		l_country1.setOwner(l_player1);
-		l_country2.setOwner(l_player2);
+		l_country1.setCountryState(CountryState.Occupied, l_player1);
+		l_country2.setCountryState(CountryState.Occupied, l_player2);
 		l_player1.getConqueredCountries().put(l_country1.getCountryID(), l_country1);
 		l_player2.getConqueredCountries().put(l_country2.getCountryID(), l_country2);
 		l_country1.getNeighbors().put(2, l_country2);
@@ -83,7 +83,7 @@ public class PlayerTest {
 		Player l_player = new Player("P1");
 		Country l_country1 = new Country(1,"C1",0,0,null);
 		l_country1.setArmyNumber(5);
-		l_country1.setOwner(l_player);
+		l_country1.setCountryState(CountryState.Occupied, l_player);
 		l_player.getConqueredCountries().put(l_country1.getCountryID(), l_country1);
 		l_player.getCards().add(Card.BOMB);
 
@@ -104,7 +104,7 @@ public class PlayerTest {
 		Country l_country1 = new Country(1,"C1",0,0,null);
 		GameContext.getGameContext().getCountries().put(1, l_country1);
 		l_country1.setArmyNumber(5);
-		l_country1.setOwner(l_player);
+		l_country1.setCountryState(CountryState.Occupied, l_player);
 		l_player.getConqueredCountries().put(l_country1.getCountryID(), l_country1);
 		l_player.getCards().add(Card.BOMB);
 
@@ -127,8 +127,8 @@ public class PlayerTest {
 		Country l_country2 = new Country(2,"C2",0,0,null);
 		l_country1.setArmyNumber(5);
 		l_country2.setArmyNumber(3);
-		l_country1.setOwner(l_player1);
-		l_country2.setOwner(l_player2);
+		l_country1.setCountryState(CountryState.Occupied, l_player1);
+		l_country2.setCountryState(CountryState.Occupied, l_player2);
 		l_player1.getConqueredCountries().put(l_country1.getCountryID(), l_country1);
 		l_player2.getConqueredCountries().put(l_country2.getCountryID(), l_country2);
 		l_player1.getCards().add(Card.BOMB);
@@ -155,8 +155,8 @@ public class PlayerTest {
 		GameContext.getGameContext().getCountries().put(2, l_country2);
 		l_country1.setArmyNumber(5);
 		l_country2.setArmyNumber(3);
-		l_country1.setOwner(l_player1);
-		l_country2.setOwner(l_player2);
+		l_country1.setCountryState(CountryState.Occupied, l_player1);
+		l_country2.setCountryState(CountryState.Occupied, l_player2);
 		l_player1.getConqueredCountries().put(l_country1.getCountryID(), l_country1);
 		l_player2.getConqueredCountries().put(l_country2.getCountryID(), l_country2);
 		l_country1.getNeighbors().put(2, l_country2);
@@ -181,8 +181,8 @@ public class PlayerTest {
 		Country l_country2 = new Country(2,"C2",0,0,null);
 		l_country1.setArmyNumber(5);
 		l_country2.setArmyNumber(3);
-		l_country1.setOwner(l_player1);
-		l_country2.setOwner(l_player2);
+		l_country1.setCountryState(CountryState.Occupied, l_player1);
+		l_country2.setCountryState(CountryState.Occupied, l_player2);
 		l_player1.getConqueredCountries().put(l_country1.getCountryID(), l_country1);
 		l_player2.getConqueredCountries().put(l_country2.getCountryID(), l_country2);
 		l_country1.getNeighbors().put(2, l_country2);
@@ -202,7 +202,7 @@ public class PlayerTest {
     	l_player.setArmiesToDeploy(10);
 
     	Country l_country = new Country(1,"C1",0,0,null);
-    	l_country.setOwner(l_player);
+    	l_country.setCountryState(CountryState.Occupied, l_player);
     	l_player.getConqueredCountries().put(l_country.getCountryID(), l_country);
     	
     	Order l_order = new DeployOrder(l_player, l_country , 20); 
@@ -224,7 +224,7 @@ public class PlayerTest {
     	l_player.setArmiesToDeploy(5);
 
     	Country l_country = new Country(1,"C1",0,0,null);
-    	l_country.setOwner(l_player);
+    	l_country.setCountryState(CountryState.Occupied, l_player);
     	l_player.getConqueredCountries().put(l_country.getCountryID(), l_country);
     	
     	Order l_order = new DeployOrder(l_player, l_country , 5); 
@@ -266,7 +266,7 @@ public class PlayerTest {
     	l_player.setArmiesToDeploy(5);
 
     	Country l_country = new Country(1,"C1",0,0,null);
-    	l_country.setOwner(l_player);
+    	l_country.setCountryState(CountryState.Occupied, l_player);
     	l_player.getConqueredCountries().put(l_country.getCountryID(), l_country);
     	
     	Order l_order = new DeployOrder(l_player, l_country , -5); 
@@ -288,7 +288,7 @@ public class PlayerTest {
 		l_player.setArmiesToDeploy(5);
 
 		Country l_country = new Country(1,"C1",0,0,null);
-		l_country.setOwner(l_player);
+		l_country.setCountryState(CountryState.Occupied, l_player);
 		l_player.getConqueredCountries().put(l_country.getCountryID(), l_country);
 		//l_player.l_armyHasIssued = 0;
 
@@ -312,8 +312,8 @@ public class PlayerTest {
 		Country l_country2 = new Country(2,"C2",0,0,null);
 		l_country1.setArmyNumber(5);
 		l_country2.setArmyNumber(3);
-		l_country1.setOwner(l_player);
-		l_country2.setOwner(l_player);
+		l_country1.setCountryState(CountryState.Occupied, l_player);
+		l_country2.setCountryState(CountryState.Occupied, l_player);
 		l_player.getConqueredCountries().put(l_country1.getCountryID(), l_country1);
 		l_player.getConqueredCountries().put(l_country2.getCountryID(), l_country2);
 		l_player.getCards().add(Card.BLOCKADE);
@@ -336,8 +336,8 @@ public class PlayerTest {
 		Country l_country2 = new Country(2,"C2",0,0,null);
 		l_country1.setArmyNumber(5);
 		l_country2.setArmyNumber(3);
-		l_country1.setOwner(l_player);
-		l_country2.setOwner(l_player);
+		l_country1.setCountryState(CountryState.Occupied, l_player);
+		l_country2.setCountryState(CountryState.Occupied, l_player);
 		l_player.getConqueredCountries().put(l_country1.getCountryID(), l_country1);
 		l_player.getConqueredCountries().put(l_country2.getCountryID(), l_country2);
 		l_player.getCards().add(Card.AIRLIFT);
@@ -361,8 +361,8 @@ public class PlayerTest {
 		Country l_country2 = new Country(2,"C2",0,0,null);
 		l_country1.setArmyNumber(5);
 		l_country2.setArmyNumber(3);
-		l_country1.setOwner(l_player);
-		l_country2.setOwner(l_player2);
+		l_country1.setCountryState(CountryState.Occupied, l_player);
+		l_country2.setCountryState(CountryState.Occupied, l_player2);
 		l_player.getConqueredCountries().put(l_country1.getCountryID(), l_country1);
 		l_player2.getConqueredCountries().put(l_country2.getCountryID(), l_country2);
 		l_player.getCards().add(Card.AIRLIFT);
@@ -385,8 +385,8 @@ public class PlayerTest {
 		Country l_country2 = new Country(2,"C2",0,0,null);
 		l_country1.setArmyNumber(5);
 		l_country2.setArmyNumber(3);
-		l_country1.setOwner(l_player);
-		l_country2.setOwner(l_player);
+		l_country1.setCountryState(CountryState.Occupied, l_player);
+		l_country2.setCountryState(CountryState.Occupied, l_player);
 		l_player.getConqueredCountries().put(l_country1.getCountryID(), l_country1);
 		l_player.getConqueredCountries().put(l_country2.getCountryID(), l_country2);
 		l_player.getCards().add(Card.AIRLIFT);
@@ -409,8 +409,8 @@ public class PlayerTest {
 		Country l_country2 = new Country(2,"C2",0,0,null);
 		l_country1.setArmyNumber(5);
 		l_country2.setArmyNumber(3);
-		l_country1.setOwner(l_player);
-		l_country2.setOwner(l_player);
+		l_country1.setCountryState(CountryState.Occupied, l_player);
+		l_country2.setCountryState(CountryState.Occupied, l_player);
 		l_player.getConqueredCountries().put(l_country1.getCountryID(), l_country1);
 		l_player.getConqueredCountries().put(l_country2.getCountryID(), l_country2);
 		l_player.getCards().add(Card.AIRLIFT);
@@ -434,8 +434,8 @@ public class PlayerTest {
 		Country l_country2 = new Country(2,"C2",0,0,null);
 		l_country1.setArmyNumber(5);
 		l_country2.setArmyNumber(3);
-		l_country1.setOwner(l_player);
-		l_country2.setOwner(l_player);
+		l_country1.setCountryState(CountryState.Occupied, l_player);
+		l_country2.setCountryState(CountryState.Occupied, l_player);
 		l_player.getConqueredCountries().put(l_country1.getCountryID(), l_country1);
 		l_player.getConqueredCountries().put(l_country2.getCountryID(), l_country2);
 		l_player.getCards().add(Card.AIRLIFT);
@@ -460,8 +460,8 @@ public class PlayerTest {
 		Country l_country2 = new Country(2,"C2",0,0,null);
 		l_country1.setArmyNumber(5);
 		l_country2.setArmyNumber(3);
-		l_country1.setOwner(l_player);
-		l_country2.setOwner(l_player);
+		l_country1.setCountryState(CountryState.Occupied, l_player);
+		l_country2.setCountryState(CountryState.Occupied, l_player);
 		l_player.getConqueredCountries().put(l_country1.getCountryID(), l_country1);
 		l_player.getConqueredCountries().put(l_country2.getCountryID(), l_country2);
 		l_player.getCards().add(Card.AIRLIFT);
@@ -486,8 +486,8 @@ public class PlayerTest {
 		Country l_country2 = new Country(2,"C2",0,0,null);
 		l_country1.setArmyNumber(5);
 		l_country2.setArmyNumber(3);
-		l_country1.setOwner(l_player);
-		l_country2.setOwner(l_player);
+		l_country1.setCountryState(CountryState.Occupied, l_player);
+		l_country2.setCountryState(CountryState.Occupied, l_player);
 		l_player.getConqueredCountries().put(l_country1.getCountryID(), l_country1);
 		l_player.getConqueredCountries().put(l_country2.getCountryID(), l_country2);
 		l_player.getCards().add(Card.AIRLIFT);
