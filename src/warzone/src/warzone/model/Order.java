@@ -32,23 +32,18 @@ public abstract class Order {
 	/**
 	 * This method will execute the order.
 	 */
-	public void execute() {
-	}
+	public abstract void execute();
 
 	/**
 	 * check if the order can be executed
 	 * @return true if valid
 	 */
-	public boolean valid() {
-
-		return true;
-	}
+	public abstract boolean valid() ;
 
 	/**
 	 * print the order
 	 */
-	public void printOrder() {		
-	}
+	public abstract void printOrder() ;
 	
 	/**
 	 * set command which create this order
