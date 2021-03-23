@@ -44,7 +44,12 @@ public class Player {
 		d_orders = new LinkedList<Order>();
 		d_cards = new ArrayList<Card>();
 		d_gameContext = GameContext.getGameContext();
-	}		
+//		for debug
+//		d_cards.add(Card.BLOCKADE);
+//		d_cards.add(Card.AIRLIFT);
+//		d_cards.add(Card.BOMB);
+//		d_cards.add(Card.NEGOTIATE);
+	}
 	
 	/**
 	 * This method will provide the name of the player.
@@ -222,7 +227,7 @@ public class Player {
 				return createBlockadeOrder(l_commandInfos);
 			case "airlift":
 				return createAirliftOrder(l_commandInfos);
-			case "diplomacy":
+			case "negotiate":
 				return createDiplomacyOrder(l_commandInfos);
 		}
 		return null;
@@ -301,8 +306,8 @@ public class Player {
         
 		BombOrder l_bombOrder = new BombOrder(this, l_targetCountry);
 
-    		//remove one of NEGOTIATE the card 
-				this.d_cards.remove(Card.BOMB);
+        //remove one of NEGOTIATE the card
+		this.d_cards.remove(Card.BOMB);
 
 		return l_bombOrder;
 	}
