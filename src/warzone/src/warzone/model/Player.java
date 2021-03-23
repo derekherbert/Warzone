@@ -205,7 +205,7 @@ public class Player {
 		if(p_command == null)
 			return null;
 
-		p_command = p_command.trim().toLowerCase();
+		p_command = p_command.trim();
 
 		String [] l_commandInfos = CommonTool.conventToArray(p_command);
 		String l_orderName = "";
@@ -516,18 +516,18 @@ public class Player {
 
 			if(!d_gameContext.getIsDemoMode()) {
 				//1. issue order from interaction
-				l_command = d_keyboard.nextLine().trim().toLowerCase();				
+				l_command = d_keyboard.nextLine().trim();				
 
-				if(l_command.equals("help")) {
+				if(l_command.equalsIgnoreCase("help")) {
 					l_gameEngine.getPhase().help();
 					continue;
 				}
-				else if( l_command.equals("showmap") ) {
+				else if( l_command.equalsIgnoreCase("showmap") ) {
 					l_gameEngine.getPhase().showMap();
 					continue;
 				}
 				//check if the issue order has finished
-				else if(l_command.equals("done")){
+				else if(l_command.equalsIgnoreCase("done")){
 					d_hasFinishIssueOrder = true;
 					GenericView.println(String.format("---------- Finish issuing order for player [%s] in this turn.", this.getName()));
 					return;
