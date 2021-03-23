@@ -8,8 +8,9 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
 	warzone.model.TestSuite.class,
 	warzone.service.TestSuite.class,
-	warzone.state.TestSuite.class,
-	warzone.view.TestSuite.class})
+//	warzone.state.TestSuite.class,
+//	warzone.view.TestSuite.class
+	})
 public class TestSuite {
 
 }
