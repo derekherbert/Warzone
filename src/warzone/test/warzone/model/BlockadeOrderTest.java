@@ -1,17 +1,10 @@
 package warzone.model;
-<<<<<<< HEAD
 
-
-=======
->>>>>>> branch '9042-Blockade-order-command-and-unit-test' of https://github.com/derekherbert/Warzone.git
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
-<<<<<<< HEAD
 import static org.junit.Assert.assertTrue;
 
-=======
->>>>>>> branch '9042-Blockade-order-command-and-unit-test' of https://github.com/derekherbert/Warzone.git
 import org.junit.Before;
 import org.junit.Test;
 
@@ -29,10 +22,6 @@ public class BlockadeOrderTest {
 	/**
 	 * This method tests a valid order
 	 */
-<<<<<<< HEAD
-
-=======
->>>>>>> branch '9042-Blockade-order-command-and-unit-test' of https://github.com/derekherbert/Warzone.git
 	@Test
 	public void validOrder() {
 		Player l_player=new Player("player1");
@@ -101,7 +90,6 @@ public class BlockadeOrderTest {
 		l_player.getCards().add(Card.BLOCKADE);
 		Order l_order = l_player.conventOrder("blockade 1");
 		assertNotEquals(l_order, null);
-<<<<<<< HEAD
 	}
 
 	public void testValid() {
@@ -113,25 +101,7 @@ public class BlockadeOrderTest {
 		
 		//assert
 		assertFalse(l_order.valid());
-=======
-  }
-  
-  	
-	/**
-	 * This method tests the valid method of BlockadeOrder class
-	 */
-  @Test
-	public void testValid() {
-		d_player=new Player("player1");
-		d_country=new Country(1,"country1");
-		
-		//act
-		d_order=new BlockadeOrder(d_player, d_country);
-		
-		//assert
-		assertFalse(d_order.valid());
->>>>>>> branch '9042-Blockade-order-command-and-unit-test' of https://github.com/derekherbert/Warzone.git
-	}
+  }  
 	
 	/**
 	 * This method tests the valid method of BlockadeOrder class
