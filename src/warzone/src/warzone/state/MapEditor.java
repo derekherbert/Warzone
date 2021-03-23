@@ -1,16 +1,10 @@
 package warzone.state;
 import warzone.service.*;
 
-import java.io.File;
-import java.util.Scanner;
 import warzone.model.*;
 import warzone.view.*;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  *	ConcreteState of the State pattern. In this example, defines behavior 

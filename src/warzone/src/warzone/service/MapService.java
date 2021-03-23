@@ -301,13 +301,13 @@ public class MapService {
 		// condition1: check if more than one country
 		int l_countryCount = d_gameContext.getCountries().size();
 		if ( l_countryCount <= 1 ) {
-			d_logEntryBuffer.logAction("ERROR", "The map should contain more than one country.");
+			GenericView.printError("The map should contain more than one country.");
 			return false;
 		}
  		// condition2: check if each country belongs to one continent
 		for (Country l_countryTemp : d_gameContext.getCountries().values()){
 			if(l_countryTemp.getContinent() == null) {
-				d_logEntryBuffer.logAction("ERROR", "Each country should belong to one continent.");
+				GenericView.printError("Each country should belong to one continent.");
 				return false;
 			}
 
@@ -315,13 +315,13 @@ public class MapService {
 		// condition3: check if more than one continent
 		Map<Integer, Continent> l_continent = d_gameContext.getContinents();
 		if ( l_continent.size() <= 1 ) {
-			d_logEntryBuffer.logAction("ERROR", "The map should contain at least one continent.");
+			GenericView.printError("The map should contain at least one continent.");
 			return false;
 		}
 		// condition4: check if each continent has one country
 		for( Continent l_continentTemp : l_continent.values()) {
 			if(l_continentTemp.getCountries().size() < 1) {
-				d_logEntryBuffer.logAction("ERROR", "Each countinent should have at least a country.");
+				GenericView.printError("Each countinent should have at least a country.");
 				return false;
 			}
 		}
@@ -405,7 +405,7 @@ public class MapService {
 		}
 
 		if (!ifConnected(p_continent.getCountries().size(), l_countryList)) {
-			d_logEntryBuffer.logAction("ERROR", "The continent " + p_continent.getContinentName() + " is not a connected graph");
+			GenericView.printError("The continent " + p_continent.getContinentName() + " is not a connected graph");
 			return false;
 		} else
 			GenericView.printDebug("continents " + p_continent.getContinentName() + " is connected");

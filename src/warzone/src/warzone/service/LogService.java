@@ -22,6 +22,7 @@ public class LogService implements Observer{
 	 */
 	@Override
 	public void update(Observable p_observable) {
+		// TODO Auto-generated method stub
 //		StringBuilder l_sb = new StringBuilder();
 //		l_sb.append("[ ");
 //		l_sb.append(((LogEntryBuffer) p_observable).getResult());
