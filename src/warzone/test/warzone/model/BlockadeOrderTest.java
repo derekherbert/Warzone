@@ -68,6 +68,7 @@ public class BlockadeOrderTest {
 		l_player.getConqueredCountries().put(l_country.getCountryID(), l_country);
 		l_order.execute();
 		assertEquals(l_country.getArmyNumber(),12);
+		assertEquals( l_country.getCountryState(), CountryState.Neutral);
 	}
 	
 	
