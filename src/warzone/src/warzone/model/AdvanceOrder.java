@@ -1,6 +1,5 @@
 package warzone.model;
 
-import java.util.Random;
 import warzone.view.GenericView;
 
 /**

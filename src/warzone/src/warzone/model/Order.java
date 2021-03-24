@@ -1,7 +1,7 @@
 package warzone.model;
 
 /**
- * This interface abstract the action of Order
+ * This abstract class of the action of Order
  *
  */
 public abstract class Order {

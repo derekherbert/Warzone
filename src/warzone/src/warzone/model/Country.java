@@ -208,11 +208,11 @@ public class Country {
 	 */
 	public void setCountryState(CountryState p_countryState, Player p_player){
 		switch (p_countryState){
-			case Initial:
+			case Initial://country initial
 				this.d_countryState = p_countryState;
 				this.d_owner = null;
 				return;
-			case Occupied:
+			case Occupied://country is occupied
 				if(p_player == null){
 					GenericView.printError("player can not be null.");
 					return;
@@ -220,7 +220,7 @@ public class Country {
 				this.setOwner(p_player);
 				this.d_countryState = p_countryState;
 				return;
-			case Neutral:
+			case Neutral://country is neutral
 				this.setOwner(null);
 				this.d_countryState = p_countryState;
 				return;

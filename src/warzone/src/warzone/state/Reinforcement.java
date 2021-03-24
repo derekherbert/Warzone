@@ -1,7 +1,7 @@
 package warzone.state;
-import warzone.service.*;
-import warzone.model.*;
-import warzone.view.*;
+
+import warzone.model.GamePhase;
+import warzone.service.GameEngine;
 
 /**
  *	ConcreteState of the State pattern. In this example, defines behavior 

@@ -2,6 +2,9 @@ package warzone.model;
 
 import warzone.view.GenericView;
 
+/**
+ * This class represents one airlift order of the gameplay
+ */
 public class AirliftOrder extends Order{
 
     private Country d_fromCountry;

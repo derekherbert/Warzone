@@ -1,13 +1,11 @@
 package warzone.model;
 
+import warzone.service.LogService;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
-import warzone.service.LogService;
-import warzone.service.MapService;
 
 /**
  * This class represent the state of the game, and it contains some useful instances for
@@ -33,8 +31,7 @@ public class GameContext {
 	private List<NegotiateOrder> d_negotiateOrdersInCurrentTurn;
 	
 	private WarzoneProperties d_warzoneProperties;
-	
-	
+
 
 	/**
 	 * check if there is a Diplomacy existed between 2 given players
@@ -302,19 +299,5 @@ public class GameContext {
 	 */
 	public int getOrderNumberPerRound() {
 		return d_orderNumberPerRound;
-	}	
-//	/**
-//	 * check if current game phase is in the given phase list
-//	 * @param p_gamePhases given phase list
-//	 * @return true if include, otherwise false
-//	 */
-//	public boolean getIsContainCurrentPhase(List<GamePhase> p_gamePhases) {
-//		if(p_gamePhases != null) {
-//			return p_gamePhases.contains(this.d_gamePhase);
-//		}
-//		return false;
-//	}
-//	
-	
-	
+	}
 }

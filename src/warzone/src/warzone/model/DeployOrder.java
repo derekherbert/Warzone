@@ -1,9 +1,6 @@
 package warzone.model;
 
-import java.util.Map;
-
 import warzone.view.GenericView;
-import warzone.view.MapView;
 
 /**
  * This class represents one deploy order of the gameplay
