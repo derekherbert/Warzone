@@ -78,6 +78,7 @@ public class BlockadeOrderTest {
 	public void willCreateBlockadeOrder() {
 		Player l_player = new Player("P1");
 		Country l_country = new Country(1,"C1",0,0,null);
+		GameContext.getGameContext().getCountries().put(l_country.getCountryID(),l_country);
 		l_country.setArmyNumber(5);
 		l_country.setCountryState(CountryState.Occupied, l_player);
 		l_player.getConqueredCountries().put(l_country.getCountryID(), l_country);
