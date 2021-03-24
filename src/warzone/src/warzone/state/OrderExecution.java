@@ -13,7 +13,7 @@ public class OrderExecution extends GamePlay {
 	/**
 	 * The constructor of the class.
 	 * 
-	 * @param p_ge
+	 * @param p_gameEngine Game Engine
 	 */
 	public OrderExecution(GameEngine p_gameEngine) {
 		super(p_gameEngine);
