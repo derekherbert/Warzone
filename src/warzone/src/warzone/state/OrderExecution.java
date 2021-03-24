@@ -1,7 +1,6 @@
 package warzone.state;
 import warzone.service.*;
 import warzone.model.*;
-import warzone.view.*;
 
 /**
  *	ConcreteState of the State pattern. In this example, defines behavior 
@@ -10,6 +9,10 @@ import warzone.view.*;
  */
 public class OrderExecution extends GamePlay {
 
+	/**
+	 * The constructor of the class.
+	 * @param p_ge
+	 */
 	public OrderExecution(GameEngine p_ge) {
 		super(p_ge);
 
@@ -26,31 +29,64 @@ public class OrderExecution extends GamePlay {
 			d_gameEngine.setPhase(new Reinforcement(d_gameEngine));
 	}
 
+	/**
+	 * Performs the action for user command: loadmap filename
+	 *
+	 * Game starts by user selection of a user-saved map file,
+	 * the map should be a connected graph
+	 *
+	 * @param p_fileName the file to load
+	 */
 	public void loadMap(String p_fileName){
 		printInvalidCommandMessage();
 	}
 
+	/**
+	 * execute issue_order or execute_order
+	 */
 	public void play(){
 		d_gameEngine.executeOrders();
 		if(!d_gameEngine.isGameEnded())
 			d_gameEngine.assignCards();
 	}
 
+	/**
+	 * Performs the action for user command: gameplayer -add playerName
+	 *
+	 * @param p_playerName player's name
+	 */
 	public void addPlayer(String p_playerName) {
 		printInvalidCommandMessage();
 	}
+	
+	/**
+	 * Performs the action for user command: gameplayer -remove playerName
+	 *
+	 * @param p_playerName player's name
+	 */
 	public void removePlayer(String p_playerName){
 		printInvalidCommandMessage();
 	}
 
+	/**
+	 * Performs the action for user command: assigncountries
+	 *
+	 * After user creates all the players, all countries are randomly assigned to players.
+	 */
 	public void assigncountries(){
 		printInvalidCommandMessage();
 	}
 
+	/**
+	 * Performs the action for user command: reinforcement
+	 */
 	public void reinforcement(){
 		printInvalidCommandMessage();
 	}
 
+	/**
+	 * Performs the action of issuing order
+	 */
 	public void issueOrder(){
 		printInvalidCommandMessage();
 	}
