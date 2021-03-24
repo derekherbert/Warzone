@@ -7,8 +7,17 @@ import warzone.view.GenericView;
  */
 public class DeployOrder extends Order {
 
+	/**
+	 * country to deploy army
+	 */
 	private Country d_country;
-	private Player d_player;	
+	/**
+	 * owner of the order
+	 */
+	private Player d_player;
+	/**
+	 * army number
+	 */
 	private int d_armyNumber;
 
 	/**

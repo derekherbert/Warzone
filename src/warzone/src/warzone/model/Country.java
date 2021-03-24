@@ -9,15 +9,42 @@ import java.util.Map;
  * This class represents the country in the game
  */
 public class Country {
-	
+
+	/**
+	 * country id
+	 */
 	private int d_countryID;
+	/**
+	 * country name
+	 */
 	private String d_countryName;
+	/**
+	 * owner of the country
+	 */
 	private Player d_owner;
+	/**
+	 * xposition of the country
+	 */
 	private int d_xPosition;
+	/**
+	 * yposition of the country
+	 */
 	private int d_yPosition;
+	/**
+	 * armys in the country
+	 */
 	private int d_armyNumber = 0;
+	/**
+	 * neighbor of the country
+	 */
 	private Map<Integer, Country> d_neighbors;
+	/**
+	 * continent of the country
+	 */
 	private Continent d_continent;
+	/**
+	 * country state
+	 */
 	private CountryState d_countryState;
 
 	/**

@@ -12,11 +12,29 @@ import java.util.Date;
  *
  */
 public class LogEntryBuffer extends Observable{
+	/**
+	 * message
+	 */
 	private String d_message;
+	/**
+	 * time stamp
+	 */
 	private String d_time;
+	/**
+	 * order
+	 */
 	private String d_order;
+	/**
+	 * result
+	 */
 	private String d_result;
+	/**
+	 * phase
+	 */
 	private GamePhase d_phase;
+	/**
+	 * game context
+	 */
 	private GameContext d_gameContext;
 	
 	/**

@@ -13,23 +13,61 @@ import java.util.Map;
  *
  */
 public class GameContext {
+	/**
+	 * game context
+	 */
 	private static GameContext GAME_CONTEXT;
-	//GamePhase d_gamePhase = GamePhase.MAPEDITOR;
+	/**
+	 * order Number Per Round
+	 */
 	private int d_orderNumberPerRound = 5;
-	
 
+	/**
+	 * players in game context
+	 */
 	private Map<String, Player> d_players;
+
+	/**
+	 * countries in game context
+	 */
 	private Map<Integer, Country> d_countries;
+
+	/**
+	 * continents in game context
+	 */
 	private Map<Integer, Continent> d_continents;
+
+	/**
+	 * log service
+	 */
 	private LogService d_logService;
+	/**
+	 * current router
+	 */
 	private Router d_currentRouter;
-	
+	/**
+	 * map file name
+	 */
 	private String d_mapFileName;
+	/**
+	 * picture of map file
+	 */
 	private String d_mapFilePic;
+	/**
+	 * map of mapfile
+	 */
 	private String d_mapFileMap;
+	/**
+	 * cards of mapfile
+	 */
 	private String d_mapFileCards;
+	/**
+	 * negotiate Orders In Current Turn
+	 */
 	private List<NegotiateOrder> d_negotiateOrdersInCurrentTurn;
-	
+	/**
+	 * properties of the game
+	 */
 	private WarzoneProperties d_warzoneProperties;
 
 

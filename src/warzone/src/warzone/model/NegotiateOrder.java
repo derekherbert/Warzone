@@ -7,9 +7,14 @@ import warzone.view.GenericView;
  */
 public class NegotiateOrder extends Order {
 
+	/**
+	 * owner of the order
+	 */
 	private Player d_player;
+	/**
+	 * target player
+	 */
 	private Player d_targetPlayer;
-
 
 	/**
 	 * constructor of negotiate order

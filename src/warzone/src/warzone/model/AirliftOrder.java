@@ -7,9 +7,22 @@ import warzone.view.GenericView;
  */
 public class AirliftOrder extends Order{
 
+    /**
+     * airlift from country
+     */
     private Country d_fromCountry;
+
+    /**
+     * airlift to country
+     */
     private Country d_toCountry;
+    /**
+     * army numbers
+     */
     private int d_armyNumber;
+    /**
+     * owner of the order
+     */
     private Player d_player;
 
     /**

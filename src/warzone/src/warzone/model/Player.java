@@ -18,19 +18,54 @@ import warzone.view.GenericView;
  */
 public class Player {
 
+	/**
+	 * name of the player
+	 */
 	private String d_name;
+	/**
+	 * countries the player conquered
+	 */
 	private Map<Integer, Country> d_conqueredCountries;
+	/**
+	 * order list
+	 */
 	private Queue<Order> d_orders;
-	private int d_armyNumber = 0;//total number
-	private int d_armiesToDeploy = 0; 
+	/**
+	 * total number of the army
+	 */
+	private int d_armyNumber = 0;
+	/**
+	 * the number of army to deploy
+	 */
+	private int d_armiesToDeploy = 0;
+	/**
+	 * is alived or not
+	 */
 	private boolean d_isAlive = true;
+	/**
+	 * has finish issue order
+	 */
 	private boolean d_hasFinishIssueOrder;
+	/**
+	 * if conquer a country this turn
+	 */
 	private boolean d_conqueredACountryThisTurn = false;
+	/**
+	 * card list
+	 */
 	private List<Card> d_cards;
+	/**
+	 * game context
+	 */
 	GameContext d_gameContext;
+	/**
+	 * army hss issued, a local value
+	 */
 	int d_armyHasIssued = 0;
 
-
+	/**
+	 * scanner of the command
+	 */
 	private Scanner d_keyboard = new Scanner(System.in);
 	
 	/**
