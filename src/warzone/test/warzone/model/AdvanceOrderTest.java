@@ -7,6 +7,10 @@ import org.junit.Test;
 
 import warzone.service.StartupService;
 
+/**
+ * test AdvanceOrder 
+ * 
+ */
 public class AdvanceOrderTest {
 
 	private GameContext d_gameContext;
@@ -15,6 +19,10 @@ public class AdvanceOrderTest {
 	private Country d_attackingCountry;
 	private Country d_defendingCountry;
 	
+	/**
+	 * test AdvanceOrder creation 
+	 * arrenge the test
+	 */
 	@Before
 	public void setup() {
 		
@@ -47,6 +55,9 @@ public class AdvanceOrderTest {
 		d_gameContext.getCountries().put(2, d_defendingCountry);
 	}
 	
+	/**
+	 * test AdvanceOrder execution 
+	 */
 	@Test
 	public void testAttackerConquersDefender() {
 		
@@ -67,6 +78,10 @@ public class AdvanceOrderTest {
 		assertTrue(d_defendingCountry.getArmyNumber() < 1000); //The attacker moves all remaining armies (some should be lost due to fights)
 	}
 	
+	/**
+	 * test AdvanceOrder 
+	 * will conquer the country
+	 */
 	@Test
 	public void testAttackerConquersDefenderHasNoArmy() {
 		
@@ -87,6 +102,10 @@ public class AdvanceOrderTest {
 		assertTrue(d_defendingCountry.getArmyNumber() == 1000); //The attacker moves all remaining armies (some should be lost due to fights)
 	}
 	
+	/**
+	 * test AdvanceOrder execution 
+	 *  attack succeed
+	 */
 	@Test
 	public void testAttackerConquersDefenderButKeepsSomeArmies() {
 		
@@ -107,6 +126,10 @@ public class AdvanceOrderTest {
 		assertTrue(d_defendingCountry.getArmyNumber() < 500); //The attacker moves all remaining armies (some should be lost due to fights)
 	}
 	
+	/**
+	 * test AdvanceOrder execution 
+	 *  attack failed
+	 */
 	@Test
 	public void testAttackerDoesNotConquerDefender() {
 		

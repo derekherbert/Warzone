@@ -220,6 +220,11 @@ public class AdvanceOrder extends Order{
 		    return false;
 		}
 		
+		if (this.d_numberOfArmies <= 0 ) {			
+			GenericView.printError("The advance army number should greater than 0.");
+			return false;
+		}		
+		
     	return true;
     }
 
