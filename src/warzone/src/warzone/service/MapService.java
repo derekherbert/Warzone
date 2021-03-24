@@ -419,7 +419,10 @@ public class MapService {
 		return true;
 	}
 
-	private int l_seq = 0; // the sequence it is read in tree
+	/**
+	 * the sequence it is read in tree
+	 */
+	private int l_seq = 0;
 
 
 	/**
