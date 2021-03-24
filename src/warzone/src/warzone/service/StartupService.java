@@ -17,7 +17,14 @@ import warzone.model.*;
  */
 public class StartupService {
 
+	/**
+	 * game context
+	 */
 	private GameContext d_gameContext;
+
+	/**
+	 * log entry buffer
+	 */
 	private LogEntryBuffer d_logEntryBuffer;
 
 	/**
@@ -76,7 +83,6 @@ public class StartupService {
 		String l_mapDirectory = null;
 		
 		try {
-			
 			//Get the map directory from the properties file
 			Properties l_properties = new Properties();
 			l_properties.load(getClass().getClassLoader().getResourceAsStream("config.properties"));

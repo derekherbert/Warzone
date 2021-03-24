@@ -14,7 +14,14 @@ import java.util.*;
  */
 public class MapService {
 
+	/**
+	 * game context
+	 */
 	private GameContext d_gameContext;
+
+	/**
+	 * log entry buffer
+	 */
 	private LogEntryBuffer d_logEntryBuffer;
 
 	/**

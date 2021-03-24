@@ -1,17 +1,20 @@
 package warzone.service;
 
-import java.awt.*;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.*;
-import java.util.List;
-
 import warzone.model.*;
-import warzone.state.*;
+import warzone.state.IssueOrder;
+import warzone.state.MapEditor;
+import warzone.state.OrderExecution;
+import warzone.state.Phase;
 import warzone.view.GenericView;
 import warzone.view.HelpView;
 import warzone.view.MapView;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.Scanner;
 
 /**
  * Main game loop.
@@ -32,9 +35,14 @@ public class GameEngine {
 		l_gameEngine.setPhase(new MapEditor(l_gameEngine));
 		l_gameEngine.start();
 	}
-	
-	
-	private GameContext d_gameContext;	
+
+	/**
+	 * game context
+	 */
+	private GameContext d_gameContext;
+	/**
+	 * game engine
+	 */
 	private static GameEngine GAME_ENGINE;
 
 	/**
@@ -218,6 +226,7 @@ public class GameEngine {
 	public void issueOrders() {
 		if( isGameEnded()) {
 			//todo: call game over and change state
+			return;
 		}		
 
 		//local list of player
