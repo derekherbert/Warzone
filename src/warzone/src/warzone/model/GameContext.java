@@ -1,13 +1,11 @@
 package warzone.model;
 
+import warzone.service.LogService;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
-import warzone.service.LogService;
-import warzone.service.MapService;
 
 /**
  * This class represent the state of the game, and it contains some useful instances for
@@ -15,26 +13,63 @@ import warzone.service.MapService;
  *
  */
 public class GameContext {
+	/**
+	 * game context
+	 */
 	private static GameContext GAME_CONTEXT;
-	//GamePhase d_gamePhase = GamePhase.MAPEDITOR;
+	/**
+	 * order Number Per Round
+	 */
 	private int d_orderNumberPerRound = 5;
-	
 
+	/**
+	 * players in game context
+	 */
 	private Map<String, Player> d_players;
+
+	/**
+	 * countries in game context
+	 */
 	private Map<Integer, Country> d_countries;
+
+	/**
+	 * continents in game context
+	 */
 	private Map<Integer, Continent> d_continents;
+
+	/**
+	 * log service
+	 */
 	private LogService d_logService;
+	/**
+	 * current router
+	 */
 	private Router d_currentRouter;
-	
+	/**
+	 * map file name
+	 */
 	private String d_mapFileName;
+	/**
+	 * picture of map file
+	 */
 	private String d_mapFilePic;
+	/**
+	 * map of mapfile
+	 */
 	private String d_mapFileMap;
+	/**
+	 * cards of mapfile
+	 */
 	private String d_mapFileCards;
+	/**
+	 * negotiate Orders In Current Turn
+	 */
 	private List<NegotiateOrder> d_negotiateOrdersInCurrentTurn;
-	
+	/**
+	 * properties of the game
+	 */
 	private WarzoneProperties d_warzoneProperties;
-	
-	
+
 
 	/**
 	 * check if there is a Diplomacy existed between 2 given players
@@ -302,19 +337,5 @@ public class GameContext {
 	 */
 	public int getOrderNumberPerRound() {
 		return d_orderNumberPerRound;
-	}	
-//	/**
-//	 * check if current game phase is in the given phase list
-//	 * @param p_gamePhases given phase list
-//	 * @return true if include, otherwise false
-//	 */
-//	public boolean getIsContainCurrentPhase(List<GamePhase> p_gamePhases) {
-//		if(p_gamePhases != null) {
-//			return p_gamePhases.contains(this.d_gamePhase);
-//		}
-//		return false;
-//	}
-//	
-	
-	
+	}
 }

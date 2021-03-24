@@ -1,6 +1,5 @@
 package warzone.model;
 
-import java.util.Random;
 import warzone.view.GenericView;
 
 /**
@@ -8,11 +7,30 @@ import warzone.view.GenericView;
  */
 public class AdvanceOrder extends Order{
 
+	/**
+	 * advance from country
+	 */
 	private Country d_fromCountry;
+
+	/**
+	 * advance to country
+	 */
 	private Country d_toCountry;
+
+	/**
+	 * number of armies
+	 */
 	private int d_numberOfArmies;
+
+	/**
+	 * owner of the order
+	 */
 	private Player d_player;
-	int l_numberOfArmies;// a local value of d_numberOfArmies used in local methods
+
+	/**
+	 * a local value of d_numberOfArmies used in local methods
+	 */
+	private int l_numberOfArmies;
 
 	/**
 	 * AdvanceOrder constructor
@@ -232,7 +250,6 @@ public class AdvanceOrder extends Order{
 		}
     	return true;
     }
-
 
 	/**
 	 * override of print the order
