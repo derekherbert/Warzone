@@ -4,6 +4,10 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+/**
+ * This class will test the bomb card
+ *
+ */
 public class BombOrderTest {
 
     /**
