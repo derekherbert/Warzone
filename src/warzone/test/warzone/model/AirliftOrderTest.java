@@ -4,6 +4,10 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+/**
+ * This class is responsible to test airlift card.
+ *
+ */
 public class AirliftOrderTest {
     /**
      * check if failed if the source country does not belongs to the owner
