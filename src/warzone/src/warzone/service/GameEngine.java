@@ -182,8 +182,8 @@ public class GameEngine {
 		if(l_alivePlayers <= 1){
 			GenericView.println("-------------------- Game End");
 			GenericView.printSuccess("player " + l_protentialWinner.getName() + " wins the game.");
-			GenericView.println("-------------------- Back to startup phase");
-			setPhase(new Startup((this)));
+			GenericView.println("-------------------- Reboot the game");
+			this.reboot();
 			return true;
 		}
 		else
