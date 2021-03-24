@@ -9,19 +9,18 @@ import warzone.service.StartupService;
 
 /**
  * test AdvanceOrder 
- * 
+ * Advance Order Test
  */
 public class AdvanceOrderTest {
 
-	private GameContext d_gameContext;
-	private Player d_attacker;
-	private Player d_defender;
-	private Country d_attackingCountry;
-	private Country d_defendingCountry;
-	
+	private GameContext d_gameContext; // game context
+	private Player d_attacker; // the attacker
+	private Player d_defender; // the defender
+	private Country d_attackingCountry; // the attacking country
+	private Country d_defendingCountry;// the defending country
+
 	/**
-	 * test AdvanceOrder creation 
-	 * arrenge the test
+	 * set up in gamecontext
 	 */
 	@Before
 	public void setup() {
@@ -112,8 +111,10 @@ public class AdvanceOrderTest {
 		//Add armies to both countries
 		d_attackingCountry.setArmyNumber(1000);
 		d_defendingCountry.setArmyNumber(20);
-		
-		
+
+		/**
+		 * testAttackerConquersDefenderButKeepsSomeArmies
+		 */
 		//Execute AdvanceOrder
 		new AdvanceOrder(d_attacker, d_attackingCountry, d_defendingCountry, 500).execute();
 		
@@ -150,4 +151,49 @@ public class AdvanceOrderTest {
 		assertTrue(d_defendingCountry.getArmyNumber() < 1000); //Some should be lost due to fights
 	}
 
+	/**
+	 * test Attacker With Zero Army
+	 */
+	@Test
+	public void testAttackerWithZeroArmy() {
+
+		//Add armies to both countries
+		d_attackingCountry.setArmyNumber(3);
+		d_defendingCountry.setArmyNumber(2);
+
+
+		//Execute AdvanceOrder
+		new AdvanceOrder(d_attacker, d_attackingCountry, d_defendingCountry, 0).execute();
+
+		//Make sure attacker did not conquer country
+		assertTrue(d_attacker.getConqueredCountries().size() == 1);
+		assertTrue(d_defender.getConqueredCountries().size() == 1);
+
+		//Make sure the attacking and defending countries lost armies
+		assertEquals(d_attackingCountry.getArmyNumber(), 3); //Attacker does not lose some armies
+		assertEquals(d_defendingCountry.getArmyNumber(),  2); //Some should be lost due to fights
+	}
+
+	/**
+	 * test case for test Attacker With Territory Have Zero Army
+	 */
+	@Test
+	public void testAttackerWithTerritoryHaveZeroArmy() {
+
+		//Add armies to both countries
+		d_attackingCountry.setArmyNumber(0);
+		d_defendingCountry.setArmyNumber(2);
+
+
+		//Execute AdvanceOrder
+		new AdvanceOrder(d_attacker, d_attackingCountry, d_defendingCountry, 20).execute();
+
+		//Make sure attacker did not conquer country
+		assertTrue(d_attacker.getConqueredCountries().size() == 1);
+		assertTrue(d_defender.getConqueredCountries().size() == 1);
+
+		//Make sure the attacking and defending countries lost armies
+		assertEquals(d_attackingCountry.getArmyNumber(), 0); //Attacker does not lose some armies
+		assertEquals(d_defendingCountry.getArmyNumber(),  2); //Some should be lost due to fights
+	}
 }
