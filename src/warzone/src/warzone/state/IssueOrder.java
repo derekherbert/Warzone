@@ -13,8 +13,8 @@ public class IssueOrder extends GamePlay {
 	 * The constructor of the class
 	 * @param p_ge the game engine
 	 */
-	public IssueOrder(GameEngine p_ge) {
-		super(p_ge);
+	public IssueOrder(GameEngine p_gameEngine) {
+		super(p_gameEngine);
 
 		this.d_gamePhase = GamePhase.IssueOrder;
 	}

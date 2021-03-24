@@ -14,8 +14,8 @@ public abstract class GamePlay extends Phase {
 	 * The constructor of the class
 	 * @param p_ge the game engine
 	 */
-	public GamePlay(GameEngine p_ge) {
-		super(p_ge);
+	public GamePlay(GameEngine p_gameEngine) {
+		super(p_gameEngine);
 		this.d_gamePhase = GamePhase.GamePlay;
 	}
 	

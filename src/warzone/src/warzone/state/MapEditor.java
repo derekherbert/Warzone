@@ -23,8 +23,8 @@ public class MapEditor extends Phase {
 	 * Constructor for MapEditor
 	 * @param p_ge Game Engine
 	 */
-	public MapEditor(GameEngine p_ge) {
-		super(p_ge);
+	public MapEditor(GameEngine p_gameEngine) {
+		super(p_gameEngine);
 		d_mapService = new MapService(d_gameContext);
 		d_continentService = new ContinentService(d_gameContext);
 		d_countryService  = new CountryService(d_gameContext);

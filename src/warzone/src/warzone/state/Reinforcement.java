@@ -15,8 +15,8 @@ public class Reinforcement extends GamePlay {
 	 * 
 	 * @param p_ge the game engine
 	 */
-	public Reinforcement(GameEngine p_ge) {
-		super(p_ge);
+	public Reinforcement(GameEngine p_gameEngine) {
+		super(p_gameEngine);
 		this.d_gamePhase = GamePhase.Reinforcement;
 
 		this.d_gameEngine.assignReinforcements();

@@ -15,8 +15,8 @@ public class OrderExecution extends GamePlay {
 	 * 
 	 * @param p_ge
 	 */
-	public OrderExecution(GameEngine p_ge) {
-		super(p_ge);
+	public OrderExecution(GameEngine p_gameEngine) {
+		super(p_gameEngine);
 
 		this.d_gamePhase = GamePhase.OrderExecution;
 	}

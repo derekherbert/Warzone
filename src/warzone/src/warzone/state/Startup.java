@@ -20,8 +20,8 @@ public class Startup extends GamePlay {
 	 * 
 	 * @param p_ge gameengine instance to initial the class
 	 */
-	public Startup(GameEngine p_ge) {
-		super(p_ge);
+	public Startup(GameEngine p_gameEngine) {
+		super(p_gameEngine);
 		d_startupService = new StartupService(d_gameContext);
 		d_logEntryBuffer = d_gameContext.getLogEntryBuffer();
 		this.d_gamePhase = GamePhase.STARTUP;
