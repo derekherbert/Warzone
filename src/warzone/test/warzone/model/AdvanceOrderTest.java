@@ -8,18 +8,18 @@ import org.junit.Test;
 import warzone.service.StartupService;
 
 /**
- * Advance Order Test
+ * test class of advanceorder
  */
 public class AdvanceOrderTest {
 
-	private GameContext d_gameContext; // game context
-	private Player d_attacker; // the attacker
-	private Player d_defender; // the defender
-	private Country d_attackingCountry; // the attacking country
-	private Country d_defendingCountry;// the defending country
+	private GameContext d_gameContext;
+	private Player d_attacker;
+	private Player d_defender;
+	private Country d_attackingCountry;
+	private Country d_defendingCountry;
 
 	/**
-	 * set up in gamecontext
+	 * setup before each method
 	 */
 	@Before
 	public void setup() {
@@ -54,7 +54,7 @@ public class AdvanceOrderTest {
 	}
 
 	/**
-	 * testAttackerConquersDefender
+	 * test attacker conquers but no army in the territory
 	 */
 	@Test
 	public void testAttackerConquersDefender() {
@@ -77,7 +77,7 @@ public class AdvanceOrderTest {
 	}
 
 	/**
-	 * testAttackerConquersDefenderHasNoArmy
+	 * test attacker conquers a defender
 	 */
 	@Test
 	public void testAttackerConquersDefenderHasNoArmy() {
@@ -100,7 +100,7 @@ public class AdvanceOrderTest {
 	}
 
 	/**
-	 * testAttackerConquersDefenderButKeepsSomeArmies
+	 * test when attacker conquer, some armis are kept
 	 */
 	@Test
 	public void testAttackerConquersDefenderButKeepsSomeArmies() {
@@ -108,10 +108,8 @@ public class AdvanceOrderTest {
 		//Add armies to both countries
 		d_attackingCountry.setArmyNumber(1000);
 		d_defendingCountry.setArmyNumber(20);
-
-		/**
-		 * testAttackerConquersDefenderButKeepsSomeArmies
-		 */
+		
+		
 		//Execute AdvanceOrder
 		new AdvanceOrder(d_attacker, d_attackingCountry, d_defendingCountry, 500).execute();
 		
@@ -125,7 +123,7 @@ public class AdvanceOrderTest {
 	}
 
 	/**
-	 * testAttackerDoesNotConquerDefender
+	 * test when attacker does not conquer a defender
 	 */
 	@Test
 	public void testAttackerDoesNotConquerDefender() {

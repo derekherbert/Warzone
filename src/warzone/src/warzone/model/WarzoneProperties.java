@@ -11,8 +11,13 @@ import warzone.view.GenericView;
  */
 public class WarzoneProperties {
 
-	//Class variables
+	/**
+	 * static member of Warzone Properties
+	 */
 	private static WarzoneProperties WARZONE_PROPERTIES;
+	/**
+	 * a private Properties
+	 */
 	private Properties d_properties;
 	
 	//Create singelton
