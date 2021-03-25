@@ -405,6 +405,7 @@ public class GameEngine {
 
 			l_routers = l_routerService.parseCommand(l_command);						
 			//excute the command
+			GenericView.println(l_command);
 			l_routerService.route(l_routers);				
 		}
 		
