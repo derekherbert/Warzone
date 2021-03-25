@@ -19,6 +19,6 @@ import org.junit.runners.Suite;
 	RouterServiceTest.class,
 	StartupServiceTest.class
 	})
-public class TestSuite {
+public class ServiceTestSuite {
 
 }
