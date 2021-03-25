@@ -41,7 +41,7 @@ public abstract class Phase {
 
 	/**
 	 * Constructor for Phase
-	 * @param p_ge Game Engine
+	 * @param p_gameEngine Game Engine
 	 */
 	Phase(GameEngine p_gameEngine) {
 		d_gameEngine = p_gameEngine;

@@ -12,7 +12,7 @@ public abstract class GamePlay extends Phase {
 
 	/**
 	 * The constructor of the class
-	 * @param p_ge the game engine
+	 * @param p_gameEngine the game engine
 	 */
 	public GamePlay(GameEngine p_gameEngine) {
 		super(p_gameEngine);
