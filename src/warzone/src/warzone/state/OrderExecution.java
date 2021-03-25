@@ -29,6 +29,7 @@ public class OrderExecution extends GamePlay {
 			d_gameEngine.setPhase(new Startup(d_gameEngine));
 		else
 			d_gameEngine.setPhase(new Reinforcement(d_gameEngine));
+		super.next();
 	}
 
 	/**

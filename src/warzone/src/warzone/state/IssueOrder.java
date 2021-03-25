@@ -24,6 +24,7 @@ public class IssueOrder extends GamePlay {
 	 */
 	public void next() {
 		d_gameEngine.setPhase(new OrderExecution(d_gameEngine));
+		super.next();
 	}
 
 	/**
