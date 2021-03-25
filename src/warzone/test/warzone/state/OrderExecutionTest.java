@@ -12,17 +12,5 @@ import warzone.service.GameEngine;
  */
 public class OrderExecutionTest {
 	
-	/**
-	 * test for input Next Command
-	 */
-	@Test
-	public void inputNextCommand() {
-		GameContext l_gameContext = GameContext.getGameContext();
-		GameEngine l_gameEngine = GameEngine.getGameEngine(l_gameContext);
-		l_gameContext.setCurrentRouter(new Router(null, null, null));
-		OrderExecution l_orderExecitonState = new OrderExecution(l_gameEngine);
-		l_gameEngine.setPhase(l_orderExecitonState);
-		l_orderExecitonState.next();
-		assert(l_gameEngine.getPhase().getGamePhase()==GamePhase.STARTUP);
-	}
+
 }
