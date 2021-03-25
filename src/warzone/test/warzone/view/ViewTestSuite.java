@@ -1,5 +1,6 @@
 package warzone.view;
 
+import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 /**
@@ -11,6 +12,6 @@ import org.junit.runners.Suite;
 	HelpViewTest.class,
 	MapViewTest.class
 	})
-public class TestSuite {
+public class ViewTestSuite {
 
 }
