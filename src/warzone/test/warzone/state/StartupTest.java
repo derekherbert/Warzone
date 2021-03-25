@@ -96,6 +96,9 @@ public class StartupTest {
 		
 	}
 	
+	/**
+	 * test for next command
+	 */
 	@Test
 	public void inputNextCommand() {
 		d_startupState.next();

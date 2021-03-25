@@ -17,6 +17,9 @@ import warzone.service.GameEngine;
  */
 public class MapEditorTest {
 
+	/**
+	 * test for add And Remove Continent
+	 */
 	@Test
 	public void addAndRemoveContinent() {
 		GameContext l_gameContext = GameContext.getGameContext();
@@ -31,6 +34,9 @@ public class MapEditorTest {
 		assert(l_gameContext.getContinents().size()==0);
 	}
 	
+	/**
+	 * test for add And Remove Country
+	 */
 	@Test
 	public void addAndRemoveCountry() {
 		GameContext l_gameContext = GameContext.getGameContext();
@@ -48,6 +54,9 @@ public class MapEditorTest {
 		assert(l_gameContext.getContinents().get(1).getCountries().size()==1);
 	}
 	
+	/**
+	 * add And Remove Neighbor
+	 */
 	@Test
 	public void addAndRemoveNeighbor() {
 		GameContext l_gameContext = GameContext.getGameContext();
@@ -66,6 +75,9 @@ public class MapEditorTest {
 		assert(l_gameContext.getCountries().get(101).getNeighbors().size()==0);
 	}
 	
+	/**
+	 * test for  Next Command
+	 */
 	@Test
 	public void inputNextCommand() {
 		GameContext l_gameContext = GameContext.getGameContext();

@@ -12,6 +12,7 @@ public class GenericView {
 	/**
 	 * This method can print normal messages from String
 	 * @param p_text the text that should be printed
+	 * @return if print succeed
 	 */
 	public static boolean println(String p_text) {
 		System.out.println(p_text);

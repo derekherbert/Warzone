@@ -11,6 +11,9 @@ import warzone.service.GameEngine;
  * Test class for reinforcement phase
  */
 public class ReinforcementTest {
+	/**
+	 * test for next command
+	 */
 	@Test
 	public void inputNextCommand() {
 		GameContext l_gameContext = GameContext.getGameContext();

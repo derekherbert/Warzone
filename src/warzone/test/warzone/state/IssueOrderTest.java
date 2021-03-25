@@ -12,6 +12,9 @@ import warzone.service.GameEngine;
  */
 public class IssueOrderTest {
 	
+	/**
+	 *  test for input Next Command 
+	 */
 	@Test
 	public void inputNextCommand() {
 		GameContext l_gameContext = GameContext.getGameContext();

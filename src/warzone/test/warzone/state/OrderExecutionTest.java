@@ -11,6 +11,10 @@ import warzone.service.GameEngine;
  * Test class for order execution phase
  */
 public class OrderExecutionTest {
+	
+	/**
+	 * test for input Next Command
+	 */
 	@Test
 	public void inputNextCommand() {
 		GameContext l_gameContext = GameContext.getGameContext();
