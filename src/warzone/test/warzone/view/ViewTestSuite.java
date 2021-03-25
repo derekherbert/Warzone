@@ -1,16 +1,15 @@
 package warzone.view;
 
+import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 /**
  * Test all test class of package warzone.view
  */
-//@RunWith(Suite.class)
+@RunWith(Suite.class)
 @Suite.SuiteClasses({
-	GenericViewTest.class,
-	HelpViewTest.class,
-	MapViewTest.class
+	GenericViewTest.class
 	})
-public class TestSuite {
+public class ViewTestSuite {
 
 }
