@@ -59,11 +59,11 @@ public class MapEditorTest {
 		l_mapEditorState.addCountry(101, 1);
 		l_mapEditorState.addCountry(102, 1);
 		l_mapEditorState.addNeighbor(101, 102);
+		l_gameContext.getCountries().get(101).getNeighbors().size();
 		assert(l_gameContext.getCountries().get(101).getNeighbors().size()==1);
-		assert(l_gameContext.getCountries().get(102).getNeighbors().size()==1);
-		l_mapEditorState.removeNeighbor(102,101);
+		l_mapEditorState.removeNeighbor(101,102);
+		l_gameContext.getCountries().get(101).getNeighbors().size();
 		assert(l_gameContext.getCountries().get(101).getNeighbors().size()==0);
-		assert(l_gameContext.getCountries().get(102).getNeighbors().size()==0);
 	}
 	
 	@Test
