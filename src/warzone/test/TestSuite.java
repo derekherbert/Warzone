@@ -9,7 +9,7 @@ import org.junit.runners.Suite;
 	warzone.model.ModelTestSuite.class,
 	warzone.service.ServiceTestSuite.class,
 	warzone.state.StateTestSuite.class,
-//	warzone.view.ViewTestSuite.class
+	warzone.view.ViewTestSuite.class
 	})
 public class TestSuite {
 

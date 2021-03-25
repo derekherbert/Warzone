@@ -8,18 +8,15 @@ import org.junit.runners.Suite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-//	ActionTest.class,
-	AdvanceOrderTest.class,
-	BlockadeOrderTest.class,
-//	ContinentTest.class,
-//	CountryTest.class,
-//	DeployOrderTest.class,
-//	GameContextTest.class,
-//	ObservableTest.class,
-//	PlayerTest.class,
-//	RouterTest.class,
-	WarzonePropertiesTest.class
-	})
+		AdvanceOrderTest.class,
+		//AirliftOrder.class,
+		BlockadeOrderTest.class,
+		BombOrderTest.class,
+		CountryTest.class,
+		DeployOrderTest.class,
+		NegotiateOrderTest.class,
+		WarzonePropertiesTest.class
+})
 public class ModelTestSuite {
 
 }

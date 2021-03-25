@@ -8,9 +8,7 @@ import org.junit.runners.Suite;
  */
 //@RunWith(Suite.class)
 @Suite.SuiteClasses({
-	GenericViewTest.class,
-	HelpViewTest.class,
-	MapViewTest.class
+	GenericViewTest.class
 	})
 public class ViewTestSuite {
 

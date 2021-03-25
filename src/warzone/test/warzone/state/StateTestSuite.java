@@ -8,12 +8,13 @@ import org.junit.runners.Suite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-	IssueOrderTest.class,
-	MapEditorTest.class,
-	OrderExecutionTest.class,
-	ReinforcementTest.class,
-	StartupTest.class
-	})
+		GamePlayTest.class,
+		IssueOrderTest.class,
+		MapEditorTest.class,
+		OrderExecutionTest.class,
+		ReinforcementTest.class,
+		StartupTest.class
+})
 public class StateTestSuite {
 
 }
