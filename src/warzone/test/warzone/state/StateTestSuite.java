@@ -11,7 +11,6 @@ import org.junit.runners.Suite;
 		GamePlayTest.class,
 		IssueOrderTest.class,
 		MapEditorTest.class,
-		OrderExecutionTest.class,
 		ReinforcementTest.class,
 		StartupTest.class
 })
