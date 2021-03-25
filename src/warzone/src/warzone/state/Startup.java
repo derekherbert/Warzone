@@ -42,6 +42,8 @@ public class Startup extends GamePlay {
 		else {
 			GenericView.printWarning("It is no ready to play, please check prerequists.");
 		}
+		
+		super.next();
 	}
 
 	/**

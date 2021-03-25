@@ -53,6 +53,7 @@ public class MapEditor extends Phase {
 	 */
 	public void next() {
 		d_gameEngine.setPhase(new Startup(d_gameEngine));
+		super.next();
 	}
 	
 	/**

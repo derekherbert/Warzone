@@ -28,6 +28,7 @@ public class Reinforcement extends GamePlay {
 	 */
 	public void next() {
 		d_gameEngine.setPhase(new IssueOrder(d_gameEngine));
+		super.next();
 	}
 
 	/**
