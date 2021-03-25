@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import warzone.model.GameContext;
 import warzone.model.GamePhase;
+import warzone.model.Router;
 import warzone.service.GameEngine;
 
 /** 
@@ -14,6 +15,7 @@ public class ReinforcementTest {
 	public void inputNextCommand() {
 		GameContext l_gameContext = GameContext.getGameContext();
 		GameEngine l_gameEngine = GameEngine.getGameEngine(l_gameContext);
+		l_gameContext.setCurrentRouter(new Router(null, null, null));
 		Reinforcement l_reinforcementState = new Reinforcement(l_gameEngine);
 		l_gameEngine.setPhase(l_reinforcementState);
 		l_reinforcementState.next();
