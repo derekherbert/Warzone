@@ -20,6 +20,6 @@ import org.junit.runners.Suite;
 //	RouterTest.class,
 	WarzonePropertiesTest.class
 	})
-public class TestSuite {
+public class ModelTestSuite {
 
 }
