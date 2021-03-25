@@ -26,6 +26,9 @@ public class LogService implements Observer{
 	private String d_fileName ;
 	
 	
+	/**
+	 * construstor of the log service
+	 */
 	public LogService() {
 		d_fileName = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date()) + ".log";
 	}
