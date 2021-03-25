@@ -70,6 +70,7 @@ public class MapEditorTest {
 	public void inputNextCommand() {
 		GameContext l_gameContext = GameContext.getGameContext();
 		GameEngine l_gameEngine = GameEngine.getGameEngine(l_gameContext);
+		l_gameContext.setCurrentRouter(new Router(null, null, null));
 		MapEditor l_mapEditorState = new MapEditor(l_gameEngine);
 		l_gameEngine.setPhase(l_mapEditorState);
 		l_mapEditorState.next();
