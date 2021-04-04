@@ -34,6 +34,7 @@ public class GamePlayTest {
 		
 		d_gameContext = GameContext.getGameContext();
 		d_gameEngine = GameEngine.getGameEngine(d_gameContext);
+		d_gameEngine.setPhase(new Startup(d_gameEngine));
 	}
 	
 	/**
