@@ -34,7 +34,7 @@ public class GamePlayTest {
 		
 		d_gameContext = GameContext.getGameContext();
 		d_gameEngine = GameEngine.getGameEngine(d_gameContext);
-		d_gameEngine.setPhase(new Startup(d_gameEngine));
+		
 	}
 	
 	/**
@@ -69,6 +69,8 @@ public class GamePlayTest {
 		
 		//Create an advance order -> p1's country1 attacks p2's country2
 		p1.getOrders().add(p1.createAdvanceOrder(new String[] {"advance", "country1", "country2", "3"}));
+		
+		d_gameEngine.setPhase(new OrderExecution(d_gameEngine));
 		
 		//Assert that the game has not yet ended (the order has not executed yet)
 		assertTrue(d_gameEngine.isGameEnded() == false);
