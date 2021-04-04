@@ -249,10 +249,13 @@ public class GameEngine {
 			}
 		});
 		List<Player> l_finishPlayerlist = new ArrayList<>();
-		GenericView.println("-------------------- Start to issue orders");		
+		
+
 		if(l_playersList.size() > 0) {
+			GenericView.println(String.format("-------------------- Start to issue orders"));
 			do{
 				l_finishPlayerlist.clear();
+				
 				for (Player l_player : l_playersList) {
 					if (l_player.getIsAlive() && !l_player.getHasFinisedIssueOrder() ) {
 						GenericView.println("---------- Start to issue orders for player [" + l_player.getName() + "]");
@@ -262,10 +265,11 @@ public class GameEngine {
 					if (l_player.getHasFinisedIssueOrder())
 						l_finishPlayerlist.add(l_player);
 				}
-			}while (l_finishPlayerlist.size() != l_playersList.size());
+			}while (l_finishPlayerlist.size() != l_playersList.size() );
+			GenericView.println("-------------------- Finish issuing orders for this turn");
 		}
 		
-		GenericView.println("-------------------- Finish issuing orders for this turn");
+		
 		
 		//call the order execution
 		this.setPhase(new OrderExecution(this));
