@@ -2,8 +2,11 @@ package warzone.state;
 
 import org.junit.Test;
 
+import warzone.model.Continent;
+import warzone.model.Country;
 import warzone.model.GameContext;
 import warzone.model.GamePhase;
+import warzone.model.Player;
 import warzone.model.Router;
 import warzone.service.GameEngine;
 
@@ -20,6 +23,10 @@ public class ReinforcementTest {
 		GameEngine l_gameEngine = GameEngine.getGameEngine(l_gameContext);
 		l_gameContext.setCurrentRouter(new Router(null, null, null));
 		Reinforcement l_reinforcementState = new Reinforcement(l_gameEngine);
+		Player l_player = new Player("P1");
+		Continent l_continent = new Continent(1, "Continent-1");
+		Country l_country = new Country(1, "country-1");		
+		l_country.setContinent(l_continent);
 		l_gameEngine.setPhase(l_reinforcementState);
 		l_reinforcementState.next();
 		assert(l_gameEngine.getPhase().getGamePhase()==GamePhase.IssueOrder);
