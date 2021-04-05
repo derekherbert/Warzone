@@ -27,6 +27,7 @@ public class ReinforcementTest {
 		Continent l_continent = new Continent(1, "Continent-1");
 		Country l_country = new Country(1, "country-1");		
 		l_country.setContinent(l_continent);
+		l_country.setOwner(l_player);
 		l_gameEngine.setPhase(l_reinforcementState);
 		l_reinforcementState.next();
 		assert(l_gameEngine.getPhase().getGamePhase()==GamePhase.IssueOrder);
