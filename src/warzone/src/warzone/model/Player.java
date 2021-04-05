@@ -606,7 +606,7 @@ public class Player {
 			//todo: will migrate this to HumanStrategy??
 			GenericView.println(String.format("*****  Please input command for player [%s] , there is [%s] army available for deployment", this.getName(), l_armyToIssue ));
 
-			if(this.d_playerStrategyType != PlayerStrategyType.HUMAN ) {
+			if(this.d_playerStrategyType == PlayerStrategyType.HUMAN ) {
 				//1. issue order from interaction
 				l_command = d_keyboard.nextLine().trim();				
 
