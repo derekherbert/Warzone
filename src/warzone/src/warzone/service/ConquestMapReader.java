@@ -290,7 +290,8 @@ public class ConquestMapReader {
 			l_map.append("\n[Territories]");
 			for (Entry<Integer, Country> l_entry : d_gameContext.getCountries().entrySet()) {
 				Country l_country = l_entry.getValue();
-				l_map.append("\n" + l_country.getCountryName() + "," + l_country.getXPosition() + "," + l_country.getYPosition());
+				l_map.append("\n" + l_country.getCountryName() + "," + l_country.getXPosition() + "," + l_country.getYPosition()
+				+ "," + l_country.getContinent().getContinentName());
 				for (Entry<Integer, Country> l_neighbors : l_country.getNeighbors().entrySet()) {
 					l_map.append("," + l_neighbors.getValue().getCountryName());
 				}

@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
+
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
@@ -72,7 +74,6 @@ public class ConquestMapReaderTest {
     	assertEquals(d_gameContext.getCountries().get(3).getContinent().getContinentID(), 2);
     	assertEquals(d_gameContext.getCountries().get(4).getContinent().getContinentID(), 2);
     	assertEquals(d_gameContext.getCountries().get(5).getContinent().getContinentID(), 2);
-    	MapView.printMap(d_gameContext);
     }
     
     /**
@@ -81,5 +82,47 @@ public class ConquestMapReaderTest {
     @Test
     public void testLoadConquestMap2() {
     	assertFalse(d_conquestMapReader.loadConquestMap("no-such-conquest-map.map"));
+    }
+    
+    /**
+     * test save map function
+     * @throws IOException io exception 
+     */
+    @Test
+    public void testSaveConquestMap2() throws IOException {
+    	assertTrue(d_conquestMapReader.loadConquestMap("starwar.map"));
+    	int l_continentNum = d_gameContext.getContinents().size();
+    	int l_countryNum = d_gameContext.getCountries().size();
+    	
+    	assertTrue(d_conquestMapReader.saveConquestMap("starwar-test.map"));
+    	assertEquals(d_gameContext.getContinents().size(), l_continentNum);
+    	assertEquals(d_gameContext.getCountries().size(), l_countryNum);
+    }
+    
+    /**
+     * test save map function in wrong file name "This-is-not-an-valid-file-name.map"
+     * @throws IOException io exception 
+     */
+    @Test
+    public void testSaveConquestMapInvalidFileName1() throws IOException {
+    	assertFalse(d_conquestMapReader.saveConquestMap("This-is-not-an-valid-file-name.map"));
+    }
+    
+    /**
+     * test save map function null file name
+     * @throws IOException io exception 
+     */
+    @Test
+    public void testSaveConquestMapInvalidFileName2() throws IOException {
+    	assertFalse(d_conquestMapReader.saveConquestMap(null));
+    }
+    
+    /**
+     * test save map function with empty file name
+     * @throws IOException io exception 
+     */
+    @Test
+    public void testSaveConquestMapInvalidFileName3() throws IOException {
+    	assertFalse(d_conquestMapReader.saveConquestMap(""));
     }
 }
