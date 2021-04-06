@@ -17,6 +17,10 @@ public enum LoadMapPhase {
 	 */
 	COUNTRIES,
 	/**
+	 * Load Map Phase of loading TERRITORIES
+	 */
+	TERRITORIES,
+	/**
 	 * Load Map Phase of loading BORDERS
 	 */
 	BORDERS,
