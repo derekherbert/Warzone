@@ -107,7 +107,7 @@ public class ConquestMapReader {
 					l_line = l_scanner.nextLine();
 				}
 				// continents part
-				else if(l_line.equals("Territories")) {
+				else if(l_line.equals("[Territories]")) {
 					l_loadMapPhase = LoadMapPhase.TERRITORIES;
 					l_line = l_scanner.nextLine();
 				}
@@ -168,18 +168,35 @@ public class ConquestMapReader {
 					
 					d_gameContext.getCountries().put(l_id, l_country);
 					l_countryMap.put(l_country.getCountryName(), l_id);
-					d_gameContext.getContinents().get(Integer.parseInt(l_splitArray[2])).getCountries().put(l_id, l_country);
+					d_gameContext.getContinents().get(l_continentMap.get(l_splitArray[3])).getCountries().put(l_id, l_country);
 					l_borderList.add(l_splitArray);
+					l_id++;
 				}
 			}
 			
+			// put borders into the map
+			int l_key = 1;
 			for (String[] l_borders: l_borderList) {
-				int l_key = 1;
 				l_country = d_gameContext.getCountries().get(l_key);
 				for (int i = 4; i < l_borders.length; i++) {
 					l_country.getNeighbors().put(l_countryMap.get(l_borders[i]), d_gameContext.getCountries().get(l_countryMap.get(l_borders[i])));
 				}
+				l_key++;
 			}
+			
+//			for (Entry<String, Integer> entry: l_countryMap.entrySet()) {
+//				System.out.print(entry.getKey() + "   ");
+//				System.out.println(entry.getValue());
+//			}
+//			
+//			for (Entry<Integer, Country> entry: d_gameContext.getCountries().entrySet()) {
+//				System.out.print(entry.getKey() + "   ");
+//				System.out.println(entry.getValue().getCountryName());
+//				for(Entry<Integer, Country> neighbors: entry.getValue().getNeighbors().entrySet()) {
+//					System.out.println("             " + neighbors.getKey() + "     " + neighbors.getValue().getCountryName());
+//				}
+//			}
+			
 			//close reading the file
 			l_scanner.close();
 			

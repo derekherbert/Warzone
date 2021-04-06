@@ -1,4 +1,4 @@
-package adapter;
+package warzone.adapter;
 
 import java.io.IOException;
 
