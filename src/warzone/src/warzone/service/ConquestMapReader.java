@@ -2,7 +2,10 @@ package warzone.service;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Map.Entry;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Scanner;
 
@@ -81,6 +84,9 @@ public class ConquestMapReader {
 			int l_continentCtr = 1;
 			int l_id = 1;
 			Country l_country;
+			List<String[]> l_borderList = new LinkedList<String[]>();
+			Map<String, Integer> l_continentMap = new HashMap<String, Integer>();
+			Map<String, Integer> l_countryMap = new HashMap<String, Integer>();
 
 			LoadMapPhase l_loadMapPhase = null;
 			
@@ -89,7 +95,13 @@ public class ConquestMapReader {
 
 				// determine which part it is
 				// file part
-				if(l_line.equals("[Continents]")) {
+				if(l_line.equals("[Map]")) {
+
+					l_loadMapPhase = LoadMapPhase.FILES;
+					l_line = l_scanner.nextLine();
+				}
+				// continents part
+				else if(l_line.equals("[Continents]")) {
 
 					l_loadMapPhase = LoadMapPhase.CONTINENTS;
 					l_line = l_scanner.nextLine();
@@ -110,17 +122,8 @@ public class ConquestMapReader {
 					 *	crd europe.cards
 					 */
 					
-					if(l_line.startsWith("pic")) {
-						
-						d_gameContext.setMapFilePic(l_line.substring(4));
-					}
-					else if(l_line.startsWith("map")) {
-						
-						d_gameContext.setMapFileMap(l_line.substring(4));
-					}
-					else if(l_line.startsWith("crd")) {
-						
-						d_gameContext.setMapFileCards(l_line.substring(4));
+					if(l_line.startsWith("image=")) {						
+						d_gameContext.setMapFilePic(l_line.substring(6));
 					}
 				}
 				//read continent part
@@ -139,7 +142,7 @@ public class ConquestMapReader {
 										
 					d_gameContext.getContinents().put(l_continentCtr,
 							new Continent(l_continentCtr, l_splitArray[0], Integer.parseInt(l_splitArray[1]), null));
-					
+					l_continentMap.put(l_splitArray[0], l_continentCtr);
 					l_continentCtr++;
 				}
 				//read territories part
@@ -153,24 +156,28 @@ public class ConquestMapReader {
 					 */
 					
 					l_splitArray = l_line.split(",");
-					Continent l_continent = null;
-					for (Entry<Integer, Continent> l_entry : d_gameContext.getContinents().entrySet()) {
-						if (l_entry.getValue().getContinentName().equals(l_splitArray[3])) {
-							l_continent = l_entry.getValue();
-						}
-					}
 					
 					// no such continent
-					if (l_continent == null) {
+					if (!l_continentMap.containsKey(l_splitArray[3])) {
 						d_logEntryBuffer.logAction("ERROR", "No such continent: " + l_splitArray[3]);
 						return false;
 					}
 					
 					l_country = new Country(l_id, l_splitArray[0], Integer.parseInt(l_splitArray[1]),
-							Integer.parseInt(l_splitArray[2]), l_continent);
+							Integer.parseInt(l_splitArray[2]), d_gameContext.getContinents().get(l_continentMap.get(l_splitArray[3])));
 					
 					d_gameContext.getCountries().put(l_id, l_country);
+					l_countryMap.put(l_country.getCountryName(), l_id);
 					d_gameContext.getContinents().get(Integer.parseInt(l_splitArray[2])).getCountries().put(l_id, l_country);
+					l_borderList.add(l_splitArray);
+				}
+			}
+			
+			for (String[] l_borders: l_borderList) {
+				int l_key = 1;
+				l_country = d_gameContext.getCountries().get(l_key);
+				for (int i = 4; i < l_borders.length; i++) {
+					l_country.getNeighbors().put(l_countryMap.get(l_borders[i]), d_gameContext.getCountries().get(l_countryMap.get(l_borders[i])));
 				}
 			}
 			//close reading the file
@@ -182,7 +189,7 @@ public class ConquestMapReader {
 			d_logEntryBuffer.logAction("ERROR", "An error occured reading the map file: " + p_fileName);
 			return false;
 		}
-		return false;
+		return true;
 	}
 	
 	/**
@@ -193,6 +200,6 @@ public class ConquestMapReader {
 	 */
 	public boolean saveConquestMap(String p_fileName) throws IOException {
 
-		return false;
+		return true;
 	}
 }
