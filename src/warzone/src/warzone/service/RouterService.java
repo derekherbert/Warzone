@@ -134,6 +134,12 @@ public class RouterService {
 				case "play":
 					d_gamePhase.play();
 					break;
+				case "savegame":
+					d_gamePhase.saveGame(p_router.getActionParameters());
+					break;
+				case "loadgame":
+					d_gamePhase.loadGame(p_router.getActionParameters());
+					break;
 			}
 			break;
 		case STARTUP://actions in startup phase
@@ -149,7 +155,13 @@ public class RouterService {
 					break;
 				case "assigncountries":
 					d_gamePhase.assigncountries();
-					break;						
+					break;
+				case "savegame":
+					d_gamePhase.saveGame(p_router.getActionParameters());
+					break;
+				case "loadgame":
+					d_gamePhase.loadGame(p_router.getActionParameters());
+					break;
 			}
 			break;
 		case ERROR://error
@@ -349,6 +361,28 @@ public class RouterService {
 				}
 				if(p_commandArray.length == 2 ) {
 					l_router =  new Router(ControllerName.STARTUP, "loadmap", p_commandArray[1], l_command);
+				}
+				else {
+					return createErrorRouter(ErrorType.TOO_MUCH_PARAMETERS.toString());
+				}
+				break;
+			case "savegame":
+				if (p_commandArray.length == 1) {
+					return createErrorRouter(ErrorType.MISSING_PARAMETER.toString());
+				}
+				if(p_commandArray.length == 2 ) {
+					l_router =  new Router(ControllerName.GAMEPLAY, "savegame", p_commandArray[1], l_command);
+				}
+				else {
+					return createErrorRouter(ErrorType.TOO_MUCH_PARAMETERS.toString());
+				}
+				break;
+			case "loadgame":
+				if (p_commandArray.length == 1) {
+					return createErrorRouter(ErrorType.MISSING_PARAMETER.toString());
+				}
+				if(p_commandArray.length == 2 ) {
+					l_router =  new Router(ControllerName.GAMEPLAY, "loadgame", p_commandArray[1], l_command);
 				}
 				else {
 					return createErrorRouter(ErrorType.TOO_MUCH_PARAMETERS.toString());

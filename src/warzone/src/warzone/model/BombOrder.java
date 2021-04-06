@@ -2,12 +2,14 @@ package warzone.model;
 
 import warzone.view.GenericView;
 
+import java.io.Serializable;
+
 /**
  * This class represents the bomb card in the game.
  * @author zexin
  *
  */
-public class BombOrder extends Order{
+public class BombOrder extends Order implements Serializable {
 	
 	/**
 	 * target Country

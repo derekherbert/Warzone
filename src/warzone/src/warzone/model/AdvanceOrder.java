@@ -2,10 +2,12 @@ package warzone.model;
 
 import warzone.view.GenericView;
 
+import java.io.Serializable;
+
 /**
  * This class represents one advance order of the gameplay
  */
-public class AdvanceOrder extends Order{
+public class AdvanceOrder extends Order implements Serializable {
 
 	/**
 	 * advance from country

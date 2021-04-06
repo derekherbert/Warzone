@@ -2,10 +2,12 @@ package warzone.model;
 
 import warzone.view.GenericView;
 
+import java.io.Serializable;
+
 /**
  * This class represents one deploy order of the gameplay
  */
-public class DeployOrder extends Order {
+public class DeployOrder extends Order implements Serializable {
 
 	/**
 	 * country to deploy army

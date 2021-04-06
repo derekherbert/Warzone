@@ -2,10 +2,12 @@ package warzone.model;
 
 import warzone.view.GenericView;
 
+import java.io.Serializable;
+
 /**
  * This class represents one airlift order of the gameplay
  */
-public class AirliftOrder extends Order{
+public class AirliftOrder extends Order implements Serializable {
 
     /**
      * airlift from country

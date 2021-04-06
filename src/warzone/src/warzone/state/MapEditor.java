@@ -446,8 +446,18 @@ public class MapEditor extends Phase {
 	 */
 	public void executeOrder(){
 		 printInvalidCommandMessage();
-	 }	
-	
-	
+	 }
+
+	/**
+	 * preform the action of save game context
+	 * @param p_fileName file name
+	 */
+	public void saveGame(String p_fileName){ printInvalidCommandMessage(); }
+
+	/**
+	 * preform the action of load game context
+	 * @param p_fileName file name
+	 */
+	public void loadGame(String p_fileName){ printInvalidCommandMessage(); }
 
 }
