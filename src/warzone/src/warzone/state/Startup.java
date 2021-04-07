@@ -121,7 +121,7 @@ public class Startup extends GamePlay {
 	/**
 	 * execute issue_order or execute_order
 	 */
-	public void play() {
+	public void play(String p_mode) {
 		printInvalidCommandMessage();
 	}
 
