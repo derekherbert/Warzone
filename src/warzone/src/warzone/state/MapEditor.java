@@ -1,6 +1,6 @@
 package warzone.state;
 import warzone.service.*;
-
+import warzone.adapter.MapReaderAdapter;
 import warzone.model.*;
 import warzone.view.*;
 
@@ -17,6 +17,10 @@ public class MapEditor extends Phase {
 	 * Map Service
 	 */
 	private MapService d_mapService;
+	/**
+	 * Conquest Map Reader
+	 */
+	private DominationMapReader d_dominationMapReader;
 	/**
 	 * Continent Service
 	 */
@@ -316,15 +320,28 @@ public class MapEditor extends Phase {
 	/**
 	 * Performs the action for the user command: savemap filename
 	 *
-	 * Save a map to a text file exactly as edited (using the "domination" game map format).
+	 * Save a map to a text file exactly as edited.
 	 * @param p_fileName the filename
 	 * @return true if successfully save the map, otherwise return false
 	 * @throws IOException the exception of saving files
 	 */
-	public boolean saveMap(String p_fileName) throws IOException {
+	public boolean saveMap(String p_parameters) throws IOException {
 
+		//parse [p_parameters]
+		if(p_parameters == null){			
+			d_logEntryBuffer.logAction("ERROR", "Missing valid parameters.");
+			return false;
+		}
+
+		String l_mapType = "", l_fileName = "";
+		String[] l_parameters = p_parameters.split(" ");
+		if(l_parameters.length == 2 ) {
+			l_mapType = l_parameters[0];
+			l_fileName = l_parameters[1];
+		}
+		
 		// validate if the filename is legal
-		if(p_fileName == null || p_fileName.trim().isEmpty() || p_fileName.trim().length() > 20 ) {
+		if(l_fileName == null || l_fileName.trim().isEmpty() || l_fileName.trim().length() > 20 ) {
 			d_logEntryBuffer.logAction("ERROR", "InValid File Name, please type a valid file name, with length less than 20.");
 			return false;
 		}
@@ -335,10 +352,22 @@ public class MapEditor extends Phase {
 		}
 
 		// call mapService to save the map and return the path
-		p_fileName = p_fileName.trim();
+		l_fileName = l_fileName.trim();
+		
+		if (l_mapType.equals("-domination")) {
+			d_dominationMapReader = new DominationMapReader(d_gameContext);
+		}
+		else if (l_mapType.equals("-conquest")){
+			d_dominationMapReader = new MapReaderAdapter(d_gameContext, new ConquestMapReader(d_gameContext));
+		}
+		else {
+			d_logEntryBuffer.logAction("ERROR", "InValid map type: " + l_mapType);
+			return false;
+		}
+		
 		try{
-			if(d_mapService.saveMap(p_fileName)) {
-				d_logEntryBuffer.logAction("SUCCESS", "Map was saved in :" + this.d_gameContext.getMapfolder() + p_fileName );
+			if(d_dominationMapReader.saveMap(l_fileName)) {
+				d_logEntryBuffer.logAction("SUCCESS", "Map was saved in :" + this.d_gameContext.getMapfolder() + l_fileName );
 				return true;
 			}
 			else {

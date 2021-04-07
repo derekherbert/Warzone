@@ -256,17 +256,6 @@ public class DominationMapReader {
 	 */
 	public boolean saveMap(String p_fileName) throws IOException {
 
-		// validate if the filename is legal
-		if(p_fileName == null || p_fileName.trim().isEmpty() || p_fileName.trim().length() > 20 ) {
-			d_logEntryBuffer.logAction("ERROR", "InValid File Name, please type a valid file name, with length less than 20.");
-			return false;
-		}
-		
-		if(! d_mapService.validateMap() ) {
-			d_logEntryBuffer.logAction("ERROR", "InValid map, please check the map.");
-			return false;
-		}
-
 		// call mapService to save the map and return the path
 		p_fileName = p_fileName.trim();
 		try{
