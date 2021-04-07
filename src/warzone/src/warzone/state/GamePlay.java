@@ -136,16 +136,18 @@ public abstract class GamePlay extends Phase {
 	/**
 	 * save game context
 	 * @param p_fileName file name
+	 * @return true if success
 	 */
-	public void saveGame(String p_fileName){
-		d_startUpService.saveGame(p_fileName);
+	public boolean saveGame(String p_fileName){
+		return d_startUpService.saveGame(p_fileName);
 	 }
 
 	/**
 	 * lode game context
 	 * @param p_fileName file name
+	 * @return true if success
 	 */
-	public void loadGame(String p_fileName){
-		d_startUpService.loadGame(p_fileName);
+	public boolean loadGame(String p_fileName){
+		return d_startUpService.loadGame(p_fileName);
 	 }
 }

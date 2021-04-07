@@ -205,12 +205,14 @@ public abstract class Phase implements Serializable {
 	/**
 	 * save game context
 	 * @param p_fileName file name
+	 * @return true if success
 	 */
-	abstract public void saveGame(String p_fileName);
+	abstract public boolean saveGame(String p_fileName);
 
 	/**
 	 * load game context
 	 * @param p_fileName file name
+	 * @return true if success
 	 */
-	abstract public void loadGame(String p_fileName);
+	abstract public boolean loadGame(String p_fileName);
 }

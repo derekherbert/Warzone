@@ -354,17 +354,20 @@ public class StartupService implements Serializable {
 	 * save game context
 	 * @param p_fileName file name
 	 */
-	public void saveGame(String p_fileName) {
+	public boolean saveGame(String p_fileName) {
 		String l_path = this.d_gameContext.getMapfolder();
 		try {
 			ObjectOutputStream l_objectOutputStream = new ObjectOutputStream(new FileOutputStream(l_path + p_fileName));
+			//save the gameContext and game phase
 			l_objectOutputStream.writeObject(d_gameContext);
 			l_objectOutputStream.writeObject(GameEngine.getGameEngine(d_gameContext).getPhase());
 			l_objectOutputStream.close();
 			GenericView.printSuccess("Success to save the game to " + p_fileName);
+			return true;
 		}catch (IOException e) {
 			GenericView.printError("Failed to save the game to " + p_fileName);
 			e.printStackTrace();
+			return false;
 		}
 	}
 
@@ -372,25 +375,35 @@ public class StartupService implements Serializable {
 	 * load game context
 	 * @param p_fileName file name
 	 */
-	public void loadGame(String p_fileName){
+	public boolean loadGame(String p_fileName){
 		String l_path = this.d_gameContext.getMapfolder();
-		System.out.println("before load game country size " + d_gameContext.getCountries().size());
 		try {
+			//check if file exist
+			File l_file = new File(l_path + p_fileName);
+			if(!l_file.exists() || l_file.isDirectory()) {
+				GenericView.printError( String.format("File [%s] does not exist, please check.", p_fileName) );
+				return false;
+			}
+			//read from file
 			ObjectInputStream l_objectInputStream = new ObjectInputStream(new FileInputStream(l_path + p_fileName));
 			try {
+				//read the gameContext and game phase value
 				GameContext l_gameContext = (GameContext)l_objectInputStream.readObject();
 				Phase l_gamePhase = (Phase)l_objectInputStream.readObject();
+				//refresh the gameContext and game Phase
 				d_gameEngine.loadGameContext(l_gameContext);
 				GameEngine.getGameEngine(GameContext.getGameContext()).setPhase((Phase)l_gamePhase);
-				System.out.println("after load game country size " + GameContext.getGameContext().getCountries().size());
-				GenericView.printError("Success to load the game from " + p_fileName);
+				GenericView.printSuccess("Success to load the game from " + p_fileName);
+				return true;
 			} catch (ClassNotFoundException e) {
 				GenericView.printError("Failed to load the game from " + p_fileName);
 				e.printStackTrace();
+				return false;
 			}
 		} catch (IOException e) {
 			GenericView.printError("Failed to load the game from " + p_fileName);
 			e.printStackTrace();
+			return false;
 		}
 	}
 }
