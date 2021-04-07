@@ -8,6 +8,7 @@ import warzone.state.Phase;
 import warzone.view.GenericView;
 import warzone.view.HelpView;
 import warzone.view.MapView;
+import warzone.view.TournamentResultsView;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -46,6 +47,17 @@ public class GameEngine implements Serializable {
 	 * game context
 	 */
 	private GameContext d_gameContext;
+	
+	/**
+	 * tournament context
+	 */
+	private TournamentContext d_tournamentContext;
+	
+	/**
+	 * tournament mode boolean
+	 */
+	private boolean d_isInTournamentMode;
+	
 	/**
 	 * game engine
 	 */
@@ -114,7 +126,17 @@ public class GameEngine implements Serializable {
 		p_phase.refresh(this);
 		System.out.println("new phase: " + p_phase.getClass().getSimpleName());
 	}
-
+	
+	public boolean getIsInTournamentMode() {
+		
+		return d_isInTournamentMode;
+	}
+	
+	public void setIsInTournamentMode(boolean p_isInTournamentMode) {
+		
+		this.d_isInTournamentMode = p_isInTournamentMode;
+	}
+	
 	/**
 	 * This method will ask the user: 
 	 * 1. What part of the game they want to start with (edit map or play game). 
@@ -127,6 +149,8 @@ public class GameEngine implements Serializable {
 	public void start() {
 		RouterService l_routerService =  RouterService.getRouterService(this);
 		CommandService l_commandService =  CommandService.getCommandService(this );		
+		
+		d_tournamentContext = TournamentContext.getTournamentContext();
 		
 		//1 welcome
 		HelpView.printWelcome();
@@ -175,6 +199,63 @@ public class GameEngine implements Serializable {
 		return true;		
 	}
 	
+	private int d_mapIndex;
+	private int d_gameIndex;
+	
+	/**
+	 * Loop for tournament games
+	 * 
+	 * @return true if the game can end.
+	 */
+	public boolean playTournament() {
+		
+		int l_turnCounter; 
+		
+		d_tournamentContext.prepareResultsTable();
+		
+		for(d_mapIndex = 0; d_mapIndex < d_tournamentContext.getMapFiles().size(); d_mapIndex++) {
+			
+			for(d_gameIndex = 0; d_gameIndex < d_tournamentContext.getNumberOfGames(); d_gameIndex++) {
+			
+				l_turnCounter = 0;
+				
+				//Prepare the current game context
+				prepareGameContextForTournamentMatch(d_tournamentContext.getMapFiles().get(d_mapIndex));
+				
+				while(l_turnCounter < d_tournamentContext.getMaxTurns() && !isGameEnded()) {
+						
+					startTurn();
+					l_turnCounter++;
+				}
+				if(l_turnCounter >= d_tournamentContext.getMaxTurns()) {
+					
+					d_tournamentContext.getResults()[d_mapIndex][d_gameIndex] = "Draw";
+				}
+			}
+		}
+		
+		TournamentResultsView.printTournamentResults(d_tournamentContext);
+		
+		return true;		
+	}
+	
+	private void prepareGameContextForTournamentMatch(String p_mapFileName) {
+		
+		d_gameContext.reset();
+		StartupService startupService = new StartupService(d_gameContext);
+		
+		startupService.loadMap(p_mapFileName);
+		
+		int playerNameIndex = 1;
+		for(PlayerStrategyType playerStrategyType : d_tournamentContext.getPlayerStrategies()) {
+			
+			startupService.addPlayer(new Player(playerStrategyType.toString() + playerNameIndex, playerStrategyType));
+			playerNameIndex++;
+		}
+		
+		startupService.assignCountries();
+	}
+	
 	
 	/**
 	 * This method represent one turn for each player. It contains three steps: 
@@ -214,10 +295,23 @@ public class GameEngine implements Serializable {
 		}
 		if(l_alivePlayers <= 1){
 			GenericView.println("-------------------- Game End");
-			if(l_alivePlayers == 1)
+			if(l_alivePlayers == 1) {
+				
 				GenericView.printSuccess("player " + l_protentialWinner.getName() + " wins the game.");
-			else
+				
+				if(d_gameContext.getIsTournamentMode() == true) {
+					
+					d_tournamentContext.getResults()[d_mapIndex][d_gameIndex] = l_protentialWinner.getName();
+				}
+			}
+			else {
 				GenericView.printSuccess("All the player died.");
+				
+				if(d_gameContext.getIsTournamentMode() == true) {
+
+					d_tournamentContext.getResults()[d_mapIndex][d_gameIndex] = "Draw";
+				}
+			}
 			GenericView.println("-------------------- Reboot the game");
 			this.reboot();
 			return true;
