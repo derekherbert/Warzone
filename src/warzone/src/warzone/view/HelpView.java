@@ -49,7 +49,7 @@ public class HelpView {
 	    	case "MAPEDITOR":
 	    		System.out.println(""
 	    				+ " -  editmap filename\n"
-	    				+ " -  savemap filename\n"
+	    				+ " -  savemap -conquest filename -domination filename\n"
 	    				+ " -  showmap\n"
 	    				+ " -  validatemap\n"	    				
 	    				+ " -  editcontinent -add continentID continentvalue -remove continentID\n"

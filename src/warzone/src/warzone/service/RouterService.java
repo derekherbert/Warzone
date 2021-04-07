@@ -325,7 +325,7 @@ public class RouterService {
 					return createErrorRouter(ErrorType.MISSING_PARAMETER.toString(), l_command);
 				}
 				else if(p_commandArray.length == 3 ) {
-					l_router =  new Router(ControllerName.MAP, "savemap", p_commandArray[1], l_command);
+					l_router =  new Router(ControllerName.MAP, "savemap", p_commandArray[1] + " " + p_commandArray[2], l_command);
 				}
 				else {
 					return createErrorRouter(ErrorType.TOO_MUCH_PARAMETERS.toString(), l_command);
@@ -336,7 +336,7 @@ public class RouterService {
 					return createErrorRouter(ErrorType.MISSING_PARAMETER.toString(), l_command);
 				}
 				if(p_commandArray.length == 2 ) {
-					l_router =  new Router(ControllerName.MAP, "editmap", p_commandArray[1] + " " + p_commandArray[2], l_command);
+					l_router =  new Router(ControllerName.MAP, "editmap", p_commandArray[1], l_command);
 				}
 				else {
 					return createErrorRouter(ErrorType.TOO_MUCH_PARAMETERS.toString());

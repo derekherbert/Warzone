@@ -260,11 +260,9 @@ public class DominationMapReader {
 		p_fileName = p_fileName.trim();
 		try{
 			if(d_mapService.saveMap(p_fileName)) {
-				d_logEntryBuffer.logAction("SUCCESS", "Map was saved in :" + this.d_gameContext.getMapfolder() + p_fileName );
 				return true;
 			}
 			else {
-				d_logEntryBuffer.logAction("ERROR", "Exception occured when saving the map, please valid the file name or contact the Administrator." );
 				return false;
 			}
 		}
