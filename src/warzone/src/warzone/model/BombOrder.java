@@ -30,7 +30,6 @@ public class BombOrder extends Order implements Serializable {
     	d_targetCountry = p_targetCountry;
         d_player=p_player;
 		this.d_orderType = OrderType.BOMB;
-        d_gameContext = GameContext.getGameContext();  
 	}
 
     /**
@@ -74,7 +73,7 @@ public class BombOrder extends Order implements Serializable {
         
 		//check if DIPLOMACY 
 		if( d_targetCountry.getOwner()!= null && this.d_player != null 
-				&& this.d_gameContext.isDiplomacyInCurrentTurn(d_player, d_targetCountry.getOwner())){
+				&& this.getGameContext().isDiplomacyInCurrentTurn(d_player, d_targetCountry.getOwner())){
       			GenericView.printWarning(String.format("The player [%s] and [%s] are in Diplomacy in current turn.", this.d_player.getName(), d_targetCountry.getOwner().getName() ));
       		    return false;
 		}		

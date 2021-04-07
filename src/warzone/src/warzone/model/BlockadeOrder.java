@@ -32,7 +32,6 @@ public class BlockadeOrder extends Order implements Serializable {
     	d_targetCountry = p_targetCountry;
         d_player=p_player;
 		this.d_orderType = OrderType.BLOCKADE;
-		this.d_gameContext = GameContext.getGameContext();
     }
 
     /**

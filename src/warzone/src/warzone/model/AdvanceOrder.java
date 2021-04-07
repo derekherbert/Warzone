@@ -48,7 +48,6 @@ public class AdvanceOrder extends Order implements Serializable {
 		d_toCountry = p_toCountry;
 		d_numberOfArmies = p_numberOfArmies;
 		this.d_orderType = OrderType.ADVANCE;
-		this.d_gameContext = GameContext.getGameContext();  
 	}
 	
 	/**
@@ -233,7 +232,7 @@ public class AdvanceOrder extends Order implements Serializable {
       
 		//check if DIPLOMACY 
 		if( d_toCountry.getOwner()!= null && this.d_player != null 
-				&& this.d_gameContext.isDiplomacyInCurrentTurn(d_player, d_toCountry.getOwner())){
+				&& this.getGameContext().isDiplomacyInCurrentTurn(d_player, d_toCountry.getOwner())){
       			GenericView.printWarning(String.format("The player [%s] and [%s] are in Diplomacy in current turn.", this.d_player.getName(), d_toCountry.getOwner().getName() ));
       		    return false;
 		}		

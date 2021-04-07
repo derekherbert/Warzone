@@ -40,7 +40,6 @@ public class AirliftOrder extends Order implements Serializable {
 		d_toCountry = p_toCountry;
         d_armyNumber = p_armyNumber;
 		this.d_orderType = OrderType.AIRLIFT;
-		this.d_gameContext = GameContext.getGameContext();  
     }
 
     /**

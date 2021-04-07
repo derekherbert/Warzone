@@ -27,7 +27,6 @@ public class NegotiateOrder extends Order implements Serializable {
 		d_targetPlayer = p_targetPlayer;
 		d_player = p_player;
 		this.d_orderType = OrderType.NEGOTIATE;
-		this.d_gameContext = GameContext.getGameContext(); 
 	}
 
 	/**
@@ -58,7 +57,7 @@ public class NegotiateOrder extends Order implements Serializable {
         }
         
 		// add order to engine
-		d_gameContext.addDiplomacyOrderToList(this);
+		getGameContext().addDiplomacyOrderToList(this);
 		
 		//print success information
 		GenericView.printSuccess("Success to execute order:" + toString());

@@ -33,7 +33,6 @@ public class DeployOrder extends Order implements Serializable {
 		d_armyNumber = p_armyNumber;
 		d_player = p_player;
 		this.d_orderType = OrderType.DEPLOY;
-		this.d_gameContext = GameContext.getGameContext(); 
 	}
 
 	/**
