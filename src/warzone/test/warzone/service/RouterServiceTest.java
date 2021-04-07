@@ -230,12 +230,12 @@ public class RouterServiceTest {
 	 */
 	@Test
 	public void testSaveMap() {
-		d_command = "   savemap sdsadsa ";
+		d_command = "   savemap aaa sdsadsa ";
 		d_routerList = d_routerService.parseCommand(d_command);
 		assertEquals(d_routerList.size(), 1);
 		assertEquals(d_routerList.get(0).getControllerName(), ControllerName.MAP);
 		assertEquals(d_routerList.get(0).getActionName(), "savemap");
-		assertEquals(d_routerList.get(0).getActionParameters(), "sdsadsa");
+		assertEquals(d_routerList.get(0).getActionParameters(), "aaa sdsadsa");
 	}
 
 	/**
