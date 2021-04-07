@@ -66,7 +66,8 @@ public class StartupServiceTest {
 		System.out.println("=====================================");
 		
 		d_startupService = new StartupService(d_gameContext);
-		d_startupService.loadMap("europe.map");
+		DominationMapReader l_dominationMapReader = new DominationMapReader(d_gameContext);
+		l_dominationMapReader.loadMap("europe.map");
 		
 		System.out.println("Map File Name: " + d_gameContext.getMapFileName());
 		System.out.println("Map File Pic: " + d_gameContext.getMapFilePic());
@@ -180,8 +181,9 @@ public class StartupServiceTest {
 		GenericView.printDebug("=====================================");
 		
 		//Load map file
+		DominationMapReader l_dominationMapReader = new DominationMapReader(d_gameContext);
 		d_startupService = new StartupService(d_gameContext);
-		d_startupService.loadMap("europe.map");
+		l_dominationMapReader.loadMap("europe.map");
 		
 		Player l_player1 = new Player("player1");
 		l_player1.assignReinforcements();
@@ -203,7 +205,8 @@ public class StartupServiceTest {
 		//Load map file
 		d_startupService = new StartupService(d_gameContext);
 		System.out.println(GameEngine.getGameEngine(d_gameContext).getPhase());
-		d_startupService.loadMap("europe.map");
+		DominationMapReader l_dominationMapReader = new DominationMapReader(d_gameContext);
+		l_dominationMapReader.loadMap("europe.map");
 		
 		Player l_player1 = new Player("player1");
 		
@@ -247,7 +250,8 @@ public class StartupServiceTest {
 		
 		//Load map file
 		d_startupService = new StartupService(d_gameContext);
-		d_startupService.loadMap("europe.map");
+		DominationMapReader l_dominationMapReader = new DominationMapReader(d_gameContext);
+		l_dominationMapReader.loadMap("europe.map");
 		
 		Player l_player1 = new Player("player1");
 		l_player1.assignReinforcements();

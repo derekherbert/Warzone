@@ -49,9 +49,10 @@ public class GameEngineServiceTest {
 		d_gameEngine.setPhase(l_startupPhase);
 
 		StartupService l_startupService = new StartupService(d_gameContext);
+		DominationMapReader l_dominationMapReader = new DominationMapReader(d_gameContext);
 		d_gameContext.setCurrentRouter(new Router(ControllerName.STARTUP, "loadmap", l_mapName));
 
-		l_startupService.loadMap(l_mapName);
+		l_dominationMapReader.loadMap(l_mapName);
 
 		Player l_p1 = new Player("p1");
 		Player l_p2 = new Player("p2");
@@ -76,9 +77,10 @@ public class GameEngineServiceTest {
 		d_gameEngine.setPhase(l_startupPhase);
 
 		StartupService l_startupService = new StartupService(d_gameContext);
+		DominationMapReader l_dominationMapReader = new DominationMapReader(d_gameContext);
 		d_gameContext.setCurrentRouter(new Router(ControllerName.STARTUP, "loadmap", l_mapName));
 
-		l_startupService.loadMap(l_mapName);
+		l_dominationMapReader.loadMap(l_mapName);
 
 		Player l_p1 = new Player("p1");
 
@@ -101,9 +103,10 @@ public class GameEngineServiceTest {
 		d_gameEngine.setPhase(l_startupPhase);
 
 		StartupService l_startupService = new StartupService(d_gameContext);
+		DominationMapReader l_dominationMapReader = new DominationMapReader(d_gameContext);
 		d_gameContext.setCurrentRouter(new Router(ControllerName.STARTUP, "loadmap", l_mapName));
 
-		l_startupService.loadMap(l_mapName);
+		l_dominationMapReader.loadMap(l_mapName);
 
 		Player l_p1 = new Player("p1");
 		Player l_p2 = new Player("p2");

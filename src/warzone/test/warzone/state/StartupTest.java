@@ -9,8 +9,8 @@ import warzone.model.ControllerName;
 import warzone.model.GameContext;
 import warzone.model.GamePhase;
 import warzone.model.Router;
+import warzone.service.DominationMapReader;
 import warzone.service.GameEngine;
-import warzone.service.StartupService;
 
 /** 
  * Test class for startup phase
@@ -88,7 +88,7 @@ public class StartupTest {
 		
 		d_gameContext.setCurrentRouter(new Router(ControllerName.STARTUP, "loadmap", l_mapName));
 		
-		boolean l_isConnected = new StartupService(d_gameContext).loadMap(l_mapName);
+		boolean l_isConnected = new DominationMapReader(d_gameContext).loadMap(l_mapName);
 		
 		assertTrue(l_isConnected == false);
 		assertTrue(d_gameContext.getContinents().size() == 2);
