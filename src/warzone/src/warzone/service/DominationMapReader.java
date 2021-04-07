@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.Properties;
 import java.util.Scanner;
 
+import warzone.adapter.MapReaderAdapter;
 import warzone.model.Continent;
 import warzone.model.Country;
 import warzone.model.GameContext;
@@ -35,6 +36,7 @@ public class DominationMapReader {
 		d_logEntryBuffer = d_gameContext.getLogEntryBuffer();
 		d_mapService = new MapService(d_gameContext);
 	}
+	
 	/**
 	 * Performs the action for user command: loadmap filename
 	 * 
@@ -88,6 +90,12 @@ public class DominationMapReader {
 			
 			while (l_scanner.hasNextLine()) {
 				l_line = l_scanner.nextLine();
+				
+				// the format of the current map is 'conquest'
+				if (l_line.startsWith("[Map]")) {
+					l_scanner.close();
+					return new MapReaderAdapter(d_gameContext, new ConquestMapReader(d_gameContext)).loadMap(p_fileName);
+				}
 
 				// determine which part it is
 				// file part

@@ -13,7 +13,6 @@ import org.junit.Test;
 import warzone.model.GameContext;
 import warzone.model.Router;
 import warzone.state.MapEditor;
-import warzone.view.MapView;
 
 /**
  * test for ConquestMapReader

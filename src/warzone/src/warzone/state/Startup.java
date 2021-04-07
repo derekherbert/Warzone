@@ -16,6 +16,11 @@ public class Startup extends GamePlay {
 	 * Startup Service
 	 */
 	private StartupService d_startupService;
+	
+	/**
+	 * Domination Map Reader
+	 */
+	DominationMapReader d_dominationMapReader;
 	/**
 	 * Log Entry Buffer
 	 */
@@ -28,6 +33,7 @@ public class Startup extends GamePlay {
 	 */
 	public Startup(GameEngine p_gameEngine) {
 		super(p_gameEngine);
+		d_dominationMapReader = new DominationMapReader(d_gameContext);
 		d_startupService = new StartupService(d_gameContext);
 		d_logEntryBuffer = d_gameContext.getLogEntryBuffer();
 		this.d_gamePhase = GamePhase.STARTUP;
@@ -55,7 +61,7 @@ public class Startup extends GamePlay {
 	 * @param p_fileName the file to load
 	 */
 	public void loadMap(String p_fileName) {
-		d_startupService.loadMap(p_fileName);
+		d_dominationMapReader.loadMap(p_fileName);
 	}
 
 	/**

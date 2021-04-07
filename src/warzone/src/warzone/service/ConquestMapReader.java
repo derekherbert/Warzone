@@ -192,19 +192,6 @@ public class ConquestMapReader {
 				l_key++;
 			}
 			
-//			for (Entry<String, Integer> entry: l_countryMap.entrySet()) {
-//				System.out.print(entry.getKey() + "   ");
-//				System.out.println(entry.getValue());
-//			}
-//			
-//			for (Entry<Integer, Country> entry: d_gameContext.getCountries().entrySet()) {
-//				System.out.print(entry.getKey() + "   ");
-//				System.out.println(entry.getValue().getCountryName());
-//				for(Entry<Integer, Country> neighbors: entry.getValue().getNeighbors().entrySet()) {
-//					System.out.println("             " + neighbors.getKey() + "     " + neighbors.getValue().getCountryName());
-//				}
-//			}
-			
 			//close reading the file
 			l_scanner.close();
 			
