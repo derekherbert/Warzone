@@ -224,18 +224,19 @@ public class GameEngine {
 	private void prepareGameContextForTournamentMatch(String p_mapFileName) {
 		
 		d_gameContext.reset();
-		StartupService startupService = new StartupService(d_gameContext);
+		StartupService l_startupService = new StartupService(d_gameContext);
+		DominationMapReader l_dominationMapReader = new DominationMapReader(d_gameContext);
 		
-		startupService.loadMap(p_mapFileName);
+		l_dominationMapReader.loadMap(p_mapFileName);
 		
-		int playerNameIndex = 1;
-		for(PlayerStrategyType playerStrategyType : d_tournamentContext.getPlayerStrategies()) {
+		int l_playerNameIndex = 1;
+		for(PlayerStrategyType l_playerStrategyType : d_tournamentContext.getPlayerStrategies()) {
 			
-			startupService.addPlayer(new Player(playerStrategyType.toString() + playerNameIndex, playerStrategyType));
-			playerNameIndex++;
+			l_startupService.addPlayer(new Player(l_playerStrategyType.toString() + l_playerNameIndex, l_playerStrategyType));
+			l_playerNameIndex++;
 		}
 		
-		startupService.assignCountries();
+		l_startupService.assignCountries();
 	}
 	
 	
