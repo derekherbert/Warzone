@@ -123,8 +123,8 @@ public class GameEngineServiceTest {
 		
 		l_startupPhase.setTournamentMapFiles(new String[] {""});
 		l_startupPhase.setTournamentPlayerStrategies(new String[] {"aggressive", "benevolent", "random", "cheater"});
-		l_startupPhase.setTournamentMaxTurns(30);
-		l_startupPhase.setTournamentNumberOfGames(3);
+		l_startupPhase.setTournamentMaxTurns(5);
+		l_startupPhase.setTournamentNumberOfGames(2);
 		
 		d_gameEngine.start();
 		TournamentContext l_tournamentContext = d_gameEngine.playTournament();
@@ -140,8 +140,8 @@ public class GameEngineServiceTest {
 		
 		l_startupPhase.setTournamentMapFiles(new String[] {"europe.map, brasil.map"});
 		l_startupPhase.setTournamentPlayerStrategies(new String[] {""});
-		l_startupPhase.setTournamentMaxTurns(30);
-		l_startupPhase.setTournamentNumberOfGames(3);
+		l_startupPhase.setTournamentMaxTurns(5);
+		l_startupPhase.setTournamentNumberOfGames(2);
 		
 		d_gameEngine.start();
 		TournamentContext l_tournamentContext = d_gameEngine.playTournament();
@@ -157,8 +157,8 @@ public class GameEngineServiceTest {
 		
 		l_startupPhase.setTournamentMapFiles(new String[] {"europe.map, brasil.map"});
 		l_startupPhase.setTournamentPlayerStrategies(new String[] {"aggressive", "benevolent", "random", "cheater"});
-		l_startupPhase.setTournamentMaxTurns(30);
-		l_startupPhase.setTournamentNumberOfGames(3);
+		l_startupPhase.setTournamentMaxTurns(5);
+		l_startupPhase.setTournamentNumberOfGames(2);
 		
 		d_gameEngine.start();
 		TournamentContext l_tournamentContext = d_gameEngine.playTournament();
