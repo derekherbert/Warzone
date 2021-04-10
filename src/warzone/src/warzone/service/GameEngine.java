@@ -203,6 +203,55 @@ public class GameEngine implements Serializable {
 	private int d_gameIndex;
 	
 	/**
+	 * if no player is human, it is single mode
+	 * @return if is Single Mode
+	 */
+	public boolean isSingleMode() {
+		if(d_gameContext.getPlayers().size() ==0)
+			return false;
+		
+		for(Player l_player :d_gameContext.getPlayers().values() ){
+			if(l_player.getPlayerStrategyType() == PlayerStrategyType.HUMAN )
+				return false;
+		}
+		
+		return true;
+	}
+	
+	public boolean playSingleMode() {
+		GenericView.println("Single Mode is Starting");
+		int l_turnCounter = 0;
+
+		while(l_turnCounter < d_gameContext.getMaxTurnNumberPerGame() && !isGameEnded()) {				
+			startTurn();
+			l_turnCounter++;
+		}
+		//no ended
+		if(l_turnCounter < d_gameContext.getMaxTurnNumberPerGame()) {
+			//check and update PlayerStatus		
+			//set p_isLoser = true, when the player does not have any country
+			int l_alivePlayers = 0;
+			String l_winersName = "";
+			for(Player l_player :d_gameContext.getPlayers().values() ){
+				if(l_player.getConqueredCountries().size() > 0) {
+					l_player.setIsAlive(true);
+					l_winersName += l_player.getName() + ",";
+					l_alivePlayers ++;
+				}
+			}
+			
+			if(l_alivePlayers == 1) {
+				GenericView.printSuccess("The winer is: " + l_winersName);
+			}else{
+				GenericView.printSuccess("The game is draw, and the winers are: " + l_winersName);
+			}				
+		}
+		GenericView.println("Single Mode is Ended");
+		
+		return true;	
+	}
+	
+	/**
 	 * Loop for tournament games
 	 * 
 	 * @return true if the game can end.
@@ -379,7 +428,7 @@ public class GameEngine implements Serializable {
 			}
 		});
 		List<Player> l_finishPlayerlist = new ArrayList<>();
-		
+		int l_issuedOrderCounter = 0;
 
 		if(l_playersList.size() > 0) {
 			GenericView.println(String.format("-------------------- Start to issue orders"));
@@ -395,7 +444,10 @@ public class GameEngine implements Serializable {
 					if (l_player.getHasFinisedIssueOrder())
 						l_finishPlayerlist.add(l_player);
 				}
-			}while (l_finishPlayerlist.size() != l_playersList.size() );
+				l_issuedOrderCounter ++;
+			}while (l_finishPlayerlist.size() != l_playersList.size() 
+					&& l_issuedOrderCounter < d_gameContext.getMaxOrderNumberPerTurn()  );
+			
 			GenericView.println("-------------------- Finish issuing orders for this turn");
 		}
 		

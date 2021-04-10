@@ -25,9 +25,14 @@ public class GameContext implements Serializable {
 	private static GameContext GAME_CONTEXT;
 
 	/**
-	 * order Number Per Round
+	 *  max order Number Per Turn
 	 */
-	private int d_orderNumberPerRound = 5;
+	private int d_maxOrderNumberPerTurn = 10;
+	
+	/**
+	 * max Turn Number Per Game
+	 */
+	private int d_maxTurnNumberPerGame = 10;
 
 	/**
 	 * players in game context
@@ -366,9 +371,18 @@ public class GameContext implements Serializable {
 	
 	/**
 	 * This method can provide the number of order in every round of the game.
-	 * @return the number of orders in each round
+	 * @return the max number of orders in each round/turn
 	 */
-	public int getOrderNumberPerRound() {
-		return d_orderNumberPerRound;
+	public int getMaxOrderNumberPerTurn() {
+		return d_maxOrderNumberPerTurn;
 	}
+	
+	/**
+	 * the max number of turns in each game
+	 * @return the max number of turns in each game
+	 */
+	public int getMaxTurnNumberPerGame() {
+		return d_maxTurnNumberPerGame;
+	}
+	
 }
