@@ -207,7 +207,7 @@ public class GameEngine implements Serializable {
 	 * 
 	 * @return true if the game can end.
 	 */
-	public boolean playTournament() {
+	public TournamentContext playTournament() {
 		
 		int l_turnCounter; 
 		
@@ -236,7 +236,7 @@ public class GameEngine implements Serializable {
 		
 		TournamentResultsView.printTournamentResults(d_tournamentContext);
 		
-		return true;		
+		return d_tournamentContext;		
 	}
 	
 	private void prepareGameContextForTournamentMatch(String p_mapFileName) {
