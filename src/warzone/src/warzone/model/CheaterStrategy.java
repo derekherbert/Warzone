@@ -20,13 +20,23 @@ public class CheaterStrategy extends PlayerStrategy {
 	 * @return
 	 */
 	public Order createOrder() {
-		Order l_order = null;
 		
-		//todo: implement it with real order according to the spec
-		Country l_country = this.d_player.getConqueredCountries().entrySet().iterator().next().getValue();
-		l_order = new DeployOrder(this.d_player, l_country, 1);
-		
-		
-		return l_order;
+		for(Country c1:this.d_player.getConqueredCountries().values()) {
+			boolean l_hasEnemyNeighbor=false;
+			for(Country c2:c1.getNeighbors().values()) {
+				if(c2.getOwner()!=this.d_player) {
+					l_hasEnemyNeighbor=true;
+					if(c1.getArmyNumber()>2*c2.getArmyNumber()) {
+						Order l_order=new AdvanceOrder(this.d_player, c1, c2, 2*c2.getArmyNumber());
+						l_order.execute();
+					}
+				}
+			}
+			if(l_hasEnemyNeighbor) {
+				c1.setArmyNumber(2*c1.getArmyNumber());
+			}
+		}
+			
+		return null;
 	}
 }
