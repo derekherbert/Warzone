@@ -126,6 +126,7 @@ public class GameEngineServiceTest {
 		l_startupPhase.setTournamentMaxTurns(30);
 		l_startupPhase.setTournamentNumberOfGames(3);
 		
+		d_gameEngine.start();
 		TournamentContext l_tournamentContext = d_gameEngine.playTournament();
 		
 		assertTrue((l_tournamentContext.getResults() == null || l_tournamentContext.getResults().length == 0) && (l_tournamentContext.getResults()[0] == null || l_tournamentContext.getResults()[0].length == 0));
@@ -142,6 +143,7 @@ public class GameEngineServiceTest {
 		l_startupPhase.setTournamentMaxTurns(30);
 		l_startupPhase.setTournamentNumberOfGames(3);
 		
+		d_gameEngine.start();
 		TournamentContext l_tournamentContext = d_gameEngine.playTournament();
 		
 		assertTrue((l_tournamentContext.getResults() == null || l_tournamentContext.getResults().length == 0) && (l_tournamentContext.getResults()[0] == null || l_tournamentContext.getResults()[0].length == 0));
@@ -158,6 +160,7 @@ public class GameEngineServiceTest {
 		l_startupPhase.setTournamentMaxTurns(30);
 		l_startupPhase.setTournamentNumberOfGames(3);
 		
+		d_gameEngine.start();
 		TournamentContext l_tournamentContext = d_gameEngine.playTournament();
 		
 		assertTrue(l_tournamentContext.getResults().length > 0 && l_tournamentContext.getResults()[0].length > 0);
