@@ -67,6 +67,7 @@ public class Startup extends GamePlay {
 	 * @param p_fileName the file to load
 	 */
 	public void loadMap(String p_fileName) {
+		
 		d_startupService.loadMap(p_fileName);
 	}
 
