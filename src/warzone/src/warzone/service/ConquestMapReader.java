@@ -14,6 +14,7 @@ import warzone.model.Country;
 import warzone.model.GameContext;
 import warzone.model.LoadMapPhase;
 import warzone.model.LogEntryBuffer;
+import warzone.model.WarzoneProperties;
 
 public class ConquestMapReader {
 	/**
@@ -38,6 +39,39 @@ public class ConquestMapReader {
 	public ConquestMapReader(GameContext p_gameContext) {
 		d_gameContext = p_gameContext;
 		d_logEntryBuffer = d_gameContext.getLogEntryBuffer();
+	}
+	
+	/**
+	 * Load a map with format 'conquest'
+	 * or create a new map from scratch if the file does not exist.
+	 * @param p_fileName file name
+	 * @return true if success
+	 */
+	public boolean editConquestMap(String p_fileName) {
+
+		String l_mapDirectory = WarzoneProperties.getWarzoneProperties().getGameMapDirectory();
+		
+		try {
+			
+			//Clear gameContext
+			d_gameContext.reset();
+			
+			File l_mapFile = new File(l_mapDirectory + p_fileName);
+			
+			d_gameContext.setMapFileName(p_fileName);
+			
+			//Specified file name does not exist (new map)
+			if(!l_mapFile.exists() || l_mapFile.isDirectory()) {
+				d_logEntryBuffer.logAction("SUCCESS", "Creating a new map: " + p_fileName);
+				return true;
+			}
+		    
+		} catch (Exception e) {
+			d_logEntryBuffer.logAction("ERROR", "An error occured reading the map file: " + p_fileName);
+			return false;
+		}
+		
+		return loadConquestMap(p_fileName);
 	}
 
 	/**

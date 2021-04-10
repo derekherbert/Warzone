@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Scanner;
 
-import warzone.adapter.MapReaderAdapter;
+import warzone.adapter.StartupSericeAdapter;
 import warzone.model.*;
 import warzone.view.*;
 
@@ -117,7 +117,7 @@ public class Startup extends GamePlay {
 			if (l_line.startsWith("[Map]")) {
 				l_scanner.close();
 				GameContext l_gameContext = GameContext.getGameContext();
-				p_startupService = new MapReaderAdapter(l_gameContext, new ConquestMapReader(l_gameContext));
+				p_startupService = new StartupSericeAdapter(l_gameContext, new ConquestMapReader(l_gameContext));
 				l_gameContext.setMapType(MapType.CONQUEST);
 			}
 		} catch (Exception e) {

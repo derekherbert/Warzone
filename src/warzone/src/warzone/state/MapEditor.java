@@ -1,10 +1,14 @@
 package warzone.state;
 import warzone.service.*;
-
+import warzone.adapter.MapServiceAdapter;
+import warzone.adapter.StartupSericeAdapter;
 import warzone.model.*;
 import warzone.view.*;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.Properties;
+import java.util.Scanner;
 
 /**
  *	ConcreteState of the State pattern. In this example, defines behavior 
@@ -361,7 +365,57 @@ public class MapEditor extends Phase {
 	 * @return true if successfully edit the map, otherwise return false
 	 */
 	public boolean editMap (String p_fileName) {
+		determineMapType(d_mapService, p_fileName);
 		return d_mapService.editMap(p_fileName);
+	}
+	
+	/**
+	 * This method will determine the map type and instance the d_StartupService with according
+	 * objects.
+	 * @param p_mapEditor the mapEditor instance
+	 * @param p_fileName the file name of the map
+	 */
+	private void determineMapType(MapService p_mapEditor, String p_fileName) {
+		String l_mapDirectory = null;
+
+		try {
+			//Get the map directory from the properties file
+			Properties l_properties = new Properties();
+			l_properties.load(getClass().getClassLoader().getResourceAsStream("config.properties"));
+			l_mapDirectory = l_properties.getProperty("gameMapDirectory");
+
+		} catch (IOException ex) {
+			return;
+		}
+
+		try {
+
+			//Clear gameContext
+			d_gameContext.reset();
+
+			File l_mapFile = new File(l_mapDirectory + p_fileName);
+
+			d_gameContext.setMapFileName(p_fileName);
+
+			//Specified file name does not exist (new map)
+			if(!l_mapFile.exists() || l_mapFile.isDirectory()) {
+				return;
+			}
+			
+			Scanner l_scanner = new Scanner(l_mapFile);
+			
+			String l_line = l_scanner.nextLine();
+
+			// the format of the current map is 'conquest'
+			if (l_line.startsWith("[Map]")) {
+				l_scanner.close();
+				GameContext l_gameContext = GameContext.getGameContext();
+				p_mapEditor = new MapServiceAdapter(l_gameContext, new ConquestMapWriter(l_gameContext), new ConquestMapReader(l_gameContext));
+				l_gameContext.setMapType(MapType.CONQUEST);
+			}
+		} catch (Exception e) {
+			return;
+		}
 	}
 
 	/**
