@@ -141,6 +141,10 @@ public class GameEngine implements Serializable {
 		d_tournamentContext = TournamentContext.getTournamentContext();
 	}
 	
+	public TournamentContext getTournamentContext() {
+		return d_tournamentContext;
+	}
+	
 	/**
 	 * This method will ask the user: 
 	 * 1. What part of the game they want to start with (edit map or play game). 
