@@ -379,7 +379,7 @@ public class GameContext implements Serializable {
 	 * get map type
 	 * @return the format of the current map
 	 */
-	public MapType geMapType() {
+	public MapType getMapType() {
 		return d_mapType;
 	}
 
