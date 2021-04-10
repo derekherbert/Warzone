@@ -137,6 +137,10 @@ public class GameEngine implements Serializable {
 		this.d_isInTournamentMode = p_isInTournamentMode;
 	}
 	
+	public void initializeTournamentContext() {
+		d_tournamentContext = TournamentContext.getTournamentContext();
+	}
+	
 	/**
 	 * This method will ask the user: 
 	 * 1. What part of the game they want to start with (edit map or play game). 
