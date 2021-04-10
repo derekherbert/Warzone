@@ -160,6 +160,6 @@ public class GameEngineServiceTest {
 		
 		TournamentContext l_tournamentContext = d_gameEngine.playTournament();
 		
-		assertTrue(l_tournamentContext.getResults().length > 0) && l_tournamentContext.getResults()[0].length > 0));
+		assertTrue(l_tournamentContext.getResults().length > 0 && l_tournamentContext.getResults()[0].length > 0);
 	}
 }
