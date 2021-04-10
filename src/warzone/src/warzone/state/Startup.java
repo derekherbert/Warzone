@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Scanner;
 
-import warzone.adapter.StartupSericeAdapter;
+import warzone.adapter.StartupServiceAdapter;
 import warzone.model.*;
 import warzone.view.*;
 
@@ -72,17 +72,17 @@ public class Startup extends GamePlay {
 	 * @param p_fileName the file to load
 	 */
 	public void loadMap(String p_fileName) {
-		determineMapType(d_startupService, p_fileName);
+		determineMapType(p_fileName);
 		d_startupService.loadMap(p_fileName);
 	}
-	
+
 	/**
 	 * This method will determine the map type and instance the d_StartupService with according
 	 * objects.
 	 * @param p_startupService the startupService instance
 	 * @param p_fileName the file name of the map
 	 */
-	private void determineMapType(StartupService p_startupService, String p_fileName) {
+	private void determineMapType(String p_fileName) {
 		String l_mapDirectory = null;
 
 		try {
@@ -116,8 +116,8 @@ public class Startup extends GamePlay {
 			// the format of the current map is 'conquest'
 			if (l_line.startsWith("[Map]")) {
 				l_scanner.close();
-				GameContext l_gameContext = GameContext.getGameContext();
-				p_startupService = new StartupSericeAdapter(l_gameContext, new ConquestMapReader(l_gameContext));
+				GameContext l_gameContext  = GameContext.getGameContext();
+				d_startupService = new StartupServiceAdapter(l_gameContext, new ConquestMapReader(l_gameContext));
 				l_gameContext.setMapType(MapType.CONQUEST);
 			}
 		} catch (Exception e) {

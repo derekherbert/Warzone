@@ -33,6 +33,8 @@ public class ConquestMapWriter {
 	 */
 	public ConquestMapWriter(GameContext p_gameContext) {
 		d_gameContext = p_gameContext;
+		d_logEntryBuffer = new LogEntryBuffer(p_gameContext);
+		d_mapService = new MapService(p_gameContext);
 	}
 	
 	/**
