@@ -21,7 +21,7 @@ public class StartupServiceAdapter extends StartupService{
 
 	/**
 	 * the constructor of the class
-	 * @param p_gameContext
+	 * @param p_gameContext the current game context
 	 */
 	public StartupServiceAdapter(GameContext p_gameContext, ConquestMapReader p_conquestMapReader) {
 		super(p_gameContext);

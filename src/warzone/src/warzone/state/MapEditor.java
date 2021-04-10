@@ -1,7 +1,6 @@
 package warzone.state;
 import warzone.service.*;
 import warzone.adapter.MapServiceAdapter;
-import warzone.adapter.StartupServiceAdapter;
 import warzone.model.*;
 import warzone.view.*;
 
