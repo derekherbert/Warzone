@@ -375,7 +375,6 @@ public class MapEditor extends Phase {
 	/**
 	 * This method will determine the map type and instance the d_StartupService with according
 	 * objects by map file.
-	 * @param p_mapService the mapService instance
 	 */
 	private void determineMapTypeFromGameContext() {
 		GameContext l_gameContext = GameContext.getGameContext();
@@ -390,7 +389,6 @@ public class MapEditor extends Phase {
 	/**
 	 * This method will determine the map type and instance the d_StartupService with according
 	 * objects by map file.
-	 * @param p_mapService the mapService instance
 	 * @param p_fileName the file name of the map
 	 */
 	private void determineMapTypeFromFile(String p_fileName) {

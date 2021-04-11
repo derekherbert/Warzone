@@ -10,6 +10,9 @@ import warzone.model.Country;
 import warzone.model.GameContext;
 import warzone.model.LogEntryBuffer;
 
+/**
+ * Conquest Map Writer
+ */
 public class ConquestMapWriter {
 	/**
 	 * game context
@@ -75,7 +78,7 @@ public class ConquestMapWriter {
 	 * This method will save the map
 	 * @param p_fullFileName the name of the file that should be saved
 	 * @return true if success
-	 * @throws Exception 
+	 * @throws Exception the exceptions
 	 */
 	private boolean saveMap(String p_fullFileName) throws Exception {
 		try{

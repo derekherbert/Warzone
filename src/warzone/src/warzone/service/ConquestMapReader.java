@@ -16,6 +16,9 @@ import warzone.model.LoadMapPhase;
 import warzone.model.LogEntryBuffer;
 import warzone.model.WarzoneProperties;
 
+/**
+ * Conquest map reader
+ */
 public class ConquestMapReader {
 	/**
 	 * game context
