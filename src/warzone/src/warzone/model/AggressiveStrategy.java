@@ -12,6 +12,8 @@ public class AggressiveStrategy extends PlayerStrategy {
 	 * Armies to deploy
 	 */
 	private int d_armiesToDeploy;
+
+	private boolean d_hasAttack;
 	
 	/**
 	 * constructor of AggressiveStrategy
@@ -20,6 +22,7 @@ public class AggressiveStrategy extends PlayerStrategy {
 	AggressiveStrategy(Player p_player){
 		super(p_player);
 		d_armiesToDeploy=p_player.getArmiesToDeploy();
+		d_hasAttack = false;
 	}
 	
 	/**
@@ -53,20 +56,30 @@ public class AggressiveStrategy extends PlayerStrategy {
 			d_armiesToDeploy-=d_armiesToDeploy;
 			return l_order;
 		}
-		//attack
-		Country l_strongestCountry=getStrongestConqueredCountry();			
-		for(Country l_c:l_strongestCountry.getNeighbors().values()) {
-			if(l_c.getOwner()!=d_player&&d_player.getArmyNumber()>2*l_c.getArmyNumber()) {
-				l_order=new AdvanceOrder(d_player, l_strongestCountry, l_c, 2*l_c.getArmyNumber());
-				d_player.setHasFinisedIssueOrder(true);
-				return l_order;
+		if(!d_hasAttack) {
+			//attack
+			Country l_strongestCountry = getStrongestConqueredCountry();
+			for (Country l_c : l_strongestCountry.getNeighbors().values()) {
+				if (l_c.getOwner() != d_player && d_player.getArmyNumber() > 2 * l_c.getArmyNumber()) {
+					l_order = new AdvanceOrder(d_player, l_strongestCountry, l_c, 2 * l_c.getArmyNumber());
+					d_hasAttack = true;
+					return l_order;
+				}
 			}
 		}
-		//The neighbors of the strongest country are all conquered,then move forces randomly
-		Random l_ran=new Random();
-		int l_moveTo=l_ran.nextInt(l_strongestCountry.getNeighbors().size());
-		l_order=new AdvanceOrder(d_player, l_strongestCountry, (Country) l_strongestCountry.getNeighbors().values().toArray()[l_moveTo], l_strongestCountry.getArmyNumber());
-		return l_order;
+		//after attack, aggregate the force
+		for (Country l_countryFrom : this.d_player.getConqueredCountries().values()) {
+			for (Country l_countryTo : l_countryFrom.getNeighbors().values()){
+				if(l_countryFrom.getOwner() == l_countryTo.getOwner() && l_countryFrom.getArmyNumber() > 0){
+					if(l_countryTo.getArmyNumber() > l_countryFrom.getArmyNumber()){
+						l_order = new AdvanceOrder(this.d_player, l_countryFrom, l_countryTo, l_countryFrom.getArmyNumber());
+						return l_order;
+					}
+				}
+			}
+		}
+		d_player.setHasFinisedIssueOrder(true);
+		return null;
 	}
 
 }
