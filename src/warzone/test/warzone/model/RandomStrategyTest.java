@@ -27,7 +27,7 @@ public class RandomStrategyTest {
         l_country2.addNeighbor(l_country1);
 		PlayerStrategy l_strategy=new RandomStrategy(l_player);
 		Order l_order=l_strategy.createOrder();
-		assert(l_order.d_orderType==OrderType.ADVANCE);
+		assert(l_order.d_orderType==OrderType.ADVANCE||l_order.d_orderType==OrderType.DEPLOY);
 	}
 	
 }

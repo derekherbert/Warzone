@@ -12,7 +12,7 @@ public class CheaterStrategy extends PlayerStrategy {
 	 * @param p_player given Player
 	 */
 	CheaterStrategy(Player p_player){
-		super(p_player); 
+		super(p_player);
 	}
 	
 	/**
@@ -20,20 +20,27 @@ public class CheaterStrategy extends PlayerStrategy {
 	 * @return
 	 */
 	public Order createOrder() {
+		GameContext l_gameContext=GameContext.getGameContext();
 		
-		for(Country c1:this.d_player.getConqueredCountries().values()) {
+		for(Country l_c:l_gameContext.getCountries().values()) {
+			if(l_c.getCountryState()==CountryState.Neutral) {
+				l_c.setOwner(d_player);
+				d_player.getConqueredCountries().put(l_c.getCountryID(),l_c);
+				d_player.setArmyNumber(d_player.getArmyNumber()+l_c.getArmyNumber());
+				d_player.setConqueredACountryThisTurn(true);
+			}
+		}
+		//if has enemy neighbor double the army number
+		for(Country l_c1:d_player.getConqueredCountries().values()) {
 			boolean l_hasEnemyNeighbor=false;
-			for(Country c2:c1.getNeighbors().values()) {
-				if(c2.getOwner()!=this.d_player) {
+			for(Country l_c2:l_c1.getNeighbors().values()) {
+				if(l_c2.getOwner()!=d_player) {
 					l_hasEnemyNeighbor=true;
-					if(c1.getArmyNumber()>2*c2.getArmyNumber()) {
-						Order l_order=new AdvanceOrder(this.d_player, c1, c2, 2*c2.getArmyNumber());
-						l_order.execute();
-					}
+					break;
 				}
 			}
 			if(l_hasEnemyNeighbor) {
-				c1.setArmyNumber(2*c1.getArmyNumber());
+				l_c1.setArmyNumber(2*l_c1.getArmyNumber());
 			}
 		}
 			
