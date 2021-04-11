@@ -7,11 +7,11 @@ import org.junit.Test;
  */
 public class CheaterStrategyTest {
 	
-//	/**
-//	 * test create order
-//	 */
-//	@Test
-//	public void testCreateOrder() {
+	/**
+	 * test create order
+	 */
+	@Test
+	public void testCreateOrder() {
 //        Player l_player = new Player("P1");
 //        Country l_country1 = new Country(1,"C1",0,0,null);
 //        Country l_country2 = new Country(2,"C2",0,0,null);
@@ -33,6 +33,6 @@ public class CheaterStrategyTest {
 //		PlayerStrategy l_strategy=new CheaterStrategy(l_player);
 //		Order l_order=l_strategy.createOrder();
 //		assert(l_country1.getArmyNumber()==10);
-//	}
+	}
 	
 }

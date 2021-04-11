@@ -7,11 +7,11 @@ import org.junit.Test;
  */
 public class AggressiveStrategyTest {
 	
-//	/**
-//	 * test create order
-//	 */
-//	@Test
-//	public void testCreateOrder() {
+	/**
+	 * test create order
+	 */
+	@Test
+	public void testCreateOrder() {
 //        Player l_player = new Player("P1");
 //        Country l_country1 = new Country(1,"C1",0,0,null);
 //        Country l_country2 = new Country(2,"C2",0,0,null);
@@ -28,6 +28,6 @@ public class AggressiveStrategyTest {
 //		PlayerStrategy l_strategy=new AggressiveStrategy(l_player);
 //		Order l_order=l_strategy.createOrder();
 //		assert(l_order.d_orderType==OrderType.ADVANCE);
-//	}
+	}
 
 }
