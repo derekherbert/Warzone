@@ -105,7 +105,7 @@ public class Player implements Serializable {
 	
 	/**
 	 * This method can set the name of the player.
-	 * @param p_name the name of the player
+	 * @return the strategy of the player
 	 */
 	public PlayerStrategy getPlayerStrategy() {
 		if(d_playerStrategy == null) {
@@ -587,7 +587,7 @@ public class Player implements Serializable {
 	public void issue_order() {
 
 		//todo: set the max turn number temporaly
-		if(d_orders.size() >= 10)
+		if(d_orders.size() >= WarzoneProperties.getWarzoneProperties().getMaxTurnPerRound())
 			this.setHasFinisedIssueOrder(true);
 		
 		//check if the player finish the issue order
@@ -614,7 +614,6 @@ public class Player implements Serializable {
 			
 			//todo: will migrate this to HumanStrategy??
 			GenericView.println(String.format("*****  Please input command for player [%s] , there is [%s] army available for deployment", this.getName(), l_armyToIssue ));
-
 	
 			l_order = this.getPlayerStrategy().createOrder();
 			if(l_order != null) {
@@ -627,6 +626,7 @@ public class Player implements Serializable {
 				d_gameContext.getLogEntryBuffer().logIssueOrder("Succeed", "Issued an order", "Issue an Order by Strategy + " + this.d_playerStrategyType);
 			}				
 		} while ( !this.getHasFinisedIssueOrder() && l_order == null );	
+
 	}
 	/**
 	 * render the issued orders 
