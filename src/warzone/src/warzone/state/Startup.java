@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Scanner;
 
+import warzone.adapter.StartupServiceAdapter;
 import warzone.model.*;
 import warzone.view.*;
 
