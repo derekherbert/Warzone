@@ -1,8 +1,7 @@
-package warzone.adapter;
+package warzone.model;
 
 import java.io.IOException;
 
-import warzone.model.GameContext;
 import warzone.service.ConquestMapReader;
 import warzone.service.ConquestMapWriter;
 import warzone.service.MapService;
