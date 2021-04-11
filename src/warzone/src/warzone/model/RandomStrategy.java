@@ -24,31 +24,49 @@ public class RandomStrategy extends PlayerStrategy {
 	 * @return
 	 */
 	private static Random rand=new Random();
-	public Order createOrder() {
-		Order l_order = null;
-		
-		if(!this.d_player.getIsAlive())
+	
+	/**
+	 * Get a random country owned by the player
+	 * @return random country owned by the player
+	 */
+	protected Country getRandomConqueredCountry() {
+		int l_idx=rand.nextInt(d_player.getConqueredCountries().size());
+		Country l_randomCountry=(Country) d_player.getConqueredCountries().values().toArray()[l_idx];
+		return l_randomCountry;
+	}
+	
+	/**
+	 * Choose a neighbor country for current country randomly
+	 * @param p_currentCountry Current country
+	 * @return neighbor country if exist else null
+	 */
+	protected Country getRandomNeighbor(Country p_currentCountry) {
+		if(p_currentCountry.getNeighbors().size()==0)
 			return null;
-		//deploy to random country
-		if(this.d_player.getArmiesToDeploy()>0) {		
-			int idx=rand.nextInt(this.d_player.getConqueredCountries().size());
-			Country l_randomCountry=(Country) this.d_player.getConqueredCountries().values().toArray()[idx];
-			l_order=new DeployOrder(this.d_player, l_randomCountry, this.d_player.getArmiesToDeploy());
-			return l_order;
+		int l_idx=rand.nextInt(p_currentCountry.getNeighbors().size());
+		Country l_randNeighbor=(Country) p_currentCountry.getNeighbors().values().toArray()[l_idx];
+		return l_randNeighbor;
+	}
+	
+	/**
+	 *	Creates and order. 
+	 *	The Random player can either deploy or advance, determined randomly. .
+	 *	@return Order
+	 */
+	public Order createOrder() {
+		Order l_order = null;		
+		if(!d_player.getIsAlive())
+			return null;
+		if(rand.nextBoolean()) {
+			l_order=new DeployOrder(d_player,getRandomConqueredCountry(),rand.nextInt(10));
+		}else {
+			Country l_randomConqueredCountry=getRandomConqueredCountry();
+			Country l_randomNeighbor=getRandomNeighbor(l_randomConqueredCountry);
+			if(l_randomNeighbor!=null) {
+				int l_num=rand.nextInt(l_randomConqueredCountry.getArmyNumber()+5);
+				l_order=new AdvanceOrder(d_player,l_randomConqueredCountry,l_randomNeighbor,l_num);
+			}
 		}
-		//attack or move army,choose a conquered country randomly,then choose a neighbor randomly,The neighbor country may is a enemy or own side.
-		Collection<Country> l_conqueredCountries=this.d_player.getConqueredCountries().values();
-		List<Object> l_conqueredCountriesList=Arrays.asList(l_conqueredCountries.toArray());
-		Collections.shuffle(l_conqueredCountriesList);
-		for(Object obj:l_conqueredCountriesList) {
-			Country c=(Country)obj;
-			if(c.getNeighbors().size()==0)
-				continue;
-			int idx=rand.nextInt(c.getNeighbors().size());
-			l_order=new AdvanceOrder(this.d_player,c,(Country) c.getNeighbors().values().toArray()[idx],c.getArmyNumber()/2);
-			return l_order;
-		}
-		
 		return l_order;
 	}
 }

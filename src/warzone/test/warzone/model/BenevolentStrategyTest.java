@@ -25,9 +25,10 @@ public class BenevolentStrategyTest {
         l_player.getConqueredCountries().put(l_country2.getCountryID(), l_country2);
         l_country1.addNeighbor(l_country2);
         l_country2.addNeighbor(l_country1);
+        l_player.setArmiesToDeploy(5);
 		PlayerStrategy l_strategy=new BenevolentStrategy(l_player);
 		Order l_order=l_strategy.createOrder();
-		assert(l_order.d_orderType==OrderType.ADVANCE);
+		assert(l_order.d_orderType==OrderType.DEPLOY);
 	}
 	
 }
