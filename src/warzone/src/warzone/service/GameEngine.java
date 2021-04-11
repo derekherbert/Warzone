@@ -218,6 +218,10 @@ public class GameEngine implements Serializable {
 		return true;
 	}
 	
+	/**
+	 * Play single mode
+	 * @return if it is finished
+	 */
 	public boolean playSingleMode() {
 		GenericView.println("Single Mode is Starting");
 		int l_turnCounter = 0;
@@ -226,8 +230,12 @@ public class GameEngine implements Serializable {
 			startTurn();
 			l_turnCounter++;
 		}
-		//no ended
-		if(l_turnCounter < d_gameContext.getMaxTurnNumberPerGame()) {
+		
+		if(isGameEnded(true)) {
+			GenericView.println("-------------------- Reboot the game");
+			this.reboot();
+		}
+		else if(l_turnCounter < d_gameContext.getMaxTurnNumberPerGame()) {
 			//check and update PlayerStatus		
 			//set p_isLoser = true, when the player does not have any country
 			int l_alivePlayers = 0;
@@ -243,7 +251,7 @@ public class GameEngine implements Serializable {
 			if(l_alivePlayers == 1) {
 				GenericView.printSuccess("The winer is: " + l_winersName);
 			}else{
-				GenericView.printSuccess("The game is draw, and the winers are: " + l_winersName);
+				GenericView.printSuccess("The game is draw, and the alive players are: " + l_winersName);
 			}				
 		}
 		GenericView.println("Single Mode is Ended");
@@ -271,7 +279,7 @@ public class GameEngine implements Serializable {
 				//Prepare the current game context
 				prepareGameContextForTournamentMatch(d_tournamentContext.getMapFiles().get(d_mapIndex));
 				
-				while(l_turnCounter < d_tournamentContext.getMaxTurns() && !isGameEnded()) {
+				while(l_turnCounter < d_tournamentContext.getMaxTurns() && !isGameEnded(true)) {
 						
 					startTurn();
 					l_turnCounter++;
@@ -288,6 +296,10 @@ public class GameEngine implements Serializable {
 		return true;		
 	}
 	
+	/**
+	 *  prepare Game Context For Tournament Match
+	 * @param p_mapFileName
+	 */
 	private void prepareGameContextForTournamentMatch(String p_mapFileName) {
 		
 		d_gameContext.reset();
@@ -328,6 +340,15 @@ public class GameEngine implements Serializable {
 	 * 1. there is just one player left 2. the number of game turn is greater than 100.
 	 */
 	public boolean isGameEnded() {
+		return isGameEnded(false);
+	}
+	/**
+	 * This method will determine if the game whether can end.
+	 * @param isShowResult is show result
+	 * @return true if the current state satisfy the end condition: 
+	 * 1. there is just one player left 2. the number of game turn is greater than 100.
+	 */
+	public boolean isGameEnded(boolean isShowResult) {
 		if(this.d_gamePhase.getGamePhase() == GamePhase.MAPEDITOR)
 			return false;
 		
@@ -343,39 +364,42 @@ public class GameEngine implements Serializable {
 			}
 		}
 		if(l_alivePlayers <= 1){
-			GenericView.println("-------------------- Game End");
-			if(l_alivePlayers == 1) {
-				
-				GenericView.printSuccess("player " + l_protentialWinner.getName() + " wins the game.");
-				
-				if(d_gameContext.getIsTournamentMode() == true) {
+			if(isShowResult) {
+				GenericView.println("-------------------- Game End");
+				if(l_alivePlayers == 1) {
 					
-					d_tournamentContext.getResults()[d_mapIndex][d_gameIndex] = l_protentialWinner.getName();
+					GenericView.printSuccess("player " + l_protentialWinner.getName() + " wins the game.");
+					
+					if(d_gameContext.getIsTournamentMode() == true) {
+						
+						d_tournamentContext.getResults()[d_mapIndex][d_gameIndex] = l_protentialWinner.getName();
+					}
 				}
-			}
-			else {
-				GenericView.printSuccess("All the player died.");
-				
-				if(d_gameContext.getIsTournamentMode() == true) {
-
-					d_tournamentContext.getResults()[d_mapIndex][d_gameIndex] = "Draw";
+				else {
+					GenericView.printSuccess("All the player died.");
+					
+					if(d_gameContext.getIsTournamentMode() == true) {
+	
+						d_tournamentContext.getResults()[d_mapIndex][d_gameIndex] = "Draw";
+					}
 				}
+				//GenericView.println("-------------------- Reboot the game");
+				//this.reboot();
 			}
-			GenericView.println("-------------------- Reboot the game");
-			this.reboot();
 			return true;
 		}
 		else
 			return false;
 	}
-
+	
 	/**
 	 * This method will assign each player the correct number of reinforcement armies 
 	 * according to the Warzone rules.
 	 */
 	public void assignReinforcements() {
-		if( isGameEnded()) {
+		if( isGameEnded(true)) {
 			GenericView.println("Game is ended.");
+			this.reboot();
 			return ;
 		}
 		GenericView.println("-------------------- Start to assign reinforcements");
@@ -416,6 +440,7 @@ public class GameEngine implements Serializable {
 	public void issueOrders() {
 		if( isGameEnded()) {
 			//todo: call game over and change state
+			this.reboot();
 			return;
 		}		
 
@@ -469,10 +494,11 @@ public class GameEngine implements Serializable {
 	 */
 	public void executeOrders() {	
 
-		if( isGameEnded()) {
-			//todo: call game over and change state
-			return;
-		}	
+		if( isGameEnded(true)) {
+			GenericView.println("Game is ended.");
+			this.reboot();
+			return ;
+		}
 		
 		//1. get the max number of the orders in a player.		
 		int l_maxOrderNumber = 0;	
