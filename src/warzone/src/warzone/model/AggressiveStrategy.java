@@ -1,6 +1,4 @@
 package warzone.model;
-import com.sun.deploy.security.SelectableSecurityManager;
-
 import java.io.Serializable;
 import java.util.List;
 import java.util.Random;
