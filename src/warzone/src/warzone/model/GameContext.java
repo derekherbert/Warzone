@@ -28,7 +28,7 @@ public class GameContext implements Serializable {
 	 *  max order Number Per Turn
 	 */
 	private int d_maxOrderNumberPerTurn = 10;
-	
+
 	/**
 	 * max Turn Number Per Game
 	 */
@@ -376,7 +376,7 @@ public class GameContext implements Serializable {
 	public int getMaxOrderNumberPerTurn() {
 		return d_maxOrderNumberPerTurn;
 	}
-	
+
 	/**
 	 * the max number of turns in each game
 	 * @return the max number of turns in each game
@@ -384,5 +384,20 @@ public class GameContext implements Serializable {
 	public int getMaxTurnNumberPerGame() {
 		return d_maxTurnNumberPerGame;
 	}
-	
+
+	/**
+	 * get map type
+	 * @return the format of the current map
+	 */
+	public MapType getMapType() {
+		return d_mapType;
+	}
+
+	/**
+	 * set the format of the current map
+	 * @param d_mapType the format of the cureent map
+	 */
+	public void setMapType(MapType d_mapType) {
+		this.d_mapType = d_mapType;
+	}
 }
