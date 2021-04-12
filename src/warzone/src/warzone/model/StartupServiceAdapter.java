@@ -1,6 +1,5 @@
-package warzone.adapter;
+package warzone.model;
 
-import warzone.model.GameContext;
 import warzone.service.ConquestMapReader;
 import warzone.service.StartupService;
 
