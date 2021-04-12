@@ -226,7 +226,7 @@ public class GameEngine implements Serializable {
 		GenericView.println("Single Mode is Starting");
 		int l_turnCounter = 0;
 
-		while(l_turnCounter < d_gameContext.getMaxTurnNumberPerGame() && !isGameEnded()) {				
+		while(l_turnCounter < WarzoneProperties.getWarzoneProperties().getMaxTurnNumberPerGame() && !isGameEnded()) {
 			startTurn();
 			l_turnCounter++;
 		}
@@ -235,7 +235,7 @@ public class GameEngine implements Serializable {
 			GenericView.println("-------------------- Reboot the game");
 			this.reboot();
 		}
-		else if(l_turnCounter < d_gameContext.getMaxTurnNumberPerGame()) {
+		else if(l_turnCounter < WarzoneProperties.getWarzoneProperties().getMaxTurnNumberPerGame()) {
 			//check and update PlayerStatus		
 			//set p_isLoser = true, when the player does not have any country
 			int l_alivePlayers = 0;
@@ -297,8 +297,8 @@ public class GameEngine implements Serializable {
 	}
 	
 	/**
-	 *  prepare Game Context For Tournament Match
-	 * @param p_mapFileName
+	 * prepare Game Context For Tournament Match
+	 * @param p_mapFileName file name
 	 */
 	private void prepareGameContextForTournamentMatch(String p_mapFileName) {
 		
@@ -471,7 +471,7 @@ public class GameEngine implements Serializable {
 				}
 				l_issuedOrderCounter ++;
 			}while (l_finishPlayerlist.size() != l_playersList.size() 
-					&& l_issuedOrderCounter < d_gameContext.getMaxOrderNumberPerTurn()  );
+					&& l_issuedOrderCounter < WarzoneProperties.getWarzoneProperties().getMaxTurnPerRound() );
 			
 			GenericView.println("-------------------- Finish issuing orders for this turn");
 		}
