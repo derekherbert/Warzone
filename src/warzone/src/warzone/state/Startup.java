@@ -136,6 +136,22 @@ public class Startup extends GamePlay {
 			d_logEntryBuffer.logAction("ERROR", "Invalid player name.");
 			return;
 		}
+		// split command with any number of whitespace
+		String[] l_paraArray = p_playerName.split("\\s+");
+		String l_playerName = "";
+		PlayerStrategyType l_playerStrategyType = PlayerStrategyType.HUMAN;
+		l_playerName = l_paraArray[0];
+		if(l_paraArray.length >1) {
+			try {
+				l_playerStrategyType = PlayerStrategyType.valueOf(l_paraArray[1].toUpperCase());
+			}
+			catch(Exception ex) {
+				GenericView.printError("Error happen when converting the Player Strategy Type [" + l_paraArray[1] + "], please try again.");
+				return;
+			}
+			
+		}
+		
 		// 1. create a new player instance
 		Player l_player = new Player(p_playerName,l_playerStrategyType);
 
