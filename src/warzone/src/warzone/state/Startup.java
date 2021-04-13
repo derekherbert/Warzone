@@ -45,8 +45,7 @@ public class Startup extends GamePlay {
 		if(d_gameEngine.getIsInTournamentMode() == true) {
 			
 			d_gameEngine.playTournament();
-		}
-		
+		}		
 		else if (d_gameEngine.isReadyToStart()) {
 			
 			d_gameEngine.setPhase(new Reinforcement(d_gameEngine));
