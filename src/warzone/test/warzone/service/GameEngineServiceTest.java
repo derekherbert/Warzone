@@ -130,7 +130,7 @@ public class GameEngineServiceTest {
 		d_gameEngine.initializeTournamentContext();
 		TournamentContext l_tournamentContext = d_gameEngine.playTournament();
 		
-		assertTrue((l_tournamentContext.getResults() == null || l_tournamentContext.getResults().length == 0) && (l_tournamentContext.getResults()[0] == null || l_tournamentContext.getResults()[0].length == 0));
+		assertTrue(l_tournamentContext.getResults() == null || l_tournamentContext.getResults()[0][0] == null );
 	}
 	
 	@Test
@@ -148,7 +148,7 @@ public class GameEngineServiceTest {
 		d_gameEngine.initializeTournamentContext();
 		TournamentContext l_tournamentContext = d_gameEngine.playTournament();
 		
-		assertTrue((l_tournamentContext.getResults() == null || l_tournamentContext.getResults().length == 0) && (l_tournamentContext.getResults()[0] == null || l_tournamentContext.getResults()[0].length == 0));
+		assertTrue(l_tournamentContext.getResults() == null || l_tournamentContext.getResults()[0][0] == null );
 	}
 	
 	@Test
