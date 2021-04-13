@@ -20,10 +20,6 @@ import org.junit.runners.Suite;
 	BenevolentStrategyTest.class,
 	CheaterStrategyTest.class,
 	RandomStrategyTest.class,
-	HumanStrategyTest.class,
-	MapServiceAdapter.class,
-	StartupServiceAdapter.class,
-	TournamentContext.class
 	})
 public class ModelTestSuite {
 
