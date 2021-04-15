@@ -353,6 +353,7 @@ public class StartupService implements Serializable {
 	/**
 	 * save game context
 	 * @param p_fileName file name
+	 * @return if save game
 	 */
 	public boolean saveGame(String p_fileName) {
 		String l_path = this.d_gameContext.getMapfolder();
@@ -374,6 +375,7 @@ public class StartupService implements Serializable {
 	/**
 	 * load game context
 	 * @param p_fileName file name
+	 * @return true if load game
 	 */
 	public boolean loadGame(String p_fileName){
 		String l_path = this.d_gameContext.getMapfolder();
