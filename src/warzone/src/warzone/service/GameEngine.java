@@ -127,20 +127,35 @@ public class GameEngine implements Serializable {
 		System.out.println("new phase: " + p_phase.getClass().getSimpleName());
 	}
 	
+	/**
+	 * IsInTournamentMode getter
+	 * @return IsInTournamentMode
+	 */
 	public boolean getIsInTournamentMode() {
 		
 		return d_isInTournamentMode;
 	}
 	
+	/**
+	 * IsInTournamentMode setter 
+	 * @param p_isInTournamentMode IsInTournamentMode
+	 */
 	public void setIsInTournamentMode(boolean p_isInTournamentMode) {
 		
 		this.d_isInTournamentMode = p_isInTournamentMode;
 	}
 	
+	/**
+	 * This method will initialize the tournament context
+	 */
 	public void initializeTournamentContext() {
 		d_tournamentContext = TournamentContext.getTournamentContext();
 	}
 	
+	/**
+	 * TournamentContext getter
+	 * @return the TournamentContext
+	 */
 	public TournamentContext getTournamentContext() {
 		if(d_tournamentContext == null)
 			initializeTournamentContext();
@@ -209,7 +224,13 @@ public class GameEngine implements Serializable {
 		return true;		
 	}
 	
+	/**
+	 * the map index
+	 */
 	private int d_mapIndex;
+	/**
+	 * the game index
+	 */
 	private int d_gameIndex;
 	
 	/**
