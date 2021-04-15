@@ -911,6 +911,68 @@
 </li>
 </ul>
 </li>
+<li class="blockList"><a name="warzone.service.MapService">
+<!--   -->
+</a>
+<h3>Class <a href="warzone/service/MapService.html" title="class in warzone.service">warzone.service.MapService</a> extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a> implements Serializable</h3>
+<ul class="blockList">
+<li class="blockList">
+<h3>Serialized Fields</h3>
+<ul class="blockList">
+<li class="blockList">
+<h4>d_gameContext</h4>
+<pre><a href="warzone/model/GameContext.html" title="class in warzone.model">GameContext</a> d_gameContext</pre>
+<div class="block">game context</div>
+</li>
+<li class="blockList">
+<h4>d_logEntryBuffer</h4>
+<pre><a href="warzone/model/LogEntryBuffer.html" title="class in warzone.model">LogEntryBuffer</a> d_logEntryBuffer</pre>
+<div class="block">log entry buffer</div>
+</li>
+<li class="blockList">
+<h4>d_mapHandler</h4>
+<pre><a href="warzone/model/DominateMapHandler.html" title="class in warzone.model">DominateMapHandler</a> d_mapHandler</pre>
+<div class="block">Dominate Map Handler</div>
+</li>
+<li class="blockList">
+<h4>d_mapIndexToCountryId</h4>
+<pre><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">K</a>,<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">V</a>&gt; d_mapIndexToCountryId</pre>
+<div class="block">map Index To CountryId</div>
+</li>
+<li class="blockList">
+<h4>d_mapCountryIdToIndex</h4>
+<pre><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">K</a>,<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">V</a>&gt; d_mapCountryIdToIndex</pre>
+<div class="block">map CountryId To Index</div>
+</li>
+<li class="blockList">
+<h4>d_mapIndexToContinentId</h4>
+<pre><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">K</a>,<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">V</a>&gt; d_mapIndexToContinentId</pre>
+<div class="block">map Index To ContinentId</div>
+</li>
+<li class="blockList">
+<h4>d_mapContinentIdToIndex</h4>
+<pre><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">K</a>,<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">V</a>&gt; d_mapContinentIdToIndex</pre>
+<div class="block">map ContinentId To Index</div>
+</li>
+<li class="blockList">
+<h4>l_continentAdjList</h4>
+<pre><a href="https://docs.oracle.com/javase/8/docs/api/java/util/LinkedList.html?is-external=true" title="class or interface in java.util">LinkedList</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/LinkedList.html?is-external=true" title="class or interface in java.util">E</a>&gt;[] l_continentAdjList</pre>
+<div class="block">list to store the relationship between continents</div>
+</li>
+<li class="blockList">
+<h4>l_continentIndex</h4>
+<pre>int l_continentIndex</pre>
+<div class="block">the record of continent tree</div>
+</li>
+<li class="blockListLast">
+<h4>l_seq</h4>
+<pre>int l_seq</pre>
+<div class="block">the sequence it is read in tree</div>
+</li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="blockList"><a name="warzone.service.StartupService">
 <!--   -->
 </a>
