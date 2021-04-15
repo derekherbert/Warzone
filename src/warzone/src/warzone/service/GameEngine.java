@@ -275,6 +275,7 @@ public class GameEngine implements Serializable {
 	 */
 	public TournamentContext playTournament() {
 		
+		this.setIsInTournamentMode(true);
 		int l_turnCounter; 
 		
 		d_tournamentContext.prepareResultsTable();
@@ -383,7 +384,7 @@ public class GameEngine implements Serializable {
 			
 			GenericView.printSuccess("player " + l_protentialWinner.getName() + " wins the game.");
 			
-			if(d_gameContext.getIsTournamentMode() == true) {
+			if(this.getIsInTournamentMode() == true) {
 				
 				d_tournamentContext.getResults()[d_mapIndex][d_gameIndex] = l_protentialWinner.getName();
 			}
@@ -391,7 +392,7 @@ public class GameEngine implements Serializable {
 		else if(l_alivePlayers == 0){
 			GenericView.printSuccess("All the player died.");
 			
-			if(d_gameContext.getIsTournamentMode() == true) {
+			if(this.getIsInTournamentMode() == true) {
 
 				d_tournamentContext.getResults()[d_mapIndex][d_gameIndex] = "Draw";
 			}
@@ -399,7 +400,7 @@ public class GameEngine implements Serializable {
 		else{
 			GenericView.printSuccess("Many player alived.");
 			
-			if(d_gameContext.getIsTournamentMode() == true) {
+			if(this.getIsInTournamentMode() == true) {
 
 				d_tournamentContext.getResults()[d_mapIndex][d_gameIndex] = "Draw";
 			}
