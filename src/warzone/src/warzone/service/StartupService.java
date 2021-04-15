@@ -417,7 +417,7 @@ public class StartupService implements Serializable {
 			}
 		} catch (IOException e) {
 			GenericView.printError("Failed to load the game from " + p_fileName);
-			e.printStackTrace();
+			//e.printStackTrace();
 			return false;
 		}
 	}
