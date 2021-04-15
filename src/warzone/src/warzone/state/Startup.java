@@ -117,11 +117,14 @@ public class Startup extends GamePlay {
 			// the format of the current map is 'conquest'
 			if (l_line.startsWith("[Map]")) {
 				l_scanner.close();
-				//GameContext l_gameContext  = GameContext.getGameContext();
 				d_gameContext.setMapType(MapType.CONQUEST);
+				d_startupService.setMapHandler(new ConquestMapHandlerAdapter(d_gameContext, new ConquestMapHandler(d_gameContext) ));
+				
 			}
-			else
+			else {
 				d_gameContext.setMapType(MapType.DOMINATION);
+				d_startupService.setMapHandler(new DominateMapHandler(d_gameContext));
+			}
 		} catch (Exception e) {
 			return;
 		}
