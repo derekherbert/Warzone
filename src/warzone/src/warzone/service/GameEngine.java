@@ -274,8 +274,7 @@ public class GameEngine implements Serializable {
 	 * @return true if the game can end.
 	 */
 	public TournamentContext playTournament() {
-		
-		this.setIsInTournamentMode(true);
+
 		int l_turnCounter; 
 		
 		d_tournamentContext.prepareResultsTable();
@@ -287,7 +286,9 @@ public class GameEngine implements Serializable {
 				l_turnCounter = 0;
 				
 				//Prepare the current game context
-				prepareGameContextForTournamentMatch(d_tournamentContext.getMapFiles().get(d_mapIndex));
+				if(!prepareGameContextForTournamentMatch(d_tournamentContext.getMapFiles().get(d_mapIndex)))
+					continue;
+
 				
 				while(l_turnCounter < d_tournamentContext.getMaxTurns() && !isGameEnded() ) {
 						
@@ -296,7 +297,7 @@ public class GameEngine implements Serializable {
 				}
 				GenericView.println(String.format("Game is end for map [%s] and game [%s], in Turn [%s]. ",d_mapIndex, d_gameIndex, l_turnCounter));
 				if(isGameEnded()) {
-					renderAndUpdateGameResult();					
+					renderAndUpdateGameResult(true);					
 				}
 				else if(l_turnCounter >= d_tournamentContext.getMaxTurns()) {					
 					d_tournamentContext.getResults()[d_mapIndex][d_gameIndex] = "Draw";
@@ -311,11 +312,14 @@ public class GameEngine implements Serializable {
 	/**
 	 * prepare Game Context For Tournament Match
 	 * @param p_mapFileName file name
+	 * @return if the game is prepared
 	 */
-	private void prepareGameContextForTournamentMatch(String p_mapFileName) {
+	private boolean prepareGameContextForTournamentMatch(String p_mapFileName) {
 		
 		d_gameContext.reset();
 		StartupService startupService = new StartupService(d_gameContext);
+		if(p_mapFileName == "" || d_tournamentContext.getPlayerStrategies().size() == 0)
+			return false;
 		
 		startupService.loadMap(p_mapFileName);
 		
@@ -327,6 +331,7 @@ public class GameEngine implements Serializable {
 		}
 		
 		startupService.assignCountries();
+		return true;
 	}
 	
 	
@@ -367,6 +372,13 @@ public class GameEngine implements Serializable {
 	 * update Game Result for what ever game
 	 */
 	public void renderAndUpdateGameResult() {
+		renderAndUpdateGameResult(false);
+	}
+	/**
+	 * update Game Result for what ever game
+	 * @param p_isUpdateTournamentResult  is Update Tournament Result
+	 */
+	public void renderAndUpdateGameResult(boolean p_isUpdateTournamentResult) {
 		int l_alivePlayers = 0;
 		Player l_protentialWinner = null;
 		for(Player l_player :d_gameContext.getPlayers().values() ){
@@ -384,7 +396,7 @@ public class GameEngine implements Serializable {
 			
 			GenericView.printSuccess("player " + l_protentialWinner.getName() + " wins the game.");
 			
-			if(this.getIsInTournamentMode() == true) {
+			if(p_isUpdateTournamentResult) {
 				
 				d_tournamentContext.getResults()[d_mapIndex][d_gameIndex] = l_protentialWinner.getName();
 			}
@@ -392,7 +404,7 @@ public class GameEngine implements Serializable {
 		else if(l_alivePlayers == 0){
 			GenericView.printSuccess("All the player died.");
 			
-			if(this.getIsInTournamentMode() == true) {
+			if(p_isUpdateTournamentResult) {
 
 				d_tournamentContext.getResults()[d_mapIndex][d_gameIndex] = "Draw";
 			}
@@ -400,7 +412,7 @@ public class GameEngine implements Serializable {
 		else{
 			GenericView.printSuccess("Many player alived.");
 			
-			if(this.getIsInTournamentMode() == true) {
+			if(p_isUpdateTournamentResult) {
 
 				d_tournamentContext.getResults()[d_mapIndex][d_gameIndex] = "Draw";
 			}
