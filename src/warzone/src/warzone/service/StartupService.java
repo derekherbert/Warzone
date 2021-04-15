@@ -88,6 +88,19 @@ public class StartupService implements Serializable {
 	}
 
 	/**
+	 *  load map according to the type of map
+	 * @param p_fileName given filename
+	 * @return if succeed
+	 */
+	public boolean loadMap(String p_fileName) {
+		if(this.d_gameContext.getMapType() == MapType.CONQUEST) {
+			ConquestMapReader l_conquestMapReader= new ConquestMapReader(this.d_gameContext);
+			return l_conquestMapReader.loadConquestMap(p_fileName);
+		}
+		else
+			return loadDominateMap(p_fileName);
+	}
+	/**
 	 * Performs the action for user command: loadmap filename
 	 * 
 	 * Game starts by user selection of a user-saved map file, which loads the map as a connected directed graph
@@ -95,7 +108,7 @@ public class StartupService implements Serializable {
 	 * @param p_fileName file name of map
 	 * @return if map successfully loaded
 	 */
-	public boolean loadMap(String p_fileName) {
+	public boolean loadDominateMap(String p_fileName) {
 		
 		String l_mapDirectory = null;
 		

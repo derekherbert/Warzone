@@ -339,8 +339,6 @@ public class MapEditor extends Phase {
 		// call mapService to save the map and return the path
 		p_fileName = p_fileName.trim();
 		
-		// determining the mapService instance from the game context
-		determineMapTypeFromGameContext();
 		try{
 			if(d_mapService.saveMap(p_fileName)) {
 				d_logEntryBuffer.logAction("SUCCESS", "Map was saved in :" + this.d_gameContext.getMapfolder() + p_fileName );
@@ -371,19 +369,19 @@ public class MapEditor extends Phase {
 		return d_mapService.editMap(p_fileName);
 	}
 	
-	/**
-	 * This method will determine the map type and instance the d_StartupService with according
-	 * objects by map file.
-	 */
-	private void determineMapTypeFromGameContext() {
-		GameContext l_gameContext = GameContext.getGameContext();
-		if (l_gameContext.getMapType() == MapType.CONQUEST) {
-			d_mapService = new MapServiceAdapter(l_gameContext, new ConquestMapWriter(l_gameContext), new ConquestMapReader(l_gameContext));
-		}
-		else if (l_gameContext.getMapType() == MapType.DOMINATION) {
-			d_mapService = new MapService(l_gameContext);
-		}
-	}
+//	/**
+//	 * This method will determine the map type and instance the d_StartupService with according
+//	 * objects by map file.
+//	 */
+//	private void determineMapTypeFromGameContext() {
+//		GameContext l_gameContext = GameContext.getGameContext();
+//		if (l_gameContext.getMapType() == MapType.CONQUEST) {
+//			d_mapService = new MapServiceAdapter(l_gameContext, new ConquestMapWriter(l_gameContext), new ConquestMapReader(l_gameContext));
+//		}
+//		else if (l_gameContext.getMapType() == MapType.DOMINATION) {
+//			d_mapService = new MapService(l_gameContext);
+//		}
+//	}
 	
 	/**
 	 * This method will determine the map type and instance the d_StartupService with according
@@ -424,10 +422,13 @@ public class MapEditor extends Phase {
 			// the format of the current map is 'conquest'
 			if (l_line.startsWith("[Map]")) {
 				l_scanner.close();
-				GameContext l_gameContext = GameContext.getGameContext();
-				d_mapService = new MapServiceAdapter(l_gameContext, new ConquestMapWriter(l_gameContext), new ConquestMapReader(l_gameContext));
-				l_gameContext.setMapType(MapType.CONQUEST);
+				//GameContext l_gameContext = GameContext.getGameContext();
+				//d_mapService = new MapServiceAdapter(l_gameContext, new ConquestMapWriter(l_gameContext), new ConquestMapReader(l_gameContext));
+				d_gameContext.setMapType(MapType.CONQUEST);
 			}
+			else
+				d_gameContext.setMapType(MapType.DOMINATION);
+				
 		} catch (Exception e) {
 			return;
 		}
